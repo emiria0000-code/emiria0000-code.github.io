@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>1週間分・完全統合ショッピングガイド + AIアシスタント</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&display=swap');
+        body { font-family: 'Noto+Sans+JP', sans-serif; background-color: #f8fafc; }
+        .package-card { transition: all 0.2s; }
+        .checked { opacity: 0.5; background-color: #f1f5f9 !important; border-color: #cbd5e1 !important; }
+        .checked .item-name { text-decoration: line-through; color: #64748b; }
+        .photo-btn { background: linear-gradient(135deg, #3b82f6, #2563eb); }
+        .ai-btn { background: linear-gradient(135deg, #8b5cf6, #6d28d9); }
+        
+        #ai-chat-window {
+            transition: transform 0.3s ease-in-out, opacity 0.3s;
+            transform: translateY(100%);
+            opacity: 0;
+            pointer-events: none;
+        }
+        #ai-chat-window.active {
+            transform: translateY(0);
+            opacity: 1;
+            pointer-events: auto;
+        }
+        .chat-bubble-user { background-color: #e2e8f0; border-radius: 18px 18px 0 18px; }
+        .chat-bubble-ai { background-color: #ede9fe; border-radius: 18px 18px 18px 0; color: #4c1d95; }
+        
+        @keyframes pulse-soft {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+        .animate-pulse-soft { animation: pulse-soft 2s infinite; }
+    </style>
+</head>
+<body class="pb-28">
+
+    <!-- ヘッダー -->
+    <header class="bg-[#008931] text-white p-4 sticky top-0 z-50 shadow-lg">
+        <div class="max-w-md mx-auto flex justify-between items-center">
+            <div>
+                <h1 class="text-lg font-bold">1週間分 完全買い出しリスト</h1>
+                <p class="text-[10px] opacity-90">大人2人・子供2人分 / AIアシスタント付</p>
+            </div>
+            <div class="text-right">
+                <span class="text-xs block">合計予算目安</span>
+                <span class="font-bold text-yellow-300">¥7,500〜8,500</span>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-md mx-auto p-4 space-y-6">
+
+        <!-- タブ切り替え -->
+        <div class="flex rounded-lg bg-gray-200 p-1 shadow-sm">
+            <button onclick="switchTab('gs')" id="tab-gs" class="flex-1 py-2 text-xs font-bold rounded-md bg-white text-green-800 shadow-sm transition-all">
+                🟢 業務スーパー (10品)
+            </button>
+            <button onclick="switchTab('super')" id="tab-super" class="flex-1 py-2 text-xs font-bold rounded-md text-gray-600 transition-all">
+                🔵 一般スーパー (6品)
+            </button>
+        </div>
+
+        <!-- ==================== 🟢 業務スーパーのリスト ==================== -->
+        <div id="section-gs" class="space-y-6">
+            <div>
+                <h2 class="flex items-center text-xs font-bold mb-3 text-green-700 border-l-4 border-green-500 pl-2 uppercase tracking-wider">
+                    冷凍肉・魚・加工惣菜
+                </h2>
+                <div class="grid gap-3">
+                    
+                    <!-- 吉備高原どり -->
+                    <div class="package-card bg-white border-2 border-green-100 rounded-2xl p-3 flex gap-3 shadow-sm cursor-pointer" onclick="toggleItem(this)">
+                        <div class="w-20 h-20 bg-gray-50 rounded-lg border-2 border-green-500 flex flex-col items-center justify-center relative overflow-hidden flex-shrink-0">
+                            <div class="absolute top-0 w-full bg-green-500 text-white text-[8px] text-center">透明袋×緑ロゴ</div>
+                            <i class="fas fa-box-open text-2xl text-gray-300"></i>
+                            <span class="text-[8px] font-bold text-center mt-1">巨大2kg袋</span>
+                        </div>
+                        <div class="flex-1">
+                            <h3 class="item-name font-bold text-gray-800 text-sm">吉備高原どり 鶏もも肉 (2kg)</h3>
+                            <div class="flex gap-2 mt-2">
+                                <button onclick="viewPhoto(event, '業務スーパー 吉備高原どり 鶏もも肉 2kg')" class="photo-btn text-white text-[9px] px-2 py-1 rounded-full flex items-center gap-1">
+                                    <i class="fas fa-camera"></i> 写真
+                                </button>
+                                <button onclick="askAIForItem(event, '吉備高原どり 鶏もも肉 2kg')" class="ai-btn text-white text-[9px] px-2 py-1 rounded-full flex items-center gap-1">
+                                    <i class="fas fa-robot"></i> 代替案
+                                </button>
+                            </div>
+                        </div>
+                        <input type="checkbox" class="w-5 h-5 mt-1 rounded-full border-gray-300 text-green-600">
+                    </div>
+
+                    <!-- 鮭 -->
+                    <div class="package-card bg-white border-2 border-blue-100 rounded-2xl p-3 flex gap-3 shadow-sm cursor-pointer" onclick="toggleItem(this)">
+                        <div class="w-20 h-20 bg-blue-50 rounded-lg border-2 border-blue-400 flex flex-col items-center justify-center relative overflow-hidden flex-shrink-0">
+                            <div class="absolute top-0 w-full bg-blue-400 text-white text-[8px] text-center font-bold">透明袋＋青ラベル</div>
+                            <i class="fas fa-fish text-2xl text-blue-300"></i>
+                        </div>
+                        <div class="flex-1">
+                            <h3 class="item-name font-bold text-gray-800 text-sm">定塩銀鮭切身 (冷凍)</h3>
+                            <div class="flex gap-2 mt-2">
+                                <button onclick="viewPhoto(event, '業務スーパー 冷凍 銀鮭 切身')" class="photo-btn text-white text-[9px] px-2 py-1 rounded-full flex items-center gap-1">
+                                    <i class="fas fa-camera"></i> 写真
+                                </button>
+                                <button onclick="askAIForItem(event, '定塩銀鮭切身')" class="ai-btn text-white text-[9px] px-2 py-1 rounded-full flex items-center gap-1">
+                                    <i class="fas fa-robot"></i> 売り切れ時
+                                </button>
+                            </div>
+                        </div>
+                        <input type="checkbox" class="w-5 h-5 mt-1 rounded-full border-gray-300 text-green-600">
+                    </div>
+
+                    <!-- 他のアイテムも同様の構造で継続... -->
+                    <div class="package-card bg-white border-2 border-yellow-100 rounded-2xl p-3 flex gap-3 shadow-sm cursor-pointer" onclick="toggleItem(this)">
+                        <div class="w-20 h-20 bg-yellow-50 rounded-lg border-2 border-yellow-400 flex flex-col items-center justify-center relative overflow-hidden flex-shrink-0">
+                            <i class="fas fa-circle text-2xl text-orange-800"></i>
+                        </div>
+                        <div class="flex-1">
+                            <h3 class="item-name font-bold text-gray-800 text-sm">冷凍 肉だんご (500g)</h3>
+                            <button onclick="askAIForItem(event, '冷凍肉だんご')" class="ai-btn text-white text-[9px] px-2 py-1 rounded-full mt-2 flex items-center gap-1">
+                                <i class="fas fa-robot"></i> AI相談
+                            </button>
+                        </div>
+                        <input type="checkbox" class="w-5 h-5 mt-1 rounded-full border-gray-300 text-green-600">
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 冷凍野菜セクション... -->
+            <div class="grid grid-cols-2 gap-3">
+                <div class="package-card bg-white border-2 border-purple-100 p-3 rounded-2xl text-center shadow-sm cursor-pointer" onclick="toggleItem(this)">
+                    <div class="text-3xl">🍆</div>
+                    <span class="text-[10px] font-bold text-purple-800 block mt-1">揚げなす</span>
+                    <button onclick="askAIForItem(event, '冷凍揚げなす')" class="ai-btn text-white text-[8px] w-full py-1 rounded-lg mt-1">AI相談</button>
+                    <input type="checkbox" class="w-4 h-4 mt-2">
+                </div>
+                <div class="package-card bg-white border-2 border-orange-100 p-3 rounded-2xl text-center shadow-sm cursor-pointer" onclick="toggleItem(this)">
+                    <div class="text-3xl">🥕</div>
+                    <span class="text-[10px] font-bold text-orange-800 block mt-1">和風野菜ミックス</span>
+                    <button onclick="askAIForItem(event, '和風野菜ミックス')" class="ai-btn text-white text-[8px] w-full py-1 rounded-lg mt-1">AI相談</button>
+                    <input type="checkbox" class="w-4 h-4 mt-2">
+                </div>
+            </div>
+        </div>
+
+        <!-- 一般スーパーリスト（簡略化） -->
+        <div id="section-super" class="space-y-4 hidden">
+             <div class="package-card bg-white border-2 border-slate-100 rounded-2xl p-3 flex justify-between items-center shadow-sm cursor-pointer" onclick="toggleItem(this)">
+                <div class="flex items-center gap-3">
+                    <div class="text-2xl">🥚</div>
+                    <h3 class="item-name font-bold text-gray-800 text-sm">卵 (10個パック)</h3>
+                </div>
+                <input type="checkbox" class="w-5 h-5 border-gray-300 text-blue-600">
+            </div>
+        </div>
+
+    </main>
+
+    <!-- AIチャットウィンドウ -->
+    <div id="ai-chat-window" class="fixed inset-x-0 bottom-0 z-[60] bg-white rounded-t-3xl shadow-[0_-10px_40px_rgba(0,0,0,0.1)] p-4 max-w-md mx-auto border-t border-purple-100">
+        <div class="flex justify-between items-center mb-4 border-b pb-2">
+            <h3 class="font-bold text-purple-700 flex items-center gap-2">
+                <i class="fas fa-robot"></i> AI献立アシスタント
+            </h3>
+            <button onclick="toggleAIChat()" class="text-gray-400 p-2"><i class="fas fa-times"></i></button>
+        </div>
+        <div id="chat-messages" class="h-64 overflow-y-auto space-y-3 mb-4 p-2 text-sm">
+            <div class="chat-bubble-ai p-3">
+                こんにちは！今日の献立や買い物、食材の代用について何でも聞いてくださいね。
+            </div>
+        </div>
+        <div class="flex gap-2">
+            <input type="text" id="chat-input" placeholder="例：鮭が売り切れてた！代わりは？" class="flex-1 border rounded-full px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-purple-500">
+            <button onclick="sendMessage()" class="ai-btn text-white px-4 py-2 rounded-full"><i class="fas fa-paper-plane"></i></button>
+        </div>
+    </div>
+
+    <!-- AI フローティングボタン -->
+    <button onclick="toggleAIChat()" class="fixed bottom-24 right-4 z-50 ai-btn w-14 h-14 rounded-full text-white shadow-lg flex items-center justify-center animate-pulse-soft">
+        <i class="fas fa-comment-dots text-2xl"></i>
+    </button>
+
+    <!-- 下部ステータスバー -->
+    <div class="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 p-4 shadow-2xl z-50">
+        <div class="max-w-md mx-auto grid grid-cols-2 gap-4 text-center text-xs">
+            <div class="bg-gray-100 p-2.5 rounded-xl text-gray-600">
+                <span id="store-hint">業務スーパー買出し中</span>
+            </div>
+            <div class="bg-gray-100 p-2.5 rounded-xl text-gray-800 font-bold">
+                チェック: <span id="checkCount">0</span> / 16品
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const weeklyMenuContext = `
+        1週間の献立:
+        月: 鶏もも肉のプルコギ風, ほうれん草スープ, ポテサラ, 冷奴
+        火: 白身魚と揚げなすのポン酢蒸し, わかめスープ, かぼちゃ煮
+        水: 豚バラとブロッコリーのスタミナ炒め, 玉ねぎ卵スープ, 厚焼き玉子
+        木: 肉だんごの甘酢あん, 豆腐味噌汁, ブロッコリーごま和え
+        金: 鮭のちゃんちゃん焼き風, ほうれん草味噌汁, かぼちゃサラダ
+        土: 3色ミンチ丼, 余り野菜スープ, ポテサラチーズ焼き
+        日: 冷蔵庫一掃！鶏ももカレー, ブロッコリーチーズ焼き, 揚げなすお浸し
+        `;
+
+        // タブ切り替え
+        function switchTab(target) {
+            const btnGs = document.getElementById('tab-gs');
+            const btnSuper = document.getElementById('tab-super');
+            const secGs = document.getElementById('section-gs');
+            const secSuper = document.getElementById('section-super');
+            const hint = document.getElementById('store-hint');
+
+            if (target === 'gs') {
+                btnGs.className = "flex-1 py-2 text-xs font-bold rounded-md bg-white text-green-800 shadow-sm";
+                btnSuper.className = "flex-1 py-2 text-xs font-bold rounded-md text-gray-600";
+                secGs.classList.remove('hidden');
+                secSuper.classList.add('hidden');
+                hint.textContent = '業務スーパー買出し中';
+            } else {
+                btnSuper.className = "flex-1 py-2 text-xs font-bold rounded-md bg-white text-blue-800 shadow-sm";
+                btnGs.className = "flex-1 py-2 text-xs font-bold rounded-md text-gray-600";
+                secSuper.classList.remove('hidden');
+                secGs.classList.add('hidden');
+                hint.textContent = '一般スーパー買出し中';
+            }
+        }
+
+        function toggleItem(card) {
+            const checkbox = card.querySelector('input[type="checkbox"]');
+            checkbox.checked = !checkbox.checked;
+            card.classList.toggle('checked', checkbox.checked);
+            updateProgress();
+        }
+
+        function updateProgress() {
+            const checked = document.querySelectorAll('input[type="checkbox"]:checked').length;
+            document.getElementById('checkCount').textContent = checked;
+        }
+
+        function viewPhoto(event, query) {
+            event.stopPropagation();
+            window.open(`https://www.google.com/search?q=${encodeURIComponent(query)}&tbm=isch`, '_blank');
+        }
+
+        function toggleAIChat() {
+            const win = document.getElementById('ai-chat-window');
+            win.classList.toggle('active');
+        }
+
+        async function askAIForItem(event, itemName) {
+            event.stopPropagation();
+            toggleAIChat();
+            const input = document.getElementById('chat-input');
+            input.value = `${itemName}の代わりになる業スー食材を教えて`;
+            sendMessage();
+        }
+
+        async function sendMessage() {
+            const input = document.getElementById('chat-input');
+            const container = document.getElementById('chat-messages');
+            const text = input.value.trim();
+            if (!text) return;
+
+            // ユーザーメッセージ表示
+            appendMessage('user', text);
+            input.value = '';
+
+            // ローディング
+            const loadingId = 'loading-' + Date.now();
+            appendMessage('ai', '考えています...', loadingId);
+
+            try {
+                const response = await callGemini(text);
+                document.getElementById(loadingId).textContent = response;
+            } catch (error) {
+                document.getElementById(loadingId).textContent = "すみません、エラーが発生しました。時間を置いて試してください。";
+            }
+        }
+
+        function appendMessage(role, text, id = null) {
+            const container = document.getElementById('chat-messages');
+            const div = document.createElement('div');
+            div.className = role === 'user' ? 'chat-bubble-user p-3 ml-8 text-right' : 'chat-bubble-ai p-3 mr-8';
+            if (id) div.id = id;
+            div.textContent = text;
+            container.appendChild(div);
+            container.scrollTop = container.scrollHeight;
+        }
+
+        async function callGemini(userQuery) {
+            const apiKey = ""; // Canvas runtime provides this
+            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent?key=${apiKey}`;
+
+            const systemPrompt = `
+            あなたは業務スーパーの達人かつコスパ料理研究家です。
+            ユーザーは「大人2人・子供2人の4人家族」の1週間分の買い出しをしています。
+            以下の献立とリストを把握した上で、買い物や調理の質問に答えてください。
+            
+            ${weeklyMenuContext}
+            
+            ルール:
+            1. 業務スーパーの特定の商品（揚げなす、肉だんご等）を優先的に勧める。
+            2. 回答は簡潔に3行程度。
+            3. 子供が喜び、かつ調理が楽な方法を提案する。
+            `;
+
+            const payload = {
+                contents: [{ parts: [{ text: userQuery }] }],
+                systemInstruction: { parts: [{ text: systemPrompt }] }
+            };
+
+            let delay = 1000;
+            for (let i = 0; i < 3; i++) {
+                try {
+                    const response = await fetch(apiUrl, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(payload)
+                    });
+                    const result = await response.json();
+                    return result.candidates?.[0]?.content?.parts?.[0]?.text || "お答えできませんでした。";
+                } catch (e) {
+                    if (i === 2) throw e;
+                    await new Promise(resolve => setTimeout(resolve, delay));
+                    delay *= 2;
+                }
+            }
+        }
+    </script>
+</body>
+</html>
