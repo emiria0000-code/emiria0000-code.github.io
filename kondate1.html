@@ -3,238 +3,1143 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>業務スーパー活用　1週間献立　No.1</title>
+    <title>業務スーパー活用 1週間献立 No.1</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&display=swap');
-        body { font-family: 'Noto+Sans+JP', sans-serif; background-color: #f1f5f9; }
-        .tab-active { border-bottom: 4px solid #ef4444; color: #ef4444; font-weight: bold; background-color: white; }
-        .step-checked { text-decoration: line-through; opacity: 0.5; background-color: #f9fafb; }
-        .gs-badge { background-color: #008931; color: white; padding: 2px 6px; border-radius: 4px; font-size: 10px; }
-        .super-badge { background-color: #3b82f6; color: white; padding: 2px 6px; border-radius: 4px; font-size: 10px; }
-        .beginner-tip { background-color: #fff7ed; border-left: 4px solid #f97316; }
+        body { font-family: 'Noto+Sans+JP', sans-serif; background-color: #f8fafc; }
+        .recipe-card { transition: all 0.2s; border-radius: 1rem; overflow: hidden; }
+        .step-checked { text-decoration: line-through; color: #94a3b8; }
+        .tab-active { background-color: #ef4444; color: white; font-weight: bold; }
+        .tab-inactive { background-color: #f1f5f9; color: #475569; }
     </style>
 </head>
 <body class="pb-24">
 
     <header class="bg-red-500 text-white p-4 sticky top-0 z-50 shadow-md">
         <div class="max-w-md mx-auto flex justify-between items-center">
-            <h1 class="text-lg font-bold"><i class="fas fa-utensils mr-2"></i>失敗しない！献立マネージャー</h1>
-            <span class="text-[10px] bg-white text-red-500 px-2 py-1 rounded-full font-bold">レンジは全て600W</span>
+            <h1 class="text-lg font-bold"><i class="fas fa-utensils mr-2"></i>業務スーパー活用 1週間献立 No.1</h1>
+            <span class="text-[10px] bg-white text-red-500 px-2.5 py-1 rounded-full font-bold shadow-sm">レンジは全て600W</span>
         </div>
     </header>
 
-    <nav class="bg-white sticky top-[60px] z-40 shadow-sm overflow-x-auto">
-        <div class="flex whitespace-nowrap px-2">
-            <button onclick="switchDay('mon')" id="tab-mon" class="flex-1 py-3 px-4 text-sm tab-active">月</button>
-            <button onclick="switchDay('tue')" id="tab-tue" class="flex-1 py-3 px-4 text-sm text-gray-500">火</button>
-            <button onclick="switchDay('wed')" id="tab-wed" class="flex-1 py-3 px-4 text-sm text-gray-500">水</button>
-            <button onclick="switchDay('thu')" id="tab-thu" class="flex-1 py-3 px-4 text-sm text-gray-500">木</button>
-            <button onclick="switchDay('fri')" id="tab-fri" class="flex-1 py-3 px-4 text-sm text-gray-500">金</button>
-            <button onclick="switchDay('sat')" id="tab-sat" class="flex-1 py-3 px-4 text-sm text-gray-500">土</button>
-            <button onclick="switchDay('sun')" id="tab-sun" class="flex-1 py-3 px-4 text-sm text-gray-500">日</button>
+    <nav class="bg-white sticky top-[56px] z-40 shadow-sm overflow-x-auto border-b border-gray-100">
+        <div class="max-w-md mx-auto flex p-2 gap-1 justify-between">
+            <button onclick="switchDay('prep')" id="tab-prep" class="tab-active flex-1 py-2 text-[11px] rounded-lg transition-all text-center">下準備</button>
+            <button onclick="switchDay('mon')" id="tab-mon" class="tab-inactive flex-1 py-2 text-[11px] rounded-lg transition-all text-center">月</button>
+            <button onclick="switchDay('tue')" id="tab-tue" class="tab-inactive flex-1 py-2 text-[11px] rounded-lg transition-all text-center">火</button>
+            <button onclick="switchDay('wed')" id="tab-wed" class="tab-inactive flex-1 py-2 text-[11px] rounded-lg transition-all text-center">水</button>
+            <button onclick="switchDay('thu')" id="tab-thu" class="tab-inactive flex-1 py-2 text-[11px] rounded-lg transition-all text-center">木</button>
+            <button onclick="switchDay('fri')" id="tab-fri" class="tab-inactive flex-1 py-2 text-[11px] rounded-lg transition-all text-center">金</button>
+            <button onclick="switchDay('sat')" id="tab-sat" class="tab-inactive flex-1 py-2 text-[11px] rounded-lg transition-all text-center">土</button>
+            <button onclick="switchDay('sun')" id="tab-sun" class="tab-inactive flex-1 py-2 text-[11px] rounded-lg transition-all text-center">日</button>
         </div>
     </nav>
 
-    <main class="max-w-md mx-auto p-4 space-y-6" id="recipe-content">
-        <!-- JSで挿入 -->
+    <main class="max-w-md mx-auto p-4 space-y-6">
+
+        <!-- ==================== 🛠️ 下準備タブ ==================== -->
+        <div id="day-prep" class="day-content space-y-4">
+            
+            <!-- 必要な道具リスト -->
+            <div class="bg-white p-4 rounded-2xl border border-red-100 shadow-sm">
+                <h2 class="text-sm font-bold text-gray-800 mb-3 flex items-center gap-2">
+                    <i class="fas fa-tools text-red-500"></i> 下準備に必要な保存袋と道具
+                </h2>
+                <div class="grid grid-cols-2 gap-2 text-xs">
+                    <span class="bg-emerald-50 text-emerald-800 p-2 rounded-lg border border-emerald-100 font-medium">🔪 まな板・包丁 (キッチンバサミでもOK)</span>
+                    <span class="bg-emerald-50 text-emerald-800 p-2 rounded-lg border border-emerald-100 font-medium">🛍️ ジップロック (Mサイズ)：5枚</span>
+                    <span class="bg-emerald-50 text-emerald-800 p-2 rounded-lg border border-emerald-100 font-medium">🫙 蓋付きタッパー (中サイズ)：1個</span>
+                    <span class="bg-emerald-50 text-emerald-800 p-2 rounded-lg border border-emerald-100 font-medium">🧻 キッチンペーパー：たっぷり</span>
+                </div>
+            </div>
+
+            <!-- 下準備レシピ -->
+            <div class="space-y-4">
+                <div class="recipe-card bg-white border border-gray-100 p-4 shadow-sm">
+                    <div class="flex justify-between items-start mb-2">
+                        <span class="bg-red-100 text-red-700 text-[10px] px-2 py-0.5 rounded-full font-bold">1. キャベツ（1玉分）</span>
+                        <span class="text-xs text-gray-500"><i class="far fa-clock mr-1"></i>約5分</span>
+                    </div>
+                    <h3 class="font-bold text-base text-gray-800 mb-2">キャベツ丸ごと一発カット保存</h3>
+                    <ul class="text-xs text-gray-600 space-y-2">
+                        <li class="flex items-start gap-2 cursor-pointer" onclick="toggleStep(this)">
+                            <input type="checkbox" class="mt-0.5">
+                            <span>キャベツ（1玉）をきれいに洗い、芯の部分をくり抜く。</span>
+                        </li>
+                        <li class="flex items-start gap-2 cursor-pointer" onclick="toggleStep(this)">
+                            <input type="checkbox" class="mt-0.5">
+                            <span>【サラダ用：半分】縦半分にカットしたキャベツを千切りにする（ピーラー等を使ってもOK）。</span>
+                        </li>
+                        <li class="flex items-start gap-2 cursor-pointer" onclick="toggleStep(this)">
+                            <input type="checkbox" class="mt-0.5">
+                            <span>千切りキャベツをキッチンペーパーを敷いた大きめのジップロックへ、ふんわりと入れる。ペーパーが余分な水分を吸い、1週間シャキシャキ感が長持ちします。</span>
+                        </li>
+                        <li class="flex items-start gap-2 cursor-pointer" onclick="toggleStep(this)">
+                            <input type="checkbox" class="mt-0.5">
+                            <span>【炒め物・汁物用：残り半分】ざく切り（約3cm四方）にし、別の大きめのジップロックに入れて野菜室で保管する。</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="recipe-card bg-white border border-gray-100 p-4 shadow-sm">
+                    <div class="flex justify-between items-start mb-2">
+                        <span class="bg-amber-100 text-amber-700 text-[10px] px-2 py-0.5 rounded-full font-bold">2. プチトマト（1パック分）</span>
+                        <span class="text-xs text-gray-500"><i class="far fa-clock mr-1"></i>約3分</span>
+                    </div>
+                    <h3 class="font-bold text-base text-gray-800 mb-2">雑菌を防ぐトマトの超長持ち保存</h3>
+                    <ul class="text-xs text-gray-600 space-y-2">
+                        <li class="flex items-start gap-2 cursor-pointer" onclick="toggleStep(this)">
+                            <input type="checkbox" class="mt-0.5">
+                            <span>プチトマトは全てヘタを指で優しく取り除く（実はヘタの周りは最も雑菌が繁殖しやすいため、初日に取るのが長持ちの最大のコツ！）。</span>
+                        </li>
+                        <li class="flex items-start gap-2 cursor-pointer" onclick="toggleStep(this)">
+                            <input type="checkbox" class="mt-0.5">
+                            <span>ボウルに水を張り、トマトをしっかり洗ってから、キッチンペーパーで水分を「完全に」拭き取る。</span>
+                        </li>
+                        <li class="flex items-start gap-2 cursor-pointer" onclick="toggleStep(this)">
+                            <input type="checkbox" class="mt-0.5">
+                            <span>保存タッパーの底に乾いたキッチンペーパーを敷き、トマト同士が重なりすぎないように並べて蓋をし、冷蔵庫へ。</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="recipe-card bg-white border border-gray-100 p-4 shadow-sm">
+                    <div class="flex justify-between items-start mb-2">
+                        <span class="bg-blue-100 text-blue-700 text-[10px] px-2 py-0.5 rounded-full font-bold">3. 吉備高原どり（2kg袋）</span>
+                        <span class="text-xs text-gray-500"><i class="far fa-clock mr-1"></i>約8分</span>
+                    </div>
+                    <h3 class="font-bold text-base text-gray-800 mb-2">鶏もも肉2kgの初心者向け仕分け術</h3>
+                    <p class="text-xs text-gray-500 mb-2">※半解凍（少し氷が残る程度）の状態で切るのが、滑らず一番安全に切る裏技です！</p>
+                    <ul class="text-xs text-gray-600 space-y-2">
+                        <li class="flex items-start gap-2 cursor-pointer" onclick="toggleStep(this)">
+                            <input type="checkbox" class="mt-0.5">
+                            <span>2kgの大袋を開け、鶏もも肉を取り出す（約6〜7枚入っています）。</span>
+                        </li>
+                        <li class="flex items-start gap-2 cursor-pointer" onclick="toggleStep(this)">
+                            <input type="checkbox" class="mt-0.5">
+                            <span>【月曜炒め物用】もも肉約2枚分（500g分）を一口大（約3cm角）に切り、ジップロック（M）に入れて空気を抜いてジッパーを閉め、冷蔵保存。</span>
+                        </li>
+                        <li class="flex items-start gap-2 cursor-pointer" onclick="toggleStep(this)">
+                            <input type="checkbox" class="mt-0.5">
+                            <span>【日曜カレー用】もも肉約2枚分（500g分）を一口大（約3cm角）に切り、ジップロック（M）に入れた後、こちらは「冷凍庫」で保管。（日曜日の調理前日に冷蔵室に移して解凍してください）。</span>
+                        </li>
+                        <li class="flex items-start gap-2 cursor-pointer" onclick="toggleStep(this)">
+                            <input type="checkbox" class="mt-0.5">
+                            <span>【余り分：約1kg】残りは1枚ずつきっちりラップで包み、別のジップロック（L）にまとめて入れて冷凍庫へ。別週の唐揚げや照り焼き用として大活躍します！</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- ==================== 月曜日 ==================== -->
+        <div id="day-mon" class="day-content space-y-4 hidden">
+            
+            <!-- 食材リスト -->
+            <div class="bg-white p-4 rounded-2xl border border-red-100 shadow-sm">
+                <h2 class="text-sm font-bold text-gray-800 mb-3 flex items-center gap-2">
+                    <i class="fas fa-shopping-basket text-red-500"></i> 冷蔵庫から出す食材リスト
+                </h2>
+                <div class="grid grid-cols-2 gap-2 text-xs">
+                    <span class="bg-emerald-50 text-emerald-800 p-2 rounded-lg border border-emerald-100 font-medium">🍗 鶏もも肉：500g (GS)</span>
+                    <span class="bg-emerald-50 text-emerald-800 p-2 rounded-lg border border-emerald-100 font-medium">🧅 きざみたまねぎ：150g (GS)</span>
+                    <span class="bg-emerald-50 text-emerald-800 p-2 rounded-lg border border-emerald-100 font-medium">🥬 カットほうれん草：50g (GS)</span>
+                    <span class="bg-emerald-50 text-emerald-800 p-2 rounded-lg border border-emerald-100 font-medium">🥔 ポテトサラダ：200g (GS)</span>
+                    <span class="bg-blue-50 text-blue-800 p-2 rounded-lg border border-blue-100 font-medium">⬜ 豆腐：1パック (150g)</span>
+                    <span class="bg-blue-50 text-blue-800 p-2 rounded-lg border border-blue-100 font-medium">🥗 キャベツ(千切り)：100g</span>
+                    <span class="bg-blue-50 text-blue-800 p-2 rounded-lg border border-blue-100 font-medium">🍅 プチトマト：4個</span>
+                </div>
+            </div>
+
+            <!-- 5品レシピ -->
+            <div class="space-y-4">
+                <!-- 1. 主食メイン -->
+                <div class="recipe-card bg-white border border-gray-100 p-4 shadow-sm">
+                    <div class="flex justify-between items-start mb-2">
+                        <span class="bg-red-100 text-red-700 text-[10px] px-2 py-0.5 rounded-full font-bold">1. 主食メイン</span>
+                        <span class="text-xs text-gray-500"><i class="far fa-clock mr-1"></i>約12分</span>
+                    </div>
+                    <h3 class="font-bold text-base text-gray-800 mb-2">鶏もも肉のプルコギ炒め</h3>
+                    <ul class="text-xs text-gray-600 space-y-2">
+                        <li class="flex items-start gap-2 cursor-pointer" onclick="toggleStep(this)">
+                            <input type="checkbox" class="mt-0.5">
+                            <span>鶏もも肉（500g）を一口大（約3cm角）に切る（キッチンバサミでもOK）。</span>
+                        </li>
+                        <li class="flex items-start gap-2 cursor-pointer" onclick="toggleStep(this)">
+                            <input type="checkbox" class="mt-0.5">
+                            <span>フライパンにサラダ油大さじ1（15ml）を中火で熱し、鶏もも肉を皮目から入れて5分、ひっくり返してさらに3分じっくり焼く。</span>
+                        </li>
+                        <li class="flex items-start gap-2 cursor-pointer" onclick="toggleStep(this)">
+                            <input type="checkbox" class="mt-0.5">
+                            <span>凍ったままの「きざみたまねぎ」150gをフライパンに投入。中火で約3分間、玉ねぎの水分をしっかりと飛ばすように炒め合わせる。</span>
+                        </li>
+                        <li class="flex items-start gap-2 cursor-pointer" onclick="toggleStep(this)">
+                            <input type="checkbox" class="mt-0.5">
+                            <span>たまねぎがしんなりしたら、「プルコギのたれ」大さじ6（90ml）を回し入れ、強火で全体にタレを絡めながら1分炒める。</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- 2. 汁物 -->
+                <div class="recipe-card bg-white border border-gray-100 p-4 shadow-sm">
+                    <div class="flex justify-between items-start mb-2">
+                        <span class="bg-amber-100 text-amber-700 text-[10px] px-2 py-0.5 rounded-full font-bold">2. 汁物</span>
+                        <span class="text-xs text-gray-500"><i class="far fa-clock mr-1"></i>約5分</span>
+                    </div>
+                    <h3 class="font-bold text-base text-gray-800 mb-2">ほうれん草のコンソメスープ</h3>
+                    <ul class="text-xs text-gray-600 space-y-2">
+                        <li class="flex items-start gap-2 cursor-pointer" onclick="toggleStep(this)">
+                            <input type="checkbox" class="mt-0.5">
+                            <span>片手鍋に水600ml、コンソメ（顆粒）小さじ2（約10g）を入れて強火にかける。</span>
+                        </li>
+                        <li class="flex items-start gap-2 cursor-pointer" onclick="toggleStep(this)">
+                            <input type="checkbox" class="mt-0.5">
+                            <span>沸騰したら、凍ったままの「カットほうれん草」ひとつかみ（約50g）を加える。</span>
+                        </li>
+                        <li class="flex items-start gap-2 cursor-pointer" onclick="toggleStep(this)">
+                            <input type="checkbox" class="mt-0.5">
+                            <span>弱火にして1分加熱し、ほうれん草がほぐれたら塩・胡椒各少々で味を調える。</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- 3. 副菜メイン -->
+                <div class="recipe-card bg-white border border-gray-100 p-4 shadow-sm">
+                    <div class="flex justify-between items-start mb-2">
+                        <span class="bg-blue-100 text-blue-700 text-[10px] px-2 py-0.5 rounded-full font-bold">3. 副菜メイン</span>
+                        <span class="text-xs text-gray-500"><i class="far fa-clock mr-1"></i>約1分</span>
+                    </div>
+                    <h3 class="font-bold text-base text-gray-800 mb-2">ポテトサラダ（盛るだけ）</h3>
+                    <p class="text-xs text-gray-500 mb-2">※業スーの大容量ポテサラを美味しく食べるコツ</p>
+                    <ul class="text-xs text-gray-600 space-y-2">
+                        <li class="flex items-start gap-2 cursor-pointer" onclick="toggleStep(this)">
+                            <input type="checkbox" class="mt-0.5">
+                            <span>業務スーパーの「ポテトサラダ」を袋の上からよく揉みほぐす。</span>
+                        </li>
+                        <li class="flex items-start gap-2 cursor-pointer" onclick="toggleStep(this)">
+                            <input type="checkbox" class="mt-0.5">
+                            <span>お皿に約200g盛り付け、お好みで粗挽き黒胡椒（分量外）をふると大人の味になって引き締まります。</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- 4. 副菜サブ -->
+                <div class="recipe-card bg-white border border-gray-100 p-4 shadow-sm">
+                    <div class="flex justify-between items-start mb-2">
+                        <span class="bg-purple-100 text-purple-700 text-[10px] px-2 py-0.5 rounded-full font-bold">4. 副菜サブ</span>
+                        <span class="text-xs text-gray-500"><i class="far fa-clock mr-1"></i>約2分</span>
+                    </div>
+                    <h3 class="font-bold text-base text-gray-800 mb-2">シンプル冷奴</h3>
+                    <ul class="text-xs text-gray-600 space-y-2">
+                        <li class="flex items-start gap-2 cursor-pointer" onclick="toggleStep(this)">
+                            <input type="checkbox" class="mt-0.5">
+                            <span>豆腐（3個パックの内の1個、150g）を4等分に切り、器に盛る。</span>
+                        </li>
+                        <li class="flex items-start gap-2 cursor-pointer" onclick="toggleStep(this)">
+                            <input type="checkbox" class="mt-0.5">
+                            <span>かつお節小さじ1、醤油小さじ1（5ml）をそれぞれ均等にかける。</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- 5. サラダ -->
+                <div class="recipe-card bg-white border border-gray-100 p-4 shadow-sm">
+                    <div class="flex justify-between items-start mb-2">
+                        <span class="bg-green-100 text-green-700 text-[10px] px-2 py-0.5 rounded-full font-bold">5. サラダ</span>
+                        <span class="text-xs text-gray-500"><i class="far fa-clock mr-1"></i>約1分</span>
+                    </div>
+                    <h3 class="font-bold text-base text-gray-800 mb-2">千切りキャベツとプチトマトのサラダ</h3>
+                    <ul class="text-xs text-gray-600 space-y-2">
+                        <li class="flex items-start gap-2 cursor-pointer" onclick="toggleStep(this)">
+                            <input type="checkbox" class="mt-0.5">
+                            <span>あらかじめ初日に準備して袋に入れておいた千切りキャベツ2カップ分（約100g）をふんわりとお皿に盛り付ける。</span>
+                        </li>
+                        <li class="flex items-start gap-2 cursor-pointer" onclick="toggleStep(this)">
+                            <input type="checkbox" class="mt-0.5">
+                            <span>横に綺麗に洗ったプチトマト4個を添える。ドレッシングはお好みのものでお召し上がりください。</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- ==================== 火曜日 ==================== -->
+        <div id="day-tue" class="day-content space-y-4 hidden">
+            <!-- 食材リスト -->
+            <div class="bg-white p-4 rounded-2xl border border-red-100 shadow-sm">
+                <h2 class="text-sm font-bold text-gray-800 mb-3 flex items-center gap-2">
+                    <i class="fas fa-shopping-basket text-red-500"></i> 冷蔵庫から出す食材リスト
+                </h2>
+                <div class="grid grid-cols-2 gap-2 text-xs">
+                    <span class="bg-emerald-50 text-emerald-800 p-2 rounded-lg border border-emerald-100 font-medium">🐟 白身魚のフィレ：4枚 (GS)</span>
+                    <span class="bg-emerald-50 text-emerald-800 p-2 rounded-lg border border-emerald-100 font-medium">🍆 揚げなす：100g (GS)</span>
+                    <span class="bg-emerald-50 text-emerald-800 p-2 rounded-lg border border-emerald-100 font-medium">🥬 カットほうれん草：150g (GS)</span>
+                    <span class="bg-emerald-50 text-emerald-800 p-2 rounded-lg border border-emerald-100 font-medium">🎃 冷凍かぼちゃ：200g (GS)</span>
+                    <span class="bg-blue-50 text-blue-800 p-2 rounded-lg border border-blue-100 font-medium">🥚 卵：1個</span>
+                    <span class="bg-blue-50 text-blue-800 p-2 rounded-lg border border-blue-100 font-medium">🥗 キャベツ(千切り)：100g</span>
+                    <span class="bg-blue-50 text-blue-800 p-2 rounded-lg border border-blue-100 font-medium">🥒 きゅうり：1/2本</span>
+                    <span class="bg-blue-50 text-blue-800 p-2 rounded-lg border border-blue-100 font-medium">🍅 プチトマト：4個</span>
+                </div>
+            </div>
+
+            <!-- 5品レシピ -->
+            <div class="space-y-4">
+                <!-- 1. 主食メイン -->
+                <div class="recipe-card bg-white border border-gray-100 p-4 shadow-sm">
+                    <div class="flex justify-between items-start mb-2">
+                        <span class="bg-red-100 text-red-700 text-[10px] px-2 py-0.5 rounded-full font-bold">1. 主食メイン</span>
+                        <span class="text-xs text-gray-500"><i class="far fa-clock mr-1"></i>約10分 (レンジ)</span>
+                    </div>
+                    <h3 class="font-bold text-base text-gray-800 mb-2">白身魚と揚げなすのポン酢蒸し</h3>
+                    <ul class="text-xs text-gray-600 space-y-2">
+                        <li class="flex items-start gap-2 cursor-pointer" onclick="toggleStep(this)">
+                            <input type="checkbox" class="mt-0.5">
+                            <span>平らな耐熱皿に「白身魚のフィレ」4枚を重ならないように並べ、その周囲に凍ったままの「揚げなす」100gを敷き詰める。</span>
+                        </li>
+                        <li class="flex items-start gap-2 cursor-pointer" onclick="toggleStep(this)">
+                            <input type="checkbox" class="mt-0.5">
+                            <span>酒大さじ2（30ml）を魚となす全体にまんべんなく振りかける。</span>
+                        </li>
+                        <li class="flex items-start gap-2 cursor-pointer" onclick="toggleStep(this)">
+                            <input type="checkbox" class="mt-0.5">
+                            <span>ふんわりとラップをかけ、電子レンジ（600W）で6分間加熱する。</span>
+                        </li>
+                        <li class="flex items-start gap-2 cursor-pointer" onclick="toggleStep(this)">
+                            <input type="checkbox" class="mt-0.5">
+                            <span>レンジから注意して取り出し（熱い蒸기에注意）、お皿の水分をサッと流してから、ポン酢大さじ4（60ml）を回しかける。</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- 2. 汁物 -->
+                <div class="recipe-card bg-white border border-gray-100 p-4 shadow-sm">
+                    <div class="flex justify-between items-start mb-2">
+                        <span class="bg-amber-100 text-amber-700 text-[10px] px-2 py-0.5 rounded-full font-bold">2. 汁物</span>
+                        <span class="text-xs text-gray-500"><i class="far fa-clock mr-1"></i>約6分</span>
+                    </div>
+                    <h3 class="font-bold text-base text-gray-800 mb-2">たまご入ほうれん草和風スープ</h3>
+                    <ul class="text-xs text-gray-600 space-y-2">
+                        <li class="flex items-start gap-2 cursor-pointer" onclick="toggleStep(this)">
+                            <input type="checkbox" class="mt-0.5">
+                            <span>片手鍋に水600ml、和風だし（顆粒）小さじ2、凍ったままの「カットほうれん草」50gを入れて強火にかける。</span>
+                        </li>
+                        <li class="flex items-start gap-2 cursor-pointer" onclick="toggleStep(this)">
+                            <input type="checkbox" class="mt-0.5">
+                            <span>沸騰したら溶き卵1個を円を描くように回し入れる。</span>
+                        </li>
+                        <li class="flex items-start gap-2 cursor-pointer" onclick="toggleStep(this)">
+                            <input type="checkbox" class="mt-0.5">
+                            <span>卵がふわっと浮き上がってきたら火を止め、醤油小さじ1/2（約2.5ml）で香りを加える。</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- 3. 副菜メイン -->
+                <div class="recipe-card bg-white border border-gray-100 p-4 shadow-sm">
+                    <div class="flex justify-between items-start mb-2">
+                        <span class="bg-blue-100 text-blue-700 text-[10px] px-2 py-0.5 rounded-full font-bold">3. 副菜メイン</span>
+                        <span class="text-xs text-gray-500"><i class="far fa-clock mr-1"></i>約7分 (レンジ)</span>
+                    </div>
+                    <h3 class="font-bold text-base text-gray-800 mb-2">冷凍かぼちゃのレンチン煮物</h3>
+                    <ul class="text-xs text-gray-600 space-y-2">
+                        <li class="flex items-start gap-2 cursor-pointer" onclick="toggleStep(this)">
+                            <input type="checkbox" class="mt-0.5">
+                            <span>深めの耐熱容器に凍ったままの「冷凍かぼちゃ」200g（4〜5切れ）を、できるだけ皮の部分が下になるように並べる。</span>
+                        </li>
+                        <li class="flex items-start gap-2 cursor-pointer" onclick="toggleStep(this)">
+                            <input type="checkbox" class="mt-0.5">
+                            <span>めんつゆ（3倍濃縮）大さじ2（30ml）と水大さじ2（30ml）を混ぜ合わせたものを、上から回しかける。</span>
+                        </li>
+                        <li class="flex items-start gap-2 cursor-pointer" onclick="toggleStep(this)">
+                            <input type="checkbox" class="mt-0.5">
+                            <span>ふんわりラップをかけ、電子レンジ（600W）で5分間加熱する。</span>
+                        </li>
+                        <li class="flex items-start gap-2 cursor-pointer" onclick="toggleStep(this)">
+                            <input type="checkbox" class="mt-0.5">
+                            <span>加熱終了後、ラップをかけたまま約2分おき、予熱で味を芯までしっかり染み込ませる。</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- 4. 副菜サブ -->
+                <div class="recipe-card bg-white border border-gray-100 p-4 shadow-sm">
+                    <div class="flex justify-between items-start mb-2">
+                        <span class="bg-purple-100 text-purple-700 text-[10px] px-2 py-0.5 rounded-full font-bold">4. 副菜サブ</span>
+                        <span class="text-xs text-gray-500"><i class="far fa-clock mr-1"></i>約4分</span>
+                    </div>
+                    <h3 class="font-bold text-base text-gray-800 mb-2">ほうれん草のバター炒め</h3>
+                    <ul class="text-xs text-gray-600 space-y-2">
+                        <li class="flex items-start gap-2 cursor-pointer" onclick="toggleStep(this)">
+                            <input type="checkbox" class="mt-0.5">
+                            <span>フライパンにバター10gを弱火で熱してしっかり溶かす。</span>
+                        </li>
+                        <li class="flex items-start gap-2 cursor-pointer" onclick="toggleStep(this)">
+                            <input type="checkbox" class="mt-0.5">
+                            <span>凍ったままの「カットほうれん草」100gを入れて中火にし、ほうれん草がしんなりするまで2分ほど炒める。</span>
+                        </li>
+                        <li class="flex items-start gap-2 cursor-pointer" onclick="toggleStep(this)">
+                            <input type="checkbox" class="mt-0.5">
+                            <span>塩、胡椒各少々を振りかけてサッと全体を混ぜ合わせ、器に盛る。</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- 5. サラダ -->
+                <div class="recipe-card bg-white border border-gray-100 p-4 shadow-sm">
+                    <div class="flex justify-between items-start mb-2">
+                        <span class="bg-green-100 text-green-700 text-[10px] px-2 py-0.5 rounded-full font-bold">5. サラダ</span>
+                        <span class="text-xs text-gray-500"><i class="far fa-clock mr-1"></i>約3分</span>
+                    </div>
+                    <h3 class="font-bold text-base text-gray-800 mb-2">キャベツときゅうりのさっぱり和サラダ</h3>
+                    <ul class="text-xs text-gray-600 space-y-2">
+                        <li class="flex items-start gap-2 cursor-pointer" onclick="toggleStep(this)">
+                            <input type="checkbox" class="mt-0.5">
+                            <span>きゅうり1/2本を包丁で薄い輪切りにする。</span>
+                        </li>
+                        <li class="flex items-start gap-2 cursor-pointer" onclick="toggleStep(this)">
+                            <input type="checkbox" class="mt-0.5">
+                            <span>お皿に千切りキャベツ2カップ分（約100g）を盛り、上にきゅうりを散らし、プチトマト4個を飾る。</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- ==================== 水曜日 ==================== -->
+        <div id="day-wed" class="day-content space-y-4 hidden">
+            <!-- 食材リスト -->
+            <div class="bg-white p-4 rounded-2xl border border-red-100 shadow-sm">
+                <h2 class="text-sm font-bold text-gray-800 mb-3 flex items-center gap-2">
+                    <i class="fas fa-shopping-basket text-red-500"></i> 冷蔵庫から出す食材リスト
+                </h2>
+                <div class="grid grid-cols-2 gap-2 text-xs">
+                    <span class="bg-emerald-50 text-emerald-800 p-2 rounded-lg border border-emerald-100 font-medium">🥓 豚バラ：300g (GS)</span>
+                    <span class="bg-emerald-50 text-emerald-800 p-2 rounded-lg border border-emerald-100 font-medium">🥦 冷凍ブロッコリー：200g (GS)</span>
+                    <span class="bg-emerald-50 text-emerald-800 p-2 rounded-lg border border-emerald-100 font-medium">🧅 きざみたまねぎ：100g (GS)</span>
+                    <span class="bg-emerald-50 text-emerald-800 p-2 rounded-lg border border-emerald-100 font-medium">🥔 ポテトサラダ：200g (GS)</span>
+                    <span class="bg-blue-50 text-blue-800 p-2 rounded-lg border border-blue-100 font-medium">🥚 卵：4個</span>
+                    <span class="bg-blue-50 text-blue-800 p-2 rounded-lg border border-blue-100 font-medium">🥗 キャベツ(千切り)：100g</span>
+                    <span class="bg-blue-50 text-blue-800 p-2 rounded-lg border border-blue-100 font-medium">🍅 プチトマト：4個</span>
+                </div>
+            </div>
+
+            <!-- 5品レシピ -->
+            <div class="space-y-4">
+                <!-- 1. 主食メイン -->
+                <div class="recipe-card bg-white border border-gray-100 p-4 shadow-sm">
+                    <div class="flex justify-between items-start mb-2">
+                        <span class="bg-red-100 text-red-700 text-[10px] px-2 py-0.5 rounded-full font-bold">1. 主食メイン</span>
+                        <span class="text-xs text-gray-500"><i class="far fa-clock mr-1"></i>約10分</span>
+                    </div>
+                    <h3 class="font-bold text-base text-gray-800 mb-2">豚バラとブロッコリーのスタミナ炒め</h3>
+                    <ul class="text-xs text-gray-600 space-y-2">
+                        <li class="flex items-start gap-2 cursor-pointer" onclick="toggleStep(this)">
+                            <input type="checkbox" class="mt-0.5">
+                            <span>フライパンを中火で温め、サラダ油大さじ1（15ml）をひき、「豚バラスライス」300gをほぐしながら炒める。</span>
+                        </li>
+                        <li class="flex items-start gap-2 cursor-pointer" onclick="toggleStep(this)">
+                            <input type="checkbox" class="mt-0.5">
+                            <span>お肉の色が完全に変わったら、凍ったままの「冷凍ブロッコリー」200g（約7〜8株）をそのまま加える。</span>
+                        </li>
+                        <li class="flex items-start gap-2 cursor-pointer" onclick="toggleStep(this)">
+                            <input type="checkbox" class="mt-0.5">
+                            <span>フライパンにフタ（またはアルミホイル）をして、中火のまま3分間蒸し焼きにし、ブロッコリーに熱を通す。</span>
+                        </li>
+                        <li class="flex items-start gap-2 cursor-pointer" onclick="toggleStep(this)">
+                            <input type="checkbox" class="mt-0.5">
+                            <span>フタを取り、「焼肉のたれ」大さじ4（60ml）を入れて強火にし、余分な水分を飛ばしながら1分炒め合わせる。</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- 2. 汁物 -->
+                <div class="recipe-card bg-white border border-gray-100 p-4 shadow-sm">
+                    <div class="flex justify-between items-start mb-2">
+                        <span class="bg-amber-100 text-amber-700 text-[10px] px-2 py-0.5 rounded-full font-bold">2. 汁物</span>
+                        <span class="text-xs text-gray-500"><i class="far fa-clock mr-1"></i>約7分</span>
+                    </div>
+                    <h3 class="font-bold text-base text-gray-800 mb-2">たまごとオニオンのとろみスープ</h3>
+                    <ul class="text-xs text-gray-600 space-y-2">
+                        <li class="flex items-start gap-2 cursor-pointer" onclick="toggleStep(this)">
+                            <input type="checkbox" class="mt-0.5">
+                            <span>鍋に水600ml、鶏ガラスープの素小さじ2、凍ったままの「きざみたまねぎ」100gを入れて強火にかける。</span>
+                        </li>
+                        <li class="flex items-start gap-2 cursor-pointer" onclick="toggleStep(this)">
+                            <input type="checkbox" class="mt-0.5">
+                            <span>沸騰したら弱火にし、たまねぎが透明になり柔らかくなるまで中火で3分煮る。</span>
+                        </li>
+                        <li class="flex items-start gap-2 cursor-pointer" onclick="toggleStep(this)">
+                            <input type="checkbox" class="mt-0.5">
+                            <span>溶き卵1個を全体に細く回し入れ、卵が固まったら塩小さじ1/3、胡椒少々を入れてサッと混ぜて火を止める。</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- 3. 副菜メイン -->
+                <div class="recipe-card bg-white border border-gray-100 p-4 shadow-sm">
+                    <div class="flex justify-between items-start mb-2">
+                        <span class="bg-blue-100 text-blue-700 text-[10px] px-2 py-0.5 rounded-full font-bold">3. 副菜メイン</span>
+                        <span class="text-xs text-gray-500"><i class="far fa-clock mr-1"></i>約8分</span>
+                    </div>
+                    <h3 class="font-bold text-base text-gray-800 mb-2">本格甘口の厚焼き玉子</h3>
+                    <ul class="text-xs text-gray-600 space-y-2">
+                        <li class="flex items-start gap-2 cursor-pointer" onclick="toggleStep(this)">
+                            <input type="checkbox" class="mt-0.5">
+                            <span>ボウルに卵3個、白だし小さじ1（5ml）、砂糖大さじ1、水大さじ1（15ml）を入れて白身を切るようによく混ぜる。</span>
+                        </li>
+                        <li class="flex items-start gap-2 cursor-pointer" onclick="toggleStep(this)">
+                            <input type="checkbox" class="mt-0.5">
+                            <span>卵焼き器（無ければ小さめのフライパン）にサラダ油小さじ1（5ml）をひき、中火で温める。</span>
+                        </li>
+                        <li class="flex items-start gap-2 cursor-pointer" onclick="toggleStep(this)">
+                            <input type="checkbox" class="mt-0.5">
+                            <span>卵液を3〜4回に分けて流し込み、都度手前に巻き上げて形を整えながら焼き上げる。</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- 4. 副菜サブ -->
+                <div class="recipe-card bg-white border border-gray-100 p-4 shadow-sm">
+                    <div class="flex justify-between items-start mb-2">
+                        <span class="bg-purple-100 text-purple-700 text-[10px] px-2 py-0.5 rounded-full font-bold">4. 副菜サブ</span>
+                        <span class="text-xs text-gray-500"><i class="far fa-clock mr-1"></i>約1分</span>
+                    </div>
+                    <h3 class="font-bold text-base text-gray-800 mb-2">ポテトサラダ</h3>
+                    <ul class="text-xs text-gray-600 space-y-2">
+                        <li class="flex items-start gap-2 cursor-pointer" onclick="toggleStep(this)">
+                            <input type="checkbox" class="mt-0.5">
+                            <span>業務スーパーの「ポテトサラダ」を約200g、お皿に盛り付けるだけで即完成。</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- 5. サラダ -->
+                <div class="recipe-card bg-white border border-gray-100 p-4 shadow-sm">
+                    <div class="flex justify-between items-start mb-2">
+                        <span class="bg-green-100 text-green-700 text-[10px] px-2 py-0.5 rounded-full font-bold">5. サラダ</span>
+                        <span class="text-xs text-gray-500"><i class="far fa-clock mr-1"></i>約1分</span>
+                    </div>
+                    <h3 class="font-bold text-base text-gray-800 mb-2">キャベツの山盛り千切りサラダ</h3>
+                    <ul class="text-xs text-gray-600 space-y-2">
+                        <li class="flex items-start gap-2 cursor-pointer" onclick="toggleStep(this)">
+                            <input type="checkbox" class="mt-0.5">
+                            <span>あらかじめ準備してあった千切りキャベツ2カップ分（約100g）を盛り付け、上にプチトマト4個を均一に散らす。</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- ==================== 木曜日 ==================== -->
+        <div id="day-thu" class="day-content space-y-4 hidden">
+            <!-- 食材リスト -->
+            <div class="bg-white p-4 rounded-2xl border border-red-100 shadow-sm">
+                <h2 class="text-sm font-bold text-gray-800 mb-3 flex items-center gap-2">
+                    <i class="fas fa-shopping-basket text-red-500"></i> 冷蔵庫から出す食材リスト
+                </h2>
+                <div class="grid grid-cols-2 gap-2 text-xs">
+                    <span class="bg-emerald-50 text-emerald-800 p-2 rounded-lg border border-emerald-100 font-medium">🍡 冷凍肉だんご：20個 (GS)</span>
+                    <span class="bg-emerald-50 text-emerald-800 p-2 rounded-lg border border-emerald-100 font-medium">🍆 揚げなす：100g (GS)</span>
+                    <span class="bg-emerald-50 text-emerald-800 p-2 rounded-lg border border-emerald-100 font-medium">🥦 冷凍ブロッコリー：150g (GS)</span>
+                    <span class="bg-emerald-50 text-emerald-800 p-2 rounded-lg border border-emerald-100 font-medium">🎃 冷凍かぼちゃ：100g (GS)</span>
+                    <span class="bg-emerald-50 text-emerald-800 p-2 rounded-lg border border-emerald-100 font-medium">🥕 和風野菜ミックス：100g (GS)</span>
+                    <span class="bg-blue-50 text-blue-800 p-2 rounded-lg border border-blue-100 font-medium">⬜ 豆腐：1パック (150g)</span>
+                    <span class="bg-blue-50 text-blue-800 p-2 rounded-lg border border-blue-100 font-medium">🥗 キャベツ(千切り)：100g</span>
+                    <span class="bg-blue-50 text-blue-800 p-2 rounded-lg border border-blue-100 font-medium">🥒 きゅうり：1/2本</span>
+                    <span class="bg-blue-50 text-blue-800 p-2 rounded-lg border border-blue-100 font-medium">🍅 プチトマト：4個</span>
+                </div>
+            </div>
+
+            <!-- 5品レシピ -->
+            <div class="space-y-4">
+                <!-- 1. 主食メイン -->
+                <div class="recipe-card bg-white border border-gray-100 p-4 shadow-sm">
+                    <div class="flex justify-between items-start mb-2">
+                        <span class="bg-red-100 text-red-700 text-[10px] px-2 py-0.5 rounded-full font-bold">1. 主食メイン</span>
+                        <span class="text-xs text-gray-500"><i class="far fa-clock mr-1"></i>約8分 (レンジ併用)</span>
+                    </div>
+                    <h3 class="font-bold text-base text-gray-800 mb-2">肉だんごのてりてり甘酢あん</h3>
+                    <ul class="text-xs text-gray-600 space-y-2">
+                        <li class="flex items-start gap-2 cursor-pointer" onclick="toggleStep(this)">
+                            <input type="checkbox" class="mt-0.5">
+                            <span>耐熱皿に凍ったままの「肉だんご」20個を重ならないように並べ、ふんわりラップをかけて電子レンジ（600W）で3分間加熱する。</span>
+                        </li>
+                        <li class="flex items-start gap-2 cursor-pointer" onclick="toggleStep(this)">
+                            <input type="checkbox" class="mt-0.5">
+                            <span>フライパンに、ケチャップ大さじ3（45ml）、醤油大さじ2（30ml）、酢大さじ2（30ml）、砂糖大さじ2、水大さじ2を入れて中火にかけ、よく混ぜる。</span>
+                        </li>
+                        <li class="flex items-start gap-2 cursor-pointer" onclick="toggleStep(this)">
+                            <input type="checkbox" class="mt-0.5">
+                            <span>タレがふつふつと沸騰してきたら、レンジで温めた肉だんごと、凍ったままの「揚げなす」100gを加える。</span>
+                        </li>
+                        <li class="flex items-start gap-2 cursor-pointer" onclick="toggleStep(this)">
+                            <input type="checkbox" class="mt-0.5">
+                            <span>中火で絶えず混ぜながら、なすが柔らかくなり、甘酢あんが全体にとろりと絡まるまで3分炒め合わせる。</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- 2. 汁物 -->
+                <div class="recipe-card bg-white border border-gray-100 p-4 shadow-sm">
+                    <div class="flex justify-between items-start mb-2">
+                        <span class="bg-amber-100 text-amber-700 text-[10px] px-2 py-0.5 rounded-full font-bold">2. 汁物</span>
+                        <span class="text-xs text-gray-500"><i class="far fa-clock mr-1"></i>約10分 (本格)</span>
+                    </div>
+                    <h3 class="font-bold text-base text-gray-800 mb-2">お豆腐と和風野菜の具沢山お味噌汁</h3>
+                    <ul class="text-xs text-gray-600 space-y-2">
+                        <li class="flex items-start gap-2 cursor-pointer" onclick="toggleStep(this)">
+                            <input type="checkbox" class="mt-0.5">
+                            <span>片手鍋に水600ml、和風だし（顆粒）小さじ1.5（約7.5g）、凍ったままの「和風野菜ミックス」100gを入れて強火に掛ける。</span>
+                        </li>
+                        <li class="flex items-start gap-2 cursor-pointer" onclick="toggleStep(this)">
+                            <input type="checkbox" class="mt-0.5">
+                            <span>沸騰したら中火に落とし、里芋などの根菜に竹串がすっと通るまでふたをして約5分間煮る。</span>
+                        </li>
+                        <li class="flex items-start gap-2 cursor-pointer" onclick="toggleStep(this)">
+                            <input type="checkbox" class="mt-0.5">
+                            <span>豆腐（3個パックの内の1個、150g）をスプーンで2cm角程度にすくい入れながら加え、さらに1分煮る。</span>
+                        </li>
+                        <li class="flex items-start gap-2 cursor-pointer" onclick="toggleStep(this)">
+                            <input type="checkbox" class="mt-0.5">
+                            <span class="text-red-600 font-bold">【重要！】一度、完全に火を止める。お玉に味噌大さじ2.5（約45g）を取り、鍋のだし汁でしっかりと溶き入れてから全体に混ぜる。</span>
+                        </li>
+                        <li class="flex items-start gap-2 cursor-pointer" onclick="toggleStep(this)">
+                            <input type="checkbox" class="mt-0.5">
+                            <span>再びごく弱火にかけ、お味噌汁のフチが「フツフツ」としたら、沸騰する前にすぐに火を止める（香りが逃げません）。</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- 3. 副菜メイン -->
+                <div class="recipe-card bg-white border border-gray-100 p-4 shadow-sm">
+                    <div class="flex justify-between items-start mb-2">
+                        <span class="bg-blue-100 text-blue-700 text-[10px] px-2 py-0.5 rounded-full font-bold">3. 副菜メイン</span>
+                        <span class="text-xs text-gray-500"><i class="far fa-clock mr-1"></i>約5分 (レンジ)</span>
+                    </div>
+                    <h3 class="font-bold text-base text-gray-800 mb-2">ブロッコリーのコク旨ごま和え</h3>
+                    <ul class="text-xs text-gray-600 space-y-2">
+                        <li class="flex items-start gap-2 cursor-pointer" onclick="toggleStep(this)">
+                            <input type="checkbox" class="mt-0.5">
+                            <span>耐熱容器に凍ったままの「冷凍ブロッコリー」150gを入れ、ふんわりラップをして電子レンジ（600W）で2分30秒加熱する。</span>
+                        </li>
+                        <li class="flex items-start gap-2 cursor-pointer" onclick="toggleStep(this)">
+                            <input type="checkbox" class="mt-0.5">
+                            <span>温めた後、出てきた余分な水分をキッチンペーパーでしっかりと拭き取る（味がぼやけません）。</span>
+                        </li>
+                        <li class="flex items-start gap-2 cursor-pointer" onclick="toggleStep(this)">
+                            <input type="checkbox" class="mt-0.5">
+                            <span>ボウルにすりごま大さじ1、砂糖小さじ1（5g）、醤油小さじ1（5ml）を混ぜ、ブロッコリーを入れてしっかりと和える。</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- 4. 副菜サブ -->
+                <div class="recipe-card bg-white border border-gray-100 p-4 shadow-sm">
+                    <div class="flex justify-between items-start mb-2">
+                        <span class="bg-purple-100 text-purple-700 text-[10px] px-2 py-0.5 rounded-full font-bold">4. 副菜サブ</span>
+                        <span class="text-xs text-gray-500"><i class="far fa-clock mr-1"></i>約4分 (レンジ)</span>
+                    </div>
+                    <h3 class="font-bold text-base text-gray-800 mb-2">甘口かぼちゃ煮風</h3>
+                    <ul class="text-xs text-gray-600 space-y-2">
+                        <li class="flex items-start gap-2 cursor-pointer" onclick="toggleStep(this)">
+                            <input type="checkbox" class="mt-0.5">
+                            <span>耐熱容器に凍ったままの「冷凍かぼちゃ」100g（小2〜3切れ）を並べ、砂糖小さじ2、水大さじ1（15ml）を均等にかける。</span>
+                        </li>
+                        <li class="flex items-start gap-2 cursor-pointer" onclick="toggleStep(this)">
+                            <input type="checkbox" class="mt-0.5">
+                            <span>ふんわりラップをかけ、電子レンジ（600W）で3分加熱。そのまま少しおいて味を馴染ませる。</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- 5. サラダ -->
+                <div class="recipe-card bg-white border border-gray-100 p-4 shadow-sm">
+                    <div class="flex justify-between items-start mb-2">
+                        <span class="bg-green-100 text-green-700 text-[10px] px-2 py-0.5 rounded-full font-bold">5. サラダ</span>
+                        <span class="text-xs text-gray-500"><i class="far fa-clock mr-1"></i>約2分</span>
+                    </div>
+                    <h3 class="font-bold text-base text-gray-800 mb-2">きゅうりとキャベツの彩りサラダ</h3>
+                    <ul class="text-xs text-gray-600 space-y-2">
+                        <li class="flex items-start gap-2 cursor-pointer" onclick="toggleStep(this)">
+                            <input type="checkbox" class="mt-0.5">
+                            <span>きゅうり1/2本を薄い輪切りにし、千切りキャベツ2カップ分（約100g）と軽く混ぜ合わせて器に盛る。プチトマト4個を添える。</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- ==================== 金曜日 ==================== -->
+        <div id="day-fri" class="day-content space-y-4 hidden">
+            <!-- 食材リスト -->
+            <div class="bg-white p-4 rounded-2xl border border-red-100 shadow-sm">
+                <h2 class="text-sm font-bold text-gray-800 mb-3 flex items-center gap-2">
+                    <i class="fas fa-shopping-basket text-red-500"></i> 冷蔵庫から出す食材リスト
+                </h2>
+                <div class="grid grid-cols-2 gap-2 text-xs">
+                    <span class="bg-emerald-50 text-emerald-800 p-2 rounded-lg border border-emerald-100 font-medium">🍣 定塩銀鮭切身：4枚 (GS)</span>
+                    <span class="bg-emerald-50 text-emerald-800 p-2 rounded-lg border border-emerald-100 font-medium">🧅 きざみたまねぎ：150g (GS)</span>
+                    <span class="bg-emerald-50 text-emerald-800 p-2 rounded-lg border border-emerald-100 font-medium">🥬 カットほうれん草：50g (GS)</span>
+                    <span class="bg-emerald-50 text-emerald-800 p-2 rounded-lg border border-emerald-100 font-medium">🎃 冷凍かぼちゃ：150g (GS)</span>
+                    <span class="bg-emerald-50 text-emerald-800 p-2 rounded-lg border border-emerald-100 font-medium">🥔 ポテトサラダ：150g (GS)</span>
+                    <span class="bg-blue-50 text-blue-800 p-2 rounded-lg border border-blue-100 font-medium">⬜ 豆腐：1パック (150g)</span>
+                    <span class="bg-blue-50 text-blue-800 p-2 rounded-lg border border-blue-100 font-medium">🥚 卵：1個</span>
+                    <span class="bg-blue-50 text-blue-800 p-2 rounded-lg border border-blue-100 font-medium">🥗 キャベツ(千切り)：100g</span>
+                    <span class="bg-blue-50 text-blue-800 p-2 rounded-lg border border-blue-100 font-medium">🍅 プチトマト：4個</span>
+                </div>
+            </div>
+
+            <!-- 5品レシピ -->
+            <div class="space-y-4">
+                <!-- 1. 主食メイン -->
+                <div class="recipe-card bg-white border border-gray-100 p-4 shadow-sm">
+                    <div class="flex justify-between items-start mb-2">
+                        <span class="bg-red-100 text-red-700 text-[10px] px-2 py-0.5 rounded-full font-bold">1. 主食メイン</span>
+                        <span class="text-xs text-gray-500"><i class="far fa-clock mr-1"></i>約12分</span>
+                    </div>
+                    <h3 class="font-bold text-base text-gray-800 mb-2">鮭の味噌バターちゃんちゃん焼き風</h3>
+                    <ul class="text-xs text-gray-600 space-y-2">
+                        <li class="flex items-start gap-2 cursor-pointer" onclick="toggleStep(this)">
+                            <input type="checkbox" class="mt-0.5">
+                            <span>フライパンにサラダ油小さじ1（5ml）を中火で熱し、「定塩銀鮭切身」4枚を並べて約3分間、裏表に軽く焦げ目がつくまで焼く。</span>
+                        </li>
+                        <li class="flex items-start gap-2 cursor-pointer" onclick="toggleStep(this)">
+                            <input type="checkbox" class="mt-0.5">
+                            <span>鮭を裏返した直後、周りの空いている隙間に凍ったままの「きざみたまねぎ」150gを広げて入れる。</span>
+                        </li>
+                        <li class="flex items-start gap-2 cursor-pointer" onclick="toggleStep(this)">
+                            <input type="checkbox" class="mt-0.5">
+                            <span>酒大さじ2（30ml）を全体に回しかけ、すぐにフライパンのフタをして、弱火で5分間じっくりと蒸し焼きにする。</span>
+                        </li>
+                        <li class="flex items-start gap-2 cursor-pointer" onclick="toggleStep(this)">
+                            <input type="checkbox" class="mt-0.5">
+                            <span>ボウルであらかじめ味噌大さじ2、みりん大さじ1（15ml）、砂糖大さじ1をしっかりと混ぜた「合わせ味噌」を作る。</span>
+                        </li>
+                        <li class="flex items-start gap-2 cursor-pointer" onclick="toggleStep(this)">
+                            <input type="checkbox" class="mt-0.5">
+                            <span>フタを開け、鮭の身に合わせ味噌をハケなどで塗り、仕上げにバター15gを入れて、溶けたら鮭に絡めてお皿に盛る。</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- 2. 汁物 -->
+                <div class="recipe-card bg-white border border-gray-100 p-4 shadow-sm">
+                    <div class="flex justify-between items-start mb-2">
+                        <span class="bg-amber-100 text-amber-700 text-[10px] px-2 py-0.5 rounded-full font-bold">2. 汁物</span>
+                        <span class="text-xs text-gray-500"><i class="far fa-clock mr-1"></i>約6分 (本格)</span>
+                    </div>
+                    <h3 class="font-bold text-base text-gray-800 mb-2">ほうれん草のお味噌汁</h3>
+                    <ul class="text-xs text-gray-600 space-y-2">
+                        <li class="flex items-start gap-2 cursor-pointer" onclick="toggleStep(this)">
+                            <input type="checkbox" class="mt-0.5">
+                            <span>鍋に水600ml、和風だし小さじ1.5を入れて強火にかける。</span>
+                        </li>
+                        <li class="flex items-start gap-2 cursor-pointer" onclick="toggleStep(this)">
+                            <input type="checkbox" class="mt-0.5">
+                            <span>沸騰したら、凍ったままの「カットほうれん草」50gを加えて、約1分間弱火で煮る。</span>
+                        </li>
+                        <li class="flex items-start gap-2 cursor-pointer" onclick="toggleStep(this)">
+                            <input type="checkbox" class="mt-0.5">
+                            <span class="text-red-600 font-bold">【重要】火を完全に止める。お玉に味噌大さじ2.5を乗せてしっかりとだし汁に溶かし込んでから混ぜる。</span>
+                        </li>
+                        <li class="flex items-start gap-2 cursor-pointer" onclick="toggleStep(this)">
+                            <input type="checkbox" class="mt-0.5">
+                            <span>再度弱火にかけ、フツフツと温まれば完成。決して煮立たせないのがコツです。</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- 3. 副菜メイン -->
+                <div class="recipe-card bg-white border border-gray-100 p-4 shadow-sm">
+                    <div class="flex justify-between items-start mb-2">
+                        <span class="bg-blue-100 text-blue-700 text-[10px] px-2 py-0.5 rounded-full font-bold">3. 副菜メイン</span>
+                        <span class="text-xs text-gray-500"><i class="far fa-clock mr-1"></i>約5分 (レンジ)</span>
+                    </div>
+                    <h3 class="font-bold text-base text-gray-800 mb-2">かぼちゃデリポテトサラダ</h3>
+                    <ul class="text-xs text-gray-600 space-y-2">
+                        <li class="flex items-start gap-2 cursor-pointer" onclick="toggleStep(this)">
+                            <input type="checkbox" class="mt-0.5">
+                            <span>耐熱容器に凍ったままの「冷凍かぼちゃ」150gを並べ、ラップをしてレンジ（600W）で3分30秒間加熱する。</span>
+                        </li>
+                        <li class="flex items-start gap-2 cursor-pointer" onclick="toggleStep(this)">
+                            <input type="checkbox" class="mt-0.5">
+                            <span>熱いうちにフォークでかぼちゃを粗く潰し、少し冷ます。</span>
+                        </li>
+                        <li class="flex items-start gap-2 cursor-pointer" onclick="toggleStep(this)">
+                            <input type="checkbox" class="mt-0.5">
+                            <span>そこに業スーの「ポテトサラダ」150gを加えて、ヘラ等で全体をざっくりと混ぜ合わせる。甘みが抜群のデリ風ポテサラに！</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- 4. 副菜サブ -->
+                <div class="recipe-card bg-white border border-gray-100 p-4 shadow-sm">
+                    <div class="flex justify-between items-start mb-2">
+                        <span class="bg-purple-100 text-purple-700 text-[10px] px-2 py-0.5 rounded-full font-bold">4. 副菜サブ</span>
+                        <span class="text-xs text-gray-500"><i class="far fa-clock mr-1"></i>約4分 (レンジ)</span>
+                    </div>
+                    <h3 class="font-bold text-base text-gray-800 mb-2">豆腐のとろ〜り卵とじ</h3>
+                    <ul class="text-xs text-gray-600 space-y-2">
+                        <li class="flex items-start gap-2 cursor-pointer" onclick="toggleStep(this)">
+                            <input type="checkbox" class="mt-0.5">
+                            <span>平らな耐熱皿に豆腐1パック（150g）をスプーンで崩しながら並べる。</span>
+                        </li>
+                        <li class="flex items-start gap-2 cursor-pointer" onclick="toggleStep(this)">
+                            <input type="checkbox" class="mt-0.5">
+                            <span>めんつゆ（3倍濃縮）大さじ1.5、水大さじ1.5（約22ml）を混ぜて上から回しかける。</span>
+                        </li>
+                        <li class="flex items-start gap-2 cursor-pointer" onclick="toggleStep(this)">
+                            <input type="checkbox" class="mt-0.5">
+                            <span>全体に溶き卵1個を回しかけ、ラップをせずにそのまま電子レンジ（600W）で2分30秒加熱する。</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- 5. サラダ -->
+                <div class="recipe-card bg-white border border-gray-100 p-4 shadow-sm">
+                    <div class="flex justify-between items-start mb-2">
+                        <span class="bg-green-100 text-green-700 text-[10px] px-2 py-0.5 rounded-full font-bold">5. サラダ</span>
+                        <span class="text-xs text-gray-500"><i class="far fa-clock mr-1"></i>約1分</span>
+                    </div>
+                    <h3 class="font-bold text-base text-gray-800 mb-2">千切りキャベツとプチトマト</h3>
+                    <ul class="text-xs text-gray-600 space-y-2">
+                        <li class="flex items-start gap-2 cursor-pointer" onclick="toggleStep(this)">
+                            <input type="checkbox" class="mt-0.5">
+                            <span>器に千切りキャベツ2カップ、ミニトマトを可愛く盛り付ける。</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- ==================== 土曜日 ==================== -->
+        <div id="day-sat" class="day-content space-y-4 hidden">
+            <!-- 食材リスト -->
+            <div class="bg-white p-4 rounded-2xl border border-red-100 shadow-sm">
+                <h2 class="text-sm font-bold text-gray-800 mb-3 flex items-center gap-2">
+                    <i class="fas fa-shopping-basket text-red-500"></i> 冷蔵庫から出す食材リスト
+                </h2>
+                <div class="grid grid-cols-2 gap-2 text-xs">
+                    <span class="bg-emerald-50 text-emerald-800 p-2 rounded-lg border border-emerald-100 font-medium">🥩 合挽ミンチ：400g (GS)</span>
+                    <span class="bg-emerald-50 text-emerald-800 p-2 rounded-lg border border-emerald-100 font-medium">🥬 カットほうれん草：150g (GS)</span>
+                    <span class="bg-emerald-50 text-emerald-800 p-2 rounded-lg border border-emerald-100 font-medium">🥕 和風野菜ミックス：150g (GS)</span>
+                    <span class="bg-emerald-50 text-emerald-800 p-2 rounded-lg border border-emerald-100 font-medium">🥔 ポテトサラダ：250g (GS)</span>
+                    <span class="bg-blue-50 text-blue-800 p-2 rounded-lg border border-blue-100 font-medium">⬜ 豆腐：1パック (150g)</span>
+                    <span class="bg-blue-50 text-blue-800 p-2 rounded-lg border border-blue-100 font-medium">🥚 卵：3個</span>
+                    <span class="bg-blue-50 text-blue-800 p-2 rounded-lg border border-blue-100 font-medium">🥒 きゅうり：1本</span>
+                    <span class="bg-blue-50 text-blue-800 p-2 rounded-lg border border-blue-100 font-medium">🧀 ピザ用チーズ：適量</span>
+                    <span class="bg-blue-50 text-blue-800 p-2 rounded-lg border border-blue-100 font-medium">🍚 白ごはん：たっぷり</span>
+                </div>
+            </div>
+
+            <!-- 5品レシピ -->
+            <div class="space-y-4">
+                <!-- 1. 主食メイン -->
+                <div class="recipe-card bg-white border border-gray-100 p-4 shadow-sm">
+                    <div class="flex justify-between items-start mb-2">
+                        <span class="bg-red-100 text-red-700 text-[10px] px-2 py-0.5 rounded-full font-bold">1. 主食メイン</span>
+                        <span class="text-xs text-gray-500"><i class="far fa-clock mr-1"></i>約12分</span>
+                    </div>
+                    <h3 class="font-bold text-base text-gray-800 mb-2">子供が大喜び！3色そぼろ丼</h3>
+                    <ul class="text-xs text-gray-600 space-y-2">
+                        <li class="flex items-start gap-2 cursor-pointer" onclick="toggleStep(this)">
+                            <input type="checkbox" class="mt-0.5">
+                            <span>【肉そぼろ】火にかける前の冷たいフライパンに「合挽ミンチ」400g、醤油大さじ3（45ml）、砂糖大さじ2、みりん大さじ1（15ml）、おろし生姜小さじ1を入れてよく練り混ぜる（パラポロになる秘訣）。</span>
+                        </li>
+                        <li class="flex items-start gap-2 cursor-pointer" onclick="toggleStep(this)">
+                            <input type="checkbox" class="mt-0.5">
+                            <span>中火にかけ、菜箸を4本持って絶えずグルグルと素早く混ぜながら、肉に完全に火が通ってポロポロになるまで炒め、一度お皿に移す。</span>
+                        </li>
+                        <li class="flex items-start gap-2 cursor-pointer" onclick="toggleStep(this)">
+                            <input type="checkbox" class="mt-0.5">
+                            <span>【卵そぼろ】フライパンをキッチンペーパーでサッと拭き、卵3個、砂糖大さじ1、塩少々を混ぜた卵液を流し込む。弱火で菜箸を素早く動かし、細かい炒り卵を作ってお皿に移す。</span>
+                        </li>
+                        <li class="flex items-start gap-2 cursor-pointer" onclick="toggleStep(this)">
+                            <input type="checkbox" class="mt-0.5">
+                            <span>【ほうれん草】同じフライパンに凍ったままの「ほうれん草」150g、醤油小さじ1（5ml）、ごま油小さじ1を入れて中火で2分ソテーする。</span>
+                        </li>
+                        <li class="flex items-start gap-2 cursor-pointer" onclick="toggleStep(this)">
+                            <input type="checkbox" class="mt-0.5">
+                            <span>温かいご飯を器に盛り、3色の具材をきれいに等分に盛り分ける。</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- 2. 汁物 -->
+                <div class="recipe-card bg-white border border-gray-100 p-4 shadow-sm">
+                    <div class="flex justify-between items-start mb-2">
+                        <span class="bg-amber-100 text-amber-700 text-[10px] px-2 py-0.5 rounded-full font-bold">2. 汁物</span>
+                        <span class="text-xs text-gray-500"><i class="far fa-clock mr-1"></i>約8分</span>
+                    </div>
+                    <h3 class="font-bold text-base text-gray-800 mb-2">和風根菜の具沢山おすまし</h3>
+                    <ul class="text-xs text-gray-600 space-y-2">
+                        <li class="flex items-start gap-2 cursor-pointer" onclick="toggleStep(this)">
+                            <input type="checkbox" class="mt-0.5">
+                            <span>鍋に水600ml、和風だし小さじ2、和風野菜ミックス150gを入れて強火に掛ける。</span>
+                        </li>
+                        <li class="flex items-start gap-2 cursor-pointer" onclick="toggleStep(this)">
+                            <input type="checkbox" class="mt-0.5">
+                            <span>沸騰したら弱火にしてフタをし、5分じっくりと煮る。塩小さじ1/2、薄口醤油小さじ1（5ml）を加えて味を整える。</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- 3. 副菜メイン -->
+                <div class="recipe-card bg-white border border-gray-100 p-4 shadow-sm">
+                    <div class="flex justify-between items-start mb-2">
+                        <span class="bg-blue-100 text-blue-700 text-[10px] px-2 py-0.5 rounded-full font-bold">3. 副菜メイン</span>
+                        <span class="text-xs text-gray-500"><i class="far fa-clock mr-1"></i>約5分 (トースター)</span>
+                    </div>
+                    <h3 class="font-bold text-base text-gray-800 mb-2">ポテサラチーズ焼き</h3>
+                    <ul class="text-xs text-gray-600 space-y-2">
+                        <li class="flex items-start gap-2 cursor-pointer" onclick="toggleStep(this)">
+                            <input type="checkbox" class="mt-0.5">
+                            <span>グラタン皿等の耐熱皿に業スーのポテトサラダ250gを平らに敷き詰める。</span>
+                        </li>
+                        <li class="flex items-start gap-2 cursor-pointer" onclick="toggleStep(this)">
+                            <input type="checkbox" class="mt-0.5">
+                            <span>上にピザ用チーズ（スライスチーズをちぎってもOK）をたっぷりのせる。</span>
+                        </li>
+                        <li class="flex items-start gap-2 cursor-pointer" onclick="toggleStep(this)">
+                            <input type="checkbox" class="mt-0.5">
+                            <span>オーブントースターに入れて約5分、チーズの表面が香ばしく色づくまで加熱する。</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- 4. 副菜サブ -->
+                <div class="recipe-card bg-white border border-gray-100 p-4 shadow-sm">
+                    <div class="flex justify-between items-start mb-2">
+                        <span class="bg-purple-100 text-purple-700 text-[10px] px-2 py-0.5 rounded-full font-bold">4. 副菜サブ</span>
+                        <span class="text-xs text-gray-500"><i class="far fa-clock mr-1"></i>約1分</span>
+                    </div>
+                    <h3 class="font-bold text-base text-gray-800 mb-2">さっぱりお豆腐冷奴</h3>
+                    <ul class="text-xs text-gray-600 space-y-2">
+                        <li class="flex items-start gap-2 cursor-pointer" onclick="toggleStep(this)">
+                            <input type="checkbox" class="mt-0.5">
+                            <span>豆腐を綺麗に4つに切り分け、おろし生姜（チューブでOK）小さじ1/2を天盛りにし、醤油をお好みの分量回しかける。</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- 5. サラダ -->
+                <div class="recipe-card bg-white border border-gray-100 p-4 shadow-sm">
+                    <div class="flex justify-between items-start mb-2">
+                        <span class="bg-green-100 text-green-700 text-[10px] px-2 py-0.5 rounded-full font-bold">5. サラダ</span>
+                        <span class="text-xs text-gray-500"><i class="far fa-clock mr-1"></i>約2分</span>
+                    </div>
+                    <h3 class="font-bold text-base text-gray-800 mb-2">きゅうりとトマトのドレッシング和え</h3>
+                    <ul class="text-xs text-gray-600 space-y-2">
+                        <li class="flex items-start gap-2 cursor-pointer" onclick="toggleStep(this)">
+                            <input type="checkbox" class="mt-0.5">
+                            <span>きゅうり1本をやや大きめの乱切りにする。ミニトマトも半分にカットし、お好みのドレッシングでさっと和えて盛る。</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- ==================== 日曜日 ==================== -->
+        <div id="day-sun" class="day-content space-y-4 hidden">
+            <!-- 食材リスト -->
+            <div class="bg-white p-4 rounded-2xl border border-red-100 shadow-sm">
+                <h2 class="text-sm font-bold text-gray-800 mb-3 flex items-center gap-2">
+                    <i class="fas fa-shopping-basket text-red-500"></i> 冷蔵庫から出す食材リスト
+                </h2>
+                <div class="grid grid-cols-2 gap-2 text-xs">
+                    <span class="bg-emerald-50 text-emerald-800 p-2 rounded-lg border border-emerald-100 font-medium">🍗 鶏もも肉：500g (GS)</span>
+                    <span class="bg-emerald-50 text-emerald-800 p-2 rounded-lg border border-emerald-100 font-medium">🧅 きざみたまねぎ：200g (GS)</span>
+                    <span class="bg-emerald-50 text-emerald-800 p-2 rounded-lg border border-emerald-100 font-medium">🥕 和風野菜ミックス：200g (GS)</span>
+                    <span class="bg-emerald-50 text-emerald-800 p-2 rounded-lg border border-emerald-100 font-medium">🥦 冷凍ブロッコリー：150g (GS)</span>
+                    <span class="bg-emerald-50 text-emerald-800 p-2 rounded-lg border border-emerald-100 font-medium">🍆 揚げなす：150g (GS)</span>
+                    <span class="bg-blue-50 text-blue-800 p-2 rounded-lg border border-blue-100 font-medium">🍛 カレールー：約100g (1/2箱)</span>
+                    <span class="bg-blue-50 text-blue-800 p-2 rounded-lg border border-blue-100 font-medium">🧀 ピザ用チーズ：適量</span>
+                    <span class="bg-blue-50 text-blue-800 p-2 rounded-lg border border-blue-100 font-medium">🥗 余ったキャベツ・プチトマト全部</span>
+                </div>
+            </div>
+
+            <!-- 5品レシピ -->
+            <div class="space-y-4">
+                <!-- 1. 主食メイン -->
+                <div class="recipe-card bg-white border border-gray-100 p-4 shadow-sm">
+                    <div class="flex justify-between items-start mb-2">
+                        <span class="bg-red-100 text-red-700 text-[10px] px-2 py-0.5 rounded-full font-bold">1. 主食メイン</span>
+                        <span class="text-xs text-gray-500"><i class="far fa-clock mr-1"></i>約30分</span>
+                    </div>
+                    <h3 class="font-bold text-base text-gray-800 mb-2">冷蔵庫お片付け！お肉たっぷりコク旨カレー</h3>
+                    <ul class="text-xs text-gray-600 space-y-2">
+                        <li class="flex items-start gap-2 cursor-pointer" onclick="toggleStep(this)">
+                            <input type="checkbox" class="mt-0.5">
+                            <span>大きめの深鍋にサラダ油大さじ1、おろしにんにく（チューブ）小さじ1を弱火で熱し、一口大に切った「鶏もも肉」500gを中火で5分しっかりと炒める。</span>
+                        </li>
+                        <li class="flex items-start gap-2 cursor-pointer" onclick="toggleStep(this)">
+                            <input type="checkbox" class="mt-0.5">
+                            <span>凍ったままの「きざみたまねぎ」200gをそのまま加え、全体を木ベラで底から返すようにしながら5分炒め、玉ねぎの水分を完全に飛ばす（これで旨味が凝縮します）。</span>
+                        </li>
+                        <li class="flex items-start gap-2 cursor-pointer" onclick="toggleStep(this)">
+                            <input type="checkbox" class="mt-0.5">
+                            <span>「和風野菜ミックス」200gを入れてさっと炒め合わせたら、水800mlを加え強火に掛ける。沸騰したら丁寧にアクを取り除く。</span>
+                        </li>
+                        <li class="flex items-start gap-2 cursor-pointer" onclick="toggleStep(this)">
+                            <input type="checkbox" class="mt-0.5">
+                            <span>フタをして弱火で15分コトコト煮込む。根菜が柔らかくなったら一度完全に火を止める。</span>
+                        </li>
+                        <li class="flex items-start gap-2 cursor-pointer" onclick="toggleStep(this)">
+                            <input type="checkbox" class="mt-0.5">
+                            <span>カレールー約100g（1/2箱）を割り入れてよく溶かし、再度弱火に掛けてとろみが付くまで5分煮込む。</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- 2. 汁物 -->
+                <div class="recipe-card bg-white border border-gray-100 p-4 shadow-sm">
+                    <div class="flex justify-between items-start mb-2">
+                        <span class="bg-amber-100 text-amber-700 text-[10px] px-2 py-0.5 rounded-full font-bold">2. 汁物</span>
+                        <span class="text-xs text-gray-500">お休み</span>
+                    </div>
+                    <h3 class="font-bold text-base text-gray-500 mb-1">本日はお休みです</h3>
+                    <p class="text-xs text-gray-400">カレーにボリュームがあるため、お休みしてラクをしましょう！</p>
+                </div>
+
+                <!-- 3. 副菜メイン -->
+                <div class="recipe-card bg-white border border-gray-100 p-4 shadow-sm">
+                    <div class="flex justify-between items-start mb-2">
+                        <span class="bg-blue-100 text-blue-700 text-[10px] px-2 py-0.5 rounded-full font-bold">3. 副菜メイン</span>
+                        <span class="text-xs text-gray-500"><i class="far fa-clock mr-1"></i>約7分 (トースター)</span>
+                    </div>
+                    <h3 class="font-bold text-base text-gray-800 mb-2">ブロッコリーのチーズ焼き</h3>
+                    <ul class="text-xs text-gray-600 space-y-2">
+                        <li class="flex items-start gap-2 cursor-pointer" onclick="toggleStep(this)">
+                            <input type="checkbox" class="mt-0.5">
+                            <span>耐熱容器に「冷凍ブロッコリー」150gを入れ、ふんわりラップをかけてレンジ（600W）で2分加熱する。水分をペーパーでしっかり拭き取る。</span>
+                        </li>
+                        <li class="flex items-start gap-2 cursor-pointer" onclick="toggleStep(this)">
+                            <input type="checkbox" class="mt-0.5">
+                            <span>耐熱皿に移してピザ用チーズを適量散らし、オーブントースターで焦げ目がつくまで約5分焼き上げる。</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- 4. 副菜サブ -->
+                <div class="recipe-card bg-white border border-gray-100 p-4 shadow-sm">
+                    <div class="flex justify-between items-start mb-2">
+                        <span class="bg-purple-100 text-purple-700 text-[10px] px-2 py-0.5 rounded-full font-bold">4. 副菜サブ</span>
+                        <span class="text-xs text-gray-500"><i class="far fa-clock mr-1"></i>約5分 (レンジ)</span>
+                    </div>
+                    <h3 class="font-bold text-base text-gray-800 mb-2">トロトロ揚げなすのお浸し</h3>
+                    <ul class="text-xs text-gray-600 space-y-2">
+                        <li class="flex items-start gap-2 cursor-pointer" onclick="toggleStep(this)">
+                            <input type="checkbox" class="mt-0.5">
+                            <span>耐熱容器に凍ったままの「揚げなす」150gを重ならないように並べ、ラップをしてレンジ（600W）で3分間加熱する。</span>
+                        </li>
+                        <li class="flex items-start gap-2 cursor-pointer" onclick="toggleStep(this)">
+                            <input type="checkbox" class="mt-0.5">
+                            <span>めんつゆ（3倍濃縮）大さじ2、水大さじ2（約30ml）を混ぜ、温まった揚げなすに優しく回しかけて5分浸す。</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- 5. サラダ -->
+                <div class="recipe-card bg-white border border-gray-100 p-4 shadow-sm">
+                    <div class="flex justify-between items-start mb-2">
+                        <span class="bg-green-100 text-green-700 text-[10px] px-2 py-0.5 rounded-full font-bold">5. サラダ</span>
+                        <span class="text-xs text-gray-500"><i class="far fa-clock mr-1"></i>約2分</span>
+                    </div>
+                    <h3 class="font-bold text-base text-gray-800 mb-2">冷蔵庫お掃除！山盛りお片付けサラダ</h3>
+                    <ul class="text-xs text-gray-600 space-y-2">
+                        <li class="flex items-start gap-2 cursor-pointer" onclick="toggleStep(this)">
+                            <input type="checkbox" class="mt-0.5">
+                            <span>冷蔵庫に残っているキャベツ、きゅうり、プチトマトを全て使い切り、大皿に豪快に盛り付け、お好みのドレッシングをかける。</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
     </main>
 
+    <!-- 下部進捗 -->
+    <div class="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 p-4 shadow-2xl z-50">
+        <div class="max-w-md mx-auto flex justify-between items-center text-xs">
+            <span class="text-gray-500 font-medium">選択中の進捗:</span>
+            <span class="font-bold text-red-500" id="progress-percent">0%</span>
+        </div>
+        <div class="max-w-md mx-auto w-full bg-gray-200 rounded-full h-1.5 overflow-hidden mt-1.5">
+            <div id="progress-bar" class="bg-red-500 h-full w-0 transition-all duration-300"></div>
+        </div>
+    </div>
+
     <script>
-        const recipes = {
-            mon: {
-                title: "月曜日：鶏もも肉のプルコギ炒め（5品）",
-                ingredients: [
-                    { name: "鶏もも肉", amount: "500g (2枚分)", source: "gs" },
-                    { name: "冷凍きざみたまねぎ", amount: "150g (1/3袋)", source: "gs" },
-                    { name: "プルコギのたれ", amount: "大さじ6 (90ml)", source: "gs" },
-                    { name: "ほうれん草", amount: "100g (ふた掴み)", source: "gs" },
-                    { name: "ポテトサラダ", amount: "200g (盛り付けるだけ)", source: "gs" },
-                    { name: "千切りキャベツ", amount: "ふたつかみ", source: "super" },
-                    { name: "プチトマト", amount: "4個", source: "super" },
-                    { name: "豆腐", amount: "1パック", source: "super" }
-                ],
-                items: [
-                    { category: "主菜", name: "鶏プルコギ", steps: ["鶏肉をキッチンバサミで3cm角に切る", "フライパンに油をひかず、凍ったままの『きざみたまねぎ』を強火で3分炒め、水分を飛ばす", "鶏肉を入れ、中火で5分、焼き色がつくまで炒める", "プルコギのたれ大さじ6(90ml)を入れ、強火で1分絡めて完成"] },
-                    { category: "汁物", name: "ほうれん草スープ", steps: ["鍋に水600mlとコンソメ小さじ2を入れて沸騰させる", "凍ったままのほうれん草を入れ、中火で1分煮る"] },
-                    { category: "副菜1", name: "冷奴", steps: ["豆腐1パックを4つに切り、かつお節と醤油をかける"] },
-                    { category: "副菜2", name: "ポテサラ", steps: ["業スーのポテトサラダ200gをお皿に盛るだけ！"] },
-                    { category: "サラダ", name: "基本のサラダ", steps: ["千切りキャベツを器に盛り、洗ったプチトマトを添える"] }
-                ]
-            },
-            tue: {
-                title: "火曜日：魚と揚げなすのポン酢蒸し（5品）",
-                ingredients: [
-                    { name: "白身魚フィレ", amount: "4枚", source: "gs" },
-                    { name: "冷凍揚げなす", amount: "100g (1/5袋)", source: "gs" },
-                    { name: "冷凍ほうれん草", amount: "100g", source: "gs" },
-                    { name: "冷凍かぼちゃ", amount: "200g (4〜5切)", source: "gs" },
-                    { name: "千切りキャベツ", amount: "ふたつかみ", source: "super" },
-                    { name: "プチトマト", amount: "4個", source: "super" }
-                ],
-                items: [
-                    { category: "主菜", name: "白身魚のポン酢蒸し", steps: ["耐熱皿に凍ったままの魚と揚げなすを並べる", "料理酒 大さじ1を全体に振る", "ふんわりラップをしてレンジ(600W)で6分加熱", "ポン酢を適量かけて完成"] },
-                    { category: "汁物", name: "基本のわかめ味噌汁", steps: ["鍋に水600mlとだしの素 小さじ1を入れ中火で沸かす", "乾燥わかめをふたつかみ入れる", "【重要】一度火を止めてから、味噌 大さじ2を溶かす", "再度弱火をつけ、フツフツしたらすぐ火を止める"] },
-                    { category: "副菜1", name: "かぼちゃの甘煮", steps: ["耐熱容器に凍ったかぼちゃ、水 大さじ2、めんつゆ(3倍濃縮) 大さじ2を入れる", "ラップをしてレンジ(600W)で5分加熱する"] },
-                    { category: "副菜2", name: "ほうれん草ソテー", steps: ["フライパンにバター10gを溶かし、凍ったほうれん草を強火で2分炒める", "塩コショウ少々で味を整える"] },
-                    { category: "サラダ", name: "基本のサラダ", steps: ["千切りキャベツをお皿に盛り、プチトマトを添える"] }
-                ]
-            },
-            wed: {
-                title: "水曜日：豚バラとブロッコリー炒め（5品）",
-                ingredients: [
-                    { name: "豚バラ肉スライス", amount: "300g", source: "gs" },
-                    { name: "冷凍ブロッコリー", amount: "200g (1/2袋)", source: "gs" },
-                    { name: "冷凍きざみたまねぎ", amount: "100g", source: "gs" },
-                    { name: "ポテトサラダ", amount: "200g", source: "gs" },
-                    { name: "卵", amount: "4個", source: "super" },
-                    { name: "千切りキャベツ", amount: "ふたつかみ", source: "super" }
-                ],
-                items: [
-                    { category: "主菜", name: "豚バラスタミナ炒め", steps: ["フライパンで豚肉を炒め、色が変わったら『きざみたまねぎ』を入れる", "凍ったままのブロッコリーを入れ、蓋をして弱火で2分蒸し焼きにする", "焼肉のたれ 大さじ4を入れ、強火で30秒炒め合わせる"] },
-                    { category: "副菜1", name: "厚焼き玉子", steps: ["卵3個、白だし 小さじ1、水 大さじ1を混ぜて焼く"] },
-                    { category: "副菜2", name: "ポテサラ", steps: ["業スーのポテトサラダをお皿に盛るだけ"] },
-                    { category: "汁物", name: "たまごスープ", steps: ["鍋に水600ml、コンソメ 小さじ2、きざみたまねぎ少々を沸かす", "溶き卵1個を円を描くように入れ、すぐ火を止める"] },
-                    { category: "サラダ", name: "基本のサラダ", steps: ["千切りキャベツをお皿に盛り、プチトマトを添える"] }
-                ]
-            },
-            thu: {
-                title: "木曜日：肉だんごの甘酢和え（5品）",
-                ingredients: [
-                    { name: "冷凍肉だんご", amount: "20個", source: "gs" },
-                    { name: "冷凍揚げなす", amount: "100g", source: "gs" },
-                    { name: "冷凍ブロッコリー", amount: "100g", source: "gs" },
-                    { name: "冷凍かぼちゃ", amount: "100g", source: "gs" },
-                    { name: "豆腐", amount: "1パック", source: "super" }
-                ],
-                items: [
-                    { category: "主菜", name: "甘酢肉だんご", steps: ["フライパンに凍ったままの肉だんごと揚げなすを入れる", "ケチャップ・醤油・酢・砂糖を各 大さじ2ずつ入れる", "中火で加熱し、タレがブクブクしてトロみがつくまで3分混ぜる"] },
-                    { category: "汁物", name: "豆腐の味噌汁", steps: ["鍋に水600ml、だしの素 小さじ1を入れ沸騰させる", "1cm角に切った豆腐を入れ1分煮る", "火を止め、味噌 大さじ2を溶かし入れる"] },
-                    { category: "副菜1", name: "ブロッコリーのごま和え", steps: ["冷凍ブロッコリー100gをレンジ(600W)で2分加熱", "すりごま・砂糖・醤油を各 小さじ1ずつ混ぜて和える"] },
-                    { category: "副菜2", name: "かぼちゃのバニラ煮", steps: ["冷凍かぼちゃ100gに砂糖 大さじ1と水少々をかけ、ラップしてレンジ(600W)で3分"] },
-                    { category: "サラダ", name: "基本のサラダ", steps: ["千切りキャベツとプチトマトをお皿に盛る"] }
-                ]
-            },
-            fri: {
-                title: "金曜日：鮭のちゃんちゃん焼き風（5品）",
-                ingredients: [
-                    { name: "冷凍銀鮭切身", amount: "4枚", source: "gs" },
-                    { name: "冷凍きざみたまねぎ", amount: "100g", source: "gs" },
-                    { name: "冷凍かぼちゃ", amount: "200g", source: "gs" },
-                    { name: "豆腐", amount: "1丁", source: "super" },
-                    { name: "卵", amount: "1個", source: "super" }
-                ],
-                items: [
-                    { category: "主菜", name: "鮭の味噌バター焼き", steps: ["フライパンに鮭と凍ったたまねぎを並べ、酒 大さじ1をふる", "蓋をして中火で4分蒸し焼きにする", "混ぜた味噌だれ(味噌大2,みりん大1,砂糖小1)を鮭に塗り、バター10gを落とす", "蓋なし強火で1分、香ばしく焼く"] },
-                    { category: "副菜1", name: "かぼちゃのサラダ", steps: ["レンジで5分加熱したかぼちゃ200gをフォークで潰す", "マヨネーズ 大さじ2で和える"] },
-                    { category: "副菜2", name: "豆腐の卵とじ", steps: ["耐熱容器に豆腐、めんつゆ 大さじ1、溶き卵を入れる", "ラップをせずレンジ(600W)で3分加熱する"] },
-                    { category: "汁物", name: "ほうれん草の味噌汁", steps: ["鍋に水600ml、だしの素 小さじ1、冷凍ほうれん草を入れ沸かす", "火を止めて味噌 大さじ2を溶かす"] },
-                    { category: "サラダ", name: "基本のサラダ", steps: ["キャベツとトマトを盛り付ける"] }
-                ]
-            },
-            sat: {
-                title: "土曜日：彩り3色ミンチ丼（5品）",
-                ingredients: [
-                    { name: "合挽ミンチ", amount: "400g", source: "gs" },
-                    { name: "冷凍ほうれん草", amount: "150g", source: "gs" },
-                    { name: "ポテトサラダ", amount: "200g", source: "gs" },
-                    { name: "卵", amount: "2個", source: "super" },
-                    { name: "ピザ用チーズ", amount: "適量", source: "super" }
-                ],
-                items: [
-                    { category: "主食", name: "3色そぼろ丼", steps: ["フライパンでミンチを炒め、醤油・砂糖 各 大さじ3で味付けし皿に取る", "同じフライパンで卵2個（砂糖 小さじ1混ぜる）を炒り卵にする", "ほうれん草を凍ったまま炒め、醤油 小さじ1で味付けする", "ご飯の上に3色きれいに並べる"] },
-                    { category: "汁物", name: "余り野菜スープ", steps: ["鍋に水600ml、コンソメ 小さじ2を沸かす", "残っている野菜（たまねぎ、ブロッコリー等）を全部入れ3分煮る"] },
-                    { category: "副菜1", name: "ポテサラのチーズ焼き", steps: ["耐熱皿にポテサラを盛り、チーズをのせる", "トースターで5分、焼き色がつくまで焼く"] },
-                    { category: "副菜2", name: "冷奴", steps: ["豆腐にかつお節と醤油をかける"] },
-                    { category: "サラダ", name: "基本のサラダ", steps: ["キャベツとトマトを盛り付ける"] }
-                ]
-            },
-            sun: {
-                title: "日曜日：鶏もも肉のカレー（4品）",
-                ingredients: [
-                    { name: "鶏もも肉", amount: "500g", source: "gs" },
-                    { name: "冷凍きざみたまねぎ", amount: "残量全部", source: "gs" },
-                    { name: "冷凍ブロッコリー", amount: "100g", source: "gs" },
-                    { name: "冷凍揚げなす", amount: "100g", source: "gs" }
-                ],
-                items: [
-                    { category: "主菜", name: "一掃カレー", steps: ["鍋に油 大さじ1をひき、鶏肉とたまねぎを強火で5分炒める", "規定量の水を入れ沸騰させ、アクを取る", "火を止めてルーを溶かし、弱火で5分煮込む"] },
-                    { category: "副菜1", name: "ブロッコリーチーズ", steps: ["解凍したブロッコリーにチーズをのせトースターで3分焼く"] },
-                    { category: "副菜2", name: "揚げなすのお浸し", steps: ["レンジで2分温めた揚げなすに、めんつゆをかける"] },
-                    { category: "サラダ", name: "一掃サラダ", steps: ["残ったキャベツとプチトマトを全部盛り付ける"] }
-                ]
-            }
-        };
-
         function switchDay(day) {
+            // すべてのコンテンツを隠す
+            document.querySelectorAll('.day-content').forEach(el => el.classList.add('hidden'));
+            // ターゲットを表示
+            document.getElementById('day-' + day).classList.remove('hidden');
+
+            // すべてのタブを不活性化
             document.querySelectorAll('nav button').forEach(btn => {
-                btn.classList.remove('tab-active');
-                btn.classList.add('text-gray-500');
+                btn.className = "tab-inactive flex-1 py-2 text-[11px] rounded-lg transition-all text-center";
             });
-            document.getElementById(`tab-${day}`).classList.add('tab-active');
-            document.getElementById(`tab-${day}`).classList.remove('text-gray-500');
-            renderRecipe(day);
+            // ターゲットタブを活性化
+            document.getElementById('tab-' + day).className = "tab-active flex-1 py-2 text-[11px] rounded-lg transition-all text-center";
+
+            // 進捗を初期化/リセット
+            updateDayProgress();
         }
 
-        function renderRecipe(day) {
-            const data = recipes[day];
-            const container = document.getElementById('recipe-content');
+        function toggleStep(li) {
+            const checkbox = li.querySelector('input[type="checkbox"]');
+            // チェック状態を反転
+            checkbox.checked = !checkbox.checked;
             
-            let html = `
-                <div class="mb-2">
-                    <h2 class="text-xl font-bold text-slate-800">${data.title}</h2>
-                    <div class="beginner-tip p-3 rounded-lg text-xs mt-3 text-orange-800">
-                        <i class="fas fa-lightbulb mr-1"></i> <strong>初心者の方へ：</strong> レンジ加熱はすべて<strong>600W</strong>の設定です。500Wの場合は時間を<strong>1.2倍</strong>にしてください。
-                    </div>
-                </div>
+            // スタイルを変更
+            const textSpan = li.querySelector('span');
+            if (checkbox.checked) {
+                textSpan.classList.add('step-checked');
+            } else {
+                textSpan.classList.remove('step-checked');
+            }
 
-                <!-- 🛒 食材準備セクション -->
-                <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
-                    <div class="bg-slate-50 px-4 py-2 border-b flex justify-between items-center">
-                        <span class="font-bold text-xs text-slate-600"><i class="fas fa-shopping-basket mr-1"></i> 冷蔵庫から出すもの</span>
-                    </div>
-                    <div class="p-3 grid grid-cols-1 gap-2">
-                        ${data.ingredients.map(ing => `
-                            <div class="flex items-center justify-between text-sm">
-                                <div class="flex items-center gap-2">
-                                    <span class="${ing.source === 'gs' ? 'gs-badge' : 'super-badge'}">${ing.source === 'gs' ? '業スー' : 'スーパー'}</span>
-                                    <span class="font-medium text-slate-700">${ing.name}</span>
-                                </div>
-                                <span class="text-slate-500 text-xs">${ing.amount}</span>
-                            </div>
-                        `).join('')}
-                    </div>
-                </div>
-            `;
-            
-            data.items.forEach((item) => {
-                html += `
-                    <div class="bg-white rounded-xl shadow-sm overflow-hidden border border-slate-200">
-                        <div class="bg-red-50 p-3 border-b border-red-100 flex justify-between items-center">
-                            <h3 class="font-bold text-slate-800 text-sm"><span class="bg-red-500 text-white text-[10px] px-2 py-0.5 rounded mr-2">${item.category}</span> ${item.name}</h3>
-                        </div>
-                        <div class="p-4">
-                            <ul class="space-y-4">
-                                ${item.steps.map((step) => `
-                                    <li class="flex items-start gap-3 cursor-pointer group p-1 rounded" onclick="this.classList.toggle('step-checked')">
-                                        <div class="mt-0.5 w-5 h-5 rounded-md border-2 border-slate-300 flex-shrink-0 flex items-center justify-center transition-colors">
-                                            <i class="fas fa-check text-[10px] text-transparent group-[.step-checked]:text-red-500"></i>
-                                        </div>
-                                        <span class="text-sm text-slate-700 leading-relaxed">${step}</span>
-                                    </li>
-                                `).join('')}
-                            </ul>
-                        </div>
-                    </div>
-                `;
-            });
-            
-            container.innerHTML = html;
-            window.scrollTo({ top: 0, behavior: 'smooth' });
+            updateDayProgress();
         }
 
-        window.onload = () => switchDay('mon');
+        // チェックボックスを直接押された時の処理
+        document.querySelectorAll('input[type="checkbox"]').forEach(cb => {
+            cb.addEventListener('click', (e) => {
+                e.stopPropagation(); // liへのイベント伝播を防ぐ
+                const textSpan = cb.nextElementSibling;
+                if (cb.checked) {
+                    textSpan.classList.add('step-checked');
+                } else {
+                    textSpan.classList.remove('step-checked');
+                }
+                updateDayProgress();
+            });
+        });
+
+        function updateDayProgress() {
+            // 現在アクティブな曜日のコンテンツからのみ取得
+            const activeDay = document.querySelector('.day-content:not(.hidden)');
+            if (!activeDay) return;
+
+            const total = activeDay.querySelectorAll('input[type="checkbox"]').length;
+            const checked = activeDay.querySelectorAll('input[type="checkbox"]:checked').length;
+            
+            let percent = 0;
+            if (total > 0) {
+                percent = Math.round((checked / total) * 100);
+            }
+
+            document.getElementById('progress-percent').textContent = percent + '%';
+            document.getElementById('progress-bar').style.width = percent + '%';
+        }
+
+        // 初期ロード時に下準備の進捗を計算
+        window.onload = function() {
+            updateDayProgress();
+        }
     </script>
 </body>
 </html>
