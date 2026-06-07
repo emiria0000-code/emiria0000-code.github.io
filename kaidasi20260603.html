@@ -330,6 +330,18 @@
                     <input type="checkbox" onclick="event.stopPropagation(); toggleItem(this.closest('.package-card'))">
                 </div>
 
+                <!-- とろけるピザ用チーズを追加 -->
+                <div class="package-card bg-white border-2 border-slate-100 p-3 flex justify-between items-center shadow-sm cursor-pointer" onclick="toggleItem(this)">
+                    <div class="flex items-center gap-3">
+                        <span class="text-2xl">🧀</span>
+                        <div>
+                            <h3 class="item-name font-bold text-sm">とろけるピザ用チーズ (1袋)</h3>
+                            <p class="text-[10px] text-gray-500">水曜の副菜、土曜のなすピザ等に使用。大豆製品とも相性抜群！</p>
+                        </div>
+                    </div>
+                    <input type="checkbox" onclick="event.stopPropagation(); toggleItem(this.closest('.package-card'))">
+                </div>
+
             </div>
 
             <!-- 必要調味料のセクション -->
@@ -373,7 +385,7 @@
         <div class="max-w-md mx-auto">
             <div class="flex justify-between items-center mb-2 text-[10px] text-gray-500">
                 <span id="store-hint" class="font-bold">🟢 業務スーパーでお買い物中</span>
-                <span>チェック: <span id="checkCount" class="font-bold text-gray-800">0</span> / <span id="totalCount" class="font-bold text-gray-800">21</span> 品</span>
+                <span>チェック: <span id="checkCount" class="font-bold text-gray-800">0</span> / <span id="totalCount" class="font-bold text-gray-800">22</span> 品</span>
             </div>
             <div class="w-full bg-gray-200 rounded-full h-1.5 overflow-hidden">
                 <div id="progressBar" class="bg-green-500 h-full w-0 transition-all duration-300"></div>
