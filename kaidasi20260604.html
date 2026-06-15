@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>業務スーパー活用 1週間献立 No.5 買い出しリスト</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght=400;700&display=swap');
+        body { font-family: 'Noto+Sans+JP', sans-serif; background-color: #f8fafc; }
+        .package-card { transition: all 0.2s; border-radius: 1.25rem; overflow: hidden; }
+        .checked { opacity: 0.4; background-color: #f1f5f9 !important; border-color: #cbd5e1 !important; }
+        .checked .item-name { text-decoration: line-through; color: #64748b; }
+        .photo-btn { background: linear-gradient(135deg, #008931, #059669); }
+        .alt-badge { background-color: #fef3c7; color: #92400e; border: 1px solid #fde68a; }
+    </style>
+</head>
+<body class="pb-24">
+
+    <!-- ヘッダー -->
+    <header class="bg-[#008931] text-white p-4 sticky top-0 z-50 shadow-lg">
+        <div class="max-w-md mx-auto flex justify-between items-center">
+            <div>
+                <h1 class="text-base font-bold">業務スーパー活用 1週間献立 No.5</h1>
+                <p class="text-[10px] opacity-90">大人2人・子供2人 / 買い出しリスト </p>
+            </div>
+            <div class="text-right">
+                <span class="text-[9px] block opacity-80">予算目安</span>
+                <span class="font-bold text-yellow-300 text-sm">¥7,900〜8,900</span>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-md mx-auto p-4 space-y-6">
+
+        <!-- 注意書き -->
+        <div class="text-center text-xs font-bold text-red-600 animate-pulse">
+            ⚠️ すでにある食材はあらかじめチェックをつけてからお買い物してください
+        </div>
+
+        <!-- 協力店舗タブ切り替え -->
+        <div class="flex rounded-lg bg-gray-200 p-1 shadow-sm">
+            <button onclick="switchTab('gs')" id="tab-gs" class="flex-1 py-2 text-xs font-bold rounded-md bg-white text-green-800 shadow-sm transition-all">
+                🟢 業務スーパーで買うもの
+            </button>
+            <button onclick="switchTab('super')" id="tab-super" class="flex-1 py-2 text-xs font-bold rounded-md text-gray-600 transition-all">
+                🔵 一般スーパーで買うもの
+            </button>
+        </div>
+
+        <!-- ==================== 🟢 業務スーパーのリスト ==================== -->
+        <div id="section-gs" class="space-y-6">
+            
+            <!-- 肉・魚 -->
+            <div>
+                <h2 class="flex items-center text-xs font-bold mb-3 text-green-700 border-l-4 border-green-500 pl-2 uppercase tracking-wider">
+                    冷凍肉・魚 (メイン高タンパク食材)
+                </h2>
+                <div class="grid gap-3">
+                    
+                    <!-- 豚こま肉 -->
+                    <div class="package-card bg-white border-2 border-red-100 p-3 flex gap-3 shadow-sm cursor-pointer" onclick="toggleItem(this)">
+                        <div class="w-16 h-16 bg-red-50 rounded-lg flex items-center justify-center flex-shrink-0 text-2xl">🥓</div>
+                        <div class="flex-1">
+                            <h3 class="item-name font-bold text-sm">豚こま切れ肉 (500g)</h3>
+                            <p class="text-[10px] text-gray-500 mb-1">月曜の生姜炒め、日曜の黒酢炒め用（半分ずつ使用）。</p>
+                            <div class="flex flex-wrap gap-2">
+                                <button onclick="viewPhoto(event, '業務スーパー 冷凍 豚こま切れ肉 500g')" class="photo-btn text-white text-[9px] px-2 py-0.5 rounded-full"><i class="fas fa-camera mr-1"></i>写真を確認</button>
+                                <span class="alt-badge text-[8px] px-2 py-0.5 rounded-full">代：冷凍豚バラスライス、豚肩ロース</span>
+                            </div>
+                        </div>
+                        <input type="checkbox" class="w-5 h-5 mt-1" onclick="event.stopPropagation(); toggleItem(this.closest('.package-card'))">
+                    </div>
+
+                    <!-- 冷凍ミニハンバーグ -->
+                    <div class="package-card bg-white border-2 border-orange-100 p-3 flex gap-3 shadow-sm cursor-pointer" onclick="toggleItem(this)">
+                        <div class="w-16 h-16 bg-orange-50 rounded-lg flex items-center justify-center flex-shrink-0 text-2xl">🍔</div>
+                        <div class="flex-1">
+                            <h3 class="item-name font-bold text-sm">冷凍 ミニハンバーグ (30個入)</h3>
+                            <p class="text-[10px] text-gray-500 mb-1">火曜の完熟デミケチャ煮込み用。お弁当にも超便利！</p>
+                            <div class="flex flex-wrap gap-2">
+                                <button onclick="viewPhoto(event, '業務スーパー 冷凍 ミニハンバーグ 30個')" class="photo-btn text-white text-[9px] px-2 py-0.5 rounded-full"><i class="fas fa-camera mr-1"></i>写真を確認</button>
+                                <span class="alt-badge text-[8px] px-2 py-0.5 rounded-full">代：冷凍大判ハンバーグ、チキンナゲット</span>
+                            </div>
+                        </div>
+                        <input type="checkbox" class="w-5 h-5 mt-1" onclick="event.stopPropagation(); toggleItem(this.closest('.package-card'))">
+                    </div>
+
+                    <!-- 冷凍炭火焼とりもも串 -->
+                    <div class="package-card bg-white border-2 border-yellow-100 p-3 flex gap-3 shadow-sm cursor-pointer" onclick="toggleItem(this)">
+                        <div class="w-16 h-16 bg-yellow-50 rounded-lg flex items-center justify-center flex-shrink-0 text-2xl">🍢</div>
+                        <div class="flex-1">
+                            <h3 class="item-name font-bold text-sm">炭火焼とり もも串 (タレ/50本、または小分けパック)</h3>
+                            <p class="text-[10px] text-gray-500 mb-1">水曜の親子丼風とじに使用。すでに炭火焼きされている絶品商品。</p>
+                            <div class="flex flex-wrap gap-2">
+                                <button onclick="viewPhoto(event, '業務スーパー 冷凍 炭火焼とり もも串')" class="photo-btn text-white text-[9px] px-2 py-0.5 rounded-full"><i class="fas fa-camera mr-1"></i>写真を確認</button>
+                                <span class="alt-badge text-[8px] px-2 py-0.5 rounded-full">代：冷凍鶏もも肉、冷凍生焼き鳥串</span>
+                            </div>
+                        </div>
+                        <input type="checkbox" class="w-5 h-5 mt-1" onclick="event.stopPropagation(); toggleItem(this.closest('.package-card'))">
+                    </div>
+
+                    <!-- 骨取りサワラ切身 -->
+                    <div class="package-card bg-white border-2 border-blue-100 p-3 flex gap-3 shadow-sm cursor-pointer" onclick="toggleItem(this)">
+                        <div class="w-16 h-16 bg-blue-50 rounded-lg flex items-center justify-center flex-shrink-0 text-2xl">🐟</div>
+                        <div class="flex-1">
+                            <h3 class="item-name font-bold text-sm">骨取りサワラ切身 (冷凍)</h3>
+                            <p class="text-[10px] text-gray-500 mb-1">木曜のハーブムニエル用。DHA・EPAをたっぷり美味しく摂取！</p>
+                            <div class="flex flex-wrap gap-2">
+                                <button onclick="viewPhoto(event, '業務スーパー 冷凍 骨取りサワラ切身')" class="photo-btn text-white text-[9px] px-2 py-0.5 rounded-full"><i class="fas fa-camera mr-1"></i>写真を確認</button>
+                                <span class="alt-badge text-[8px] px-2 py-0.5 rounded-full">代：冷凍たら切身、冷凍トラウトサーモン</span>
+                            </div>
+                        </div>
+                        <input type="checkbox" class="w-5 h-5 mt-1" onclick="event.stopPropagation(); toggleItem(this.closest('.package-card'))">
+                    </div>
+
+                    <!-- ささみカツ -->
+                    <div class="package-card bg-white border-2 border-amber-100 p-3 flex gap-3 shadow-sm cursor-pointer" onclick="toggleItem(this)">
+                        <div class="w-16 h-16 bg-amber-50 rounded-lg flex items-center justify-center flex-shrink-0 text-2xl">🍗</div>
+                        <div class="flex-1">
+                            <h3 class="item-name font-bold text-sm">ささみカツ (500g)</h3>
+                            <p class="text-[10px] text-gray-500 mb-1">金曜のサクサクフライオーロラソース和え用。ヘルシー＆ボリューム！</p>
+                            <div class="flex flex-wrap gap-2">
+                                <button onclick="viewPhoto(event, '業務スーパー ささみカツ 500g')" class="photo-btn text-white text-[9px] px-2 py-0.5 rounded-full"><i class="fas fa-camera mr-1"></i>写真を確認</button>
+                                <span class="alt-badge text-[8px] px-2 py-0.5 rounded-full">代：ちょっと贅沢なチキンカツ、白身魚フライ</span>
+                            </div>
+                        </div>
+                        <input type="checkbox" class="w-5 h-5 mt-1" onclick="event.stopPropagation(); toggleItem(this.closest('.package-card'))">
+                    </div>
+
+                    <!-- 冷凍イカリング -->
+                    <div class="package-card bg-white border-2 border-indigo-100 p-3 flex gap-3 shadow-sm cursor-pointer" onclick="toggleItem(this)">
+                        <div class="w-16 h-16 bg-indigo-50 rounded-lg flex items-center justify-center flex-shrink-0 text-2xl">🦑</div>
+                        <div class="flex-1">
+                            <h3 class="item-name font-bold text-sm">冷凍 イカリング (または冷凍 いかスライス/イカカット)</h3>
+                            <p class="text-[10px] text-gray-500 mb-1">土曜のイカとブロッコリーの中華塩ダレ炒め用。高タンパク・低タウリン！</p>
+                            <div class="flex flex-wrap gap-2">
+                                <button onclick="viewPhoto(event, '業務スーパー 冷凍 イカリング 500g')" class="photo-btn text-white text-[9px] px-2 py-0.5 rounded-full"><i class="fas fa-camera mr-1"></i>写真を確認</button>
+                                <span class="alt-badge text-[8px] px-2 py-0.5 rounded-full">代：冷凍大粒むきえび、シーフードミックス</span>
+                            </div>
+                        </div>
+                        <input type="checkbox" class="w-5 h-5 mt-1" onclick="event.stopPropagation(); toggleItem(this.closest('.package-card'))">
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- 冷凍野菜・お野菜 -->
+            <div>
+                <h2 class="flex items-center text-xs font-bold mb-3 text-green-700 border-l-4 border-green-500 pl-2 uppercase tracking-wider">
+                    冷凍野菜ミックス＆便利野菜 (野菜)
+                </h2>
+                <div class="grid grid-cols-2 gap-3">
+                    
+                    <div class="package-card bg-white border-2 border-green-50 p-3 text-center shadow-sm cursor-pointer" onclick="toggleItem(this)">
+                        <div class="text-2xl mb-1">🥦</div>
+                        <div class="item-name text-xs font-bold">ブロッコリー (500g)</div>
+                        <p class="text-[8px] text-gray-500">ビタミンC補給。月曜・木曜・土曜・日曜に。</p>
+                        <button onclick="viewPhoto(event, '業務スーパー 冷凍 ブロッコリー 500g')" class="photo-btn text-white text-[8px] px-2 py-0.5 rounded-full mt-1.5"><i class="fas fa-camera mr-1"></i>写真</button>
+                        <div class="flex justify-center mt-2">
+                            <input type="checkbox" onclick="event.stopPropagation(); toggleItem(this.closest('.package-card'))">
+                        </div>
+                    </div>
+
+                    <div class="package-card bg-white border-2 border-emerald-50 p-3 text-center shadow-sm cursor-pointer" onclick="toggleItem(this)">
+                        <div class="text-2xl mb-1">🥬</div>
+                        <div class="item-name text-xs font-bold">ほうれん草 (500g)</div>
+                        <p class="text-[8px] text-gray-500">貧血防止の鉄分。月曜・木曜・土曜に活用。</p>
+                        <button onclick="viewPhoto(event, '業務スーパー 冷凍 ほうれん草 500g')" class="photo-btn text-white text-[8px] px-2 py-0.5 rounded-full mt-1.5"><i class="fas fa-camera mr-1"></i>写真</button>
+                        <div class="flex justify-center mt-2">
+                            <input type="checkbox" onclick="event.stopPropagation(); toggleItem(this.closest('.package-card'))">
+                        </div>
+                    </div>
+
+                    <div class="package-card bg-white border-2 border-amber-50 p-3 text-center shadow-sm cursor-pointer" onclick="toggleItem(this)">
+                        <div class="text-2xl mb-1">🧅</div>
+                        <div class="item-name text-xs font-bold">きざみたまねぎ (500g)</div>
+                        <p class="text-[8px] text-gray-500">血液サラサラ効果。月曜・火曜・金曜に大活躍！</p>
+                        <button onclick="viewPhoto(event, '業務スーパー 冷凍 きざみたまねぎ 500g')" class="photo-btn text-white text-[8px] px-2 py-0.5 rounded-full mt-1.5"><i class="fas fa-camera mr-1"></i>写真</button>
+                        <div class="flex justify-center mt-2">
+                            <input type="checkbox" onclick="event.stopPropagation(); toggleItem(this.closest('.package-card'))">
+                        </div>
+                    </div>
+
+                    <div class="package-card bg-white border-2 border-rose-50 p-3 text-center shadow-sm cursor-pointer" onclick="toggleItem(this)">
+                        <div class="text-2xl mb-1">🫑</div>
+                        <div class="item-name text-xs font-bold">パプリカミックス (500g)</div>
+                        <p class="text-[8px] text-gray-500">木曜の魚ムニエル、日曜の黒酢炒めの彩りに。</p>
+                        <button onclick="viewPhoto(event, '業務スーパー 冷凍 パプリカミックス 500g')" class="photo-btn text-white text-[8px] px-2 py-0.5 rounded-full mt-1.5"><i class="fas fa-camera mr-1"></i>写真</button>
+                        <div class="flex justify-center mt-2">
+                            <input type="checkbox" onclick="event.stopPropagation(); toggleItem(this.closest('.package-card'))">
+                        </div>
+                    </div>
+
+                    <div class="package-card bg-white border-2 border-purple-50 p-3 text-center shadow-sm cursor-pointer" onclick="toggleItem(this)">
+                        <div class="text-2xl mb-1">🍆</div>
+                        <div class="item-name text-xs font-bold">スライスなす (500g/揚げ)</div>
+                        <p class="text-[8px] text-gray-500">水曜・土曜の副菜、日曜の黒酢炒めに。</p>
+                        <button onclick="viewPhoto(event, '業務スーパー 冷凍 揚げなす 500g')" class="photo-btn text-white text-[8px] px-2 py-0.5 rounded-full mt-1.5"><i class="fas fa-camera mr-1"></i>写真</button>
+                        <div class="flex justify-center mt-2">
+                            <input type="checkbox" onclick="event.stopPropagation(); toggleItem(this.closest('.package-card'))">
+                        </div>
+                    </div>
+
+                    <div class="package-card bg-white border-2 border-orange-50 p-3 text-center shadow-sm cursor-pointer" onclick="toggleItem(this)">
+                        <div class="text-2xl mb-1">🎃</div>
+                        <div class="item-name text-xs font-bold">かぼちゃ (500g)</div>
+                        <p class="text-[8px] text-gray-500">火曜・金曜のお子様向けほくほく副菜に。</p>
+                        <button onclick="viewPhoto(event, '業務スーパー 冷凍 かぼちゃ 500g')" class="photo-btn text-white text-[8px] px-2 py-0.5 rounded-full mt-1.5"><i class="fas fa-camera mr-1"></i>写真</button>
+                        <div class="flex justify-center mt-2">
+                            <input type="checkbox" onclick="event.stopPropagation(); toggleItem(this.closest('.package-card'))">
+                        </div>
+                    </div>
+
+                    <div class="package-card bg-white border-2 border-amber-100 p-3 text-center shadow-sm cursor-pointer" onclick="toggleItem(this)">
+                        <div class="text-2xl mb-1">🍲</div>
+                        <div class="item-name text-xs font-bold">和風根菜ミックス (500g)</div>
+                        <p class="text-[8px] text-gray-500">れんこんや人参入り。日曜のコク旨黒酢炒め用に。</p>
+                        <button onclick="viewPhoto(event, '業務スーパー 冷凍 和風根菜ミックス')" class="photo-btn text-white text-[8px] px-2 py-0.5 rounded-full mt-1.5"><i class="fas fa-camera mr-1"></i>写真</button>
+                        <div class="flex justify-center mt-2">
+                            <input type="checkbox" onclick="event.stopPropagation(); toggleItem(this.closest('.package-card'))">
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- チルド品・その他 -->
+            <div>
+                <h2 class="flex items-center text-xs font-bold mb-3 text-green-700 border-l-4 border-green-500 pl-2 uppercase tracking-wider">
+                    栄養満点チルド品・海藻 (業スー)
+                </h2>
+                <div class="grid gap-3">
+                    
+                    <div class="package-card bg-white border-2 border-green-200 p-3 flex justify-between items-center shadow-sm cursor-pointer" onclick="toggleItem(this)">
+                        <div class="flex items-center gap-3">
+                            <span class="text-xl">🥗</span>
+                            <div>
+                                <h3 class="item-name font-bold text-sm">おからサラダ (1kg)</h3>
+                                <p class="text-[9px] text-gray-500">初登場！毎日出すだけで食物繊維とイソフラボンをガッツリ補給！ポテサラよりヘルシー。</p>
+                                <button onclick="viewPhoto(event, '業務スーパー おからサラダ 1kg')" class="photo-btn text-white text-[9px] px-2 py-0.5 rounded-full mt-1"><i class="fas fa-camera mr-1"></i>写真</button>
+                            </div>
+                        </div>
+                        <input type="checkbox" onclick="event.stopPropagation(); toggleItem(this.closest('.package-card'))">
+                    </div>
+
+                    <div class="package-card bg-white border-2 border-blue-200 p-3 flex justify-between items-center shadow-sm cursor-pointer" onclick="toggleItem(this)">
+                        <div class="flex items-center gap-3">
+                            <span class="text-xl">🌊</span>
+                            <div>
+                                <h3 class="item-name font-bold text-sm">乾燥海藻ミックス (または乾燥わかめ)</h3>
+                                <p class="text-[9px] text-gray-500">水戻しするだけ。鉄分・カルシウム・食物繊維がたっぷり！</p>
+                                <button onclick="viewPhoto(event, '業務スーパー 乾燥海藻ミックス')" class="photo-btn text-white text-[9px] px-2 py-0.5 rounded-full mt-1"><i class="fas fa-camera mr-1"></i>写真</button>
+                            </div>
+                        </div>
+                        <input type="checkbox" onclick="event.stopPropagation(); toggleItem(this.closest('.package-card'))">
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <!-- ==================== 🔵 一般スーパーのリスト ==================== -->
+        <div id="section-super" class="space-y-4 hidden">
+            <h2 class="flex items-center text-xs font-bold mb-1 text-blue-700 border-l-4 border-blue-500 pl-2 uppercase tracking-wider">
+                新鮮な生鮮お野菜・タンパク強化日配品
+            </h2>
+            <div class="grid gap-3">
+                
+                <div class="package-card bg-white border-2 border-slate-100 p-3 flex justify-between items-center shadow-sm cursor-pointer" onclick="toggleItem(this)">
+                    <div class="flex items-center gap-3">
+                        <span class="text-2xl">🥬</span>
+                        <div>
+                            <h3 class="item-name font-bold text-sm">キャベツ (1玉)</h3>
+                            <p class="text-[10px] text-gray-500">千切りにして毎日のサラダに。胃腸を労わるビタミンU！</p>
+                        </div>
+                    </div>
+                    <input type="checkbox" onclick="event.stopPropagation(); toggleItem(this.closest('.package-card'))">
+                </div>
+
+                <div class="package-card bg-white border-2 border-slate-100 p-3 flex justify-between items-center shadow-sm cursor-pointer" onclick="toggleItem(this)">
+                    <div class="flex items-center gap-3">
+                        <span class="text-2xl">🍅</span>
+                        <h3 class="item-name font-bold text-sm">ミニトマト (1パック)</h3>
+                    </div>
+                    <input type="checkbox" onclick="event.stopPropagation(); toggleItem(this.closest('.package-card'))">
+                </div>
+
+                <div class="package-card bg-white border-2 border-slate-100 p-3 flex justify-between items-center shadow-sm cursor-pointer" onclick="toggleItem(this)">
+                    <div class="flex items-center gap-3">
+                        <span class="text-2xl">⬜</span>
+                        <div>
+                            <h3 class="item-name font-bold text-sm">豆腐 (3個パック) × 2パック</h3>
+                            <p class="text-[10px] text-gray-500">月曜、水曜のお味噌汁や木曜の冷奴に。</p>
+                        </div>
+                    </div>
+                    <input type="checkbox" onclick="event.stopPropagation(); toggleItem(this.closest('.package-card'))">
+                </div>
+
+                <div class="package-card bg-white border-2 border-blue-50 p-3 flex justify-between items-center shadow-sm cursor-pointer" onclick="toggleItem(this)">
+                    <div class="flex items-center gap-3">
+                        <span class="text-2xl">🥛</span>
+                        <div>
+                            <h3 class="item-name font-bold text-sm">牛乳 (1L) ＆ コーン缶 (3缶パック)</h3>
+                            <p class="text-[10px] text-gray-500">金曜日のシチュー風スープや毎日のサラダ用に。</p>
+                        </div>
+                    </div>
+                    <input type="checkbox" onclick="event.stopPropagation(); toggleItem(this.closest('.package-card'))">
+                </div>
+
+                <div class="package-card bg-white border-2 border-blue-50 p-3 flex justify-between items-center shadow-sm cursor-pointer" onclick="toggleItem(this)">
+                    <div class="flex items-center gap-3">
+                        <span class="text-2xl">🐟</span>
+                        <div>
+                            <h3 class="item-name font-bold text-sm">ツナ缶 (3缶パック)</h3>
+                            <p class="text-[10px] text-gray-500">毎日の千切りキャベツ海藻サラダの味わいプラスに！</p>
+                        </div>
+                    </div>
+                    <input type="checkbox" onclick="event.stopPropagation(); toggleItem(this.closest('.package-card'))">
+                </div>
+
+                <div class="package-card bg-white border-2 border-slate-100 p-3 flex justify-between items-center shadow-sm cursor-pointer" onclick="toggleItem(this)">
+                    <div class="flex items-center gap-3">
+                        <span class="text-2xl">🥚</span>
+                        <div>
+                            <h3 class="item-name font-bold text-sm">卵 (10個入)</h3>
+                            <p class="text-[10px] text-gray-500">火曜スープ、水曜の焼き鳥親子とじ、土曜スープ用に。</p>
+                        </div>
+                    </div>
+                    <input type="checkbox" onclick="event.stopPropagation(); toggleItem(this.closest('.package-card'))">
+                </div>
+
+                <div class="package-card bg-white border-2 border-slate-100 p-3 flex justify-between items-center shadow-sm cursor-pointer" onclick="toggleItem(this)">
+                    <div class="flex items-center gap-3">
+                        <span class="text-2xl">🧀</span>
+                        <div>
+                            <h3 class="item-name font-bold text-sm">とろけるピザ用チーズ (1袋)</h3>
+                            <p class="text-[10px] text-gray-500">火曜のハンバーグ、金曜のグラタン風おからサラダに使用！</p>
+                        </div>
+                    </div>
+                    <input type="checkbox" onclick="event.stopPropagation(); toggleItem(this.closest('.package-card'))">
+                </div>
+
+            </div>
+
+            <!-- 必要調味料のセクション -->
+            <div class="mt-6">
+                <h2 class="flex items-center text-xs font-bold mb-3 text-blue-700 border-l-4 border-blue-500 pl-2 uppercase tracking-wider">
+                    🧂 必要調味料（無ければ買い足し）
+                </h2>
+                <div class="grid grid-cols-2 gap-2 text-xs">
+                    <div class="package-card bg-white border border-slate-200 p-2.5 flex justify-between items-center shadow-sm cursor-pointer" onclick="toggleItem(this)">
+                        <span class="item-name">黒酢（または普通の酢）</span>
+                        <input type="checkbox" onclick="event.stopPropagation(); toggleItem(this.closest('.package-card'))">
+                    </div>
+                    <div class="package-card bg-white border border-slate-200 p-2.5 flex justify-between items-center shadow-sm cursor-pointer" onclick="toggleItem(this)">
+                        <span class="item-name">ケチャップ・ポン酢</span>
+                        <input type="checkbox" onclick="event.stopPropagation(); toggleItem(this.closest('.package-card'))">
+                    </div>
+                    <div class="package-card bg-white border border-slate-200 p-2.5 flex justify-between items-center shadow-sm cursor-pointer" onclick="toggleItem(this)">
+                        <span class="item-name">醤油・みりん・酒・砂糖・ハチミツ</span>
+                        <input type="checkbox" onclick="event.stopPropagation(); toggleItem(this.closest('.package-card'))">
+                    </div>
+                    <div class="package-card bg-white border border-slate-200 p-2.5 flex justify-between items-center shadow-sm cursor-pointer" onclick="toggleItem(this)">
+                        <span class="item-name">マヨネーズ・ごま油・バター・ハーブ塩</span>
+                        <input type="checkbox" onclick="event.stopPropagation(); toggleItem(this.closest('.package-card'))">
+                    </div>
+                    <div class="package-card bg-white border border-slate-200 p-2.5 flex justify-between items-center shadow-sm cursor-pointer" onclick="toggleItem(this)">
+                        <span class="item-name">コンソメ・鶏ガラスープ・白だし</span>
+                        <input type="checkbox" onclick="event.stopPropagation(); toggleItem(this.closest('.package-card'))">
+                    </div>
+                    <div class="package-card bg-white border border-slate-200 p-2.5 flex justify-between items-center shadow-sm cursor-pointer" onclick="toggleItem(this)">
+                        <span class="item-name">和風だし・味噌・すりごま・片栗粉</span>
+                        <input type="checkbox" onclick="event.stopPropagation(); toggleItem(this.closest('.package-card'))">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- 下部プログレスバー -->
+    <div class="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 p-4 shadow-2xl z-50">
+        <div class="max-w-md mx-auto">
+            <div class="flex justify-between items-center mb-2 text-[10px] text-gray-500">
+                <span id="store-hint" class="font-bold">🟢 業務スーパーでお買い物中</span>
+                <span>チェック: <span id="checkCount" class="font-bold text-gray-800">0</span> / <span id="totalCount" class="font-bold text-gray-800">22</span> 品</span>
+            </div>
+            <div class="w-full bg-gray-200 rounded-full h-1.5 overflow-hidden">
+                <div id="progressBar" class="bg-green-500 h-full w-0 transition-all duration-300"></div>
+            </div>
+        </div>
+    </div>
+
+    <script {nonce}>
+        // タブ切り替え機能
+        function switchTab(target) {
+            const btnGs = document.getElementById('tab-gs');
+            const btnSuper = document.getElementById('tab-super');
+            const secGs = document.getElementById('section-gs');
+            const secSuper = document.getElementById('section-super');
+            const hint = document.getElementById('store-hint');
+
+            if (target === 'gs') {
+                btnGs.className = "flex-1 py-2 text-xs font-bold rounded-md bg-white text-green-800 shadow-sm transition-all";
+                btnSuper.className = "flex-1 py-2 text-xs font-bold rounded-md text-gray-600 transition-all";
+                secGs.classList.remove('hidden');
+                secSuper.classList.add('hidden');
+                hint.textContent = '🟢 業務スーパーでお買い物中';
+                hint.className = 'font-bold text-green-700';
+            } else {
+                btnSuper.className = "flex-1 py-2 text-xs font-bold rounded-md bg-white text-blue-800 shadow-sm transition-all";
+                btnGs.className = "flex-1 py-2 text-xs font-bold rounded-md text-gray-600 transition-all";
+                secSuper.classList.remove('hidden');
+                secGs.classList.add('hidden');
+                hint.textContent = '🔵 一般スーパーでお買い物中';
+                hint.className = 'font-bold text-blue-700';
+            }
+        }
+
+        // タップした時にチェックボックスを反転させて進捗を更新
+        function toggleItem(card) {
+            const checkbox = card.querySelector('input[type="checkbox"]');
+            checkbox.checked = !checkbox.checked;
+            card.classList.toggle('checked', checkbox.checked);
+            updateProgress();
+        }
+
+        // プログレスバーの更新
+        function updateProgress() {
+            const mainItems = document.querySelectorAll('#section-gs input[type="checkbox"], #section-super > div > div input[type="checkbox"]');
+            const total = mainItems.length;
+            let checked = 0;
+            mainItems.forEach(cb => {
+                if(cb.checked) checked++;
+            });
+            
+            document.getElementById('checkCount').textContent = checked;
+            document.getElementById('totalCount').textContent = total;
+            
+            const percentage = total > 0 ? (checked / total) * 100 : 0;
+            document.getElementById('progressBar').style.width = percentage + '%';
+        }
+
+        // Google画像検索を開く
+        function viewPhoto(event, query) {
+            event.stopPropagation(); // 親要素のカードクリックイベント（チェックボックス反転）が発火するのを防ぐ
+            window.open(`https://www.google.com/search?q=${encodeURIComponent(query)}&tbm=isch`, '_blank');
+        }
+
+        // ページロード時に合計数を自動計算
+        window.onload = function() {
+            updateProgress();
+        }
+    </script>
+</body>
+</html>
