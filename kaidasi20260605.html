@@ -157,12 +157,34 @@
 
                 </div>
             </div>
+
+            <!-- チルド品・その他 -->
+            <div>
+                <h2 class="flex items-center text-xs font-bold mb-3 text-green-700 border-l-4 border-green-500 pl-2 uppercase tracking-wider">
+                    定番チルド惣菜・その他 (業スー)
+                </h2>
+                <div class="grid gap-3">
+                    
+                    <div class="package-card bg-white border-2 border-green-200 p-3 flex justify-between items-center shadow-sm cursor-pointer" onclick="toggleItem(this)">
+                        <div class="flex items-center gap-3">
+                            <span class="text-xl">🥗</span>
+                            <div>
+                                <h3 class="item-name font-bold text-sm">ひじき煮 (1kgパック、または小袋パック)</h3>
+                                <p class="text-[9px] text-gray-500">【木曜日の副菜に大活躍！】食物繊維とミネラルたっぷりのひじき煮をお手軽追加！</p>
+                                <button onclick="viewPhoto(event, '業務スーパー ひじき煮')" class="photo-btn text-white text-[9px] px-2 py-0.5 rounded-full mt-1"><i class="fas fa-camera mr-1"></i>写真</button>
+                            </div>
+                        </div>
+                        <input type="checkbox" onclick="event.stopPropagation(); toggleItem(this.closest('.package-card'))">
+                    </div>
+
+                </div>
+            </div>
         </div>
 
         <!-- ==================== 🔵 一般スーパーのリスト ==================== -->
         <div id="section-super" class="space-y-4 hidden">
             <h2 class="flex items-center text-xs font-bold mb-1 text-blue-700 border-l-4 border-blue-500 pl-2 uppercase tracking-wider">
-                新鮮な生鮮野菜・タンパク強化日配品
+                新鮮な生鮮野菜・豆腐分別・日配品
             </h2>
             <div class="grid gap-3">
                 
@@ -199,12 +221,25 @@
                     <input type="checkbox" onclick="event.stopPropagation(); toggleItem(this.closest('.package-card'))">
                 </div>
 
-                <div class="package-card bg-white border-2 border-slate-100 p-3 flex justify-between items-center shadow-sm cursor-pointer" onclick="toggleItem(this)">
+                <!-- 絹豆腐 -->
+                <div class="package-card bg-white border-2 border-sky-100 p-3 flex justify-between items-center shadow-sm cursor-pointer" onclick="toggleItem(this)">
                     <div class="flex items-center gap-3">
                         <span class="text-2xl">⬜</span>
                         <div>
-                            <h3 class="item-name font-bold text-sm">豆腐 (3個パック) × 2パック</h3>
-                            <p class="text-[10px] text-gray-500">月曜スープ、水曜冷奴、木曜味噌汁、金曜ハンバーグにたっぷり使用。</p>
+                            <h3 class="item-name font-bold text-sm text-sky-800">絹豆腐 (3個パック) × 2パック（計6個）</h3>
+                            <p class="text-[10px] text-gray-500">月曜スープ、水曜冷奴、木曜味噌汁・湯豆腐、土曜奴用。つるんと喉越し重視用！</p>
+                        </div>
+                    </div>
+                    <input type="checkbox" onclick="event.stopPropagation(); toggleItem(this.closest('.package-card'))">
+                </div>
+
+                <!-- 木綿豆腐 -->
+                <div class="package-card bg-white border-2 border-amber-100 p-3 flex justify-between items-center shadow-sm cursor-pointer" onclick="toggleItem(this)">
+                    <div class="flex items-center gap-3">
+                        <span class="text-2xl">⬜</span>
+                        <div>
+                            <h3 class="item-name font-bold text-sm text-amber-800">木綿豆腐 (1丁、または3個パック×1)</h3>
+                            <p class="text-[10px] text-gray-500">金曜ハンバーグ、日曜炒め物用。しっかり水切りして崩したくない料理用！</p>
                         </div>
                     </div>
                     <input type="checkbox" onclick="event.stopPropagation(); toggleItem(this.closest('.package-card'))">
@@ -319,7 +354,7 @@
         <div class="max-w-md mx-auto">
             <div class="flex justify-between items-center mb-2 text-[10px] text-gray-500">
                 <span id="store-hint" class="font-bold">🟢 業務スーパーでお買い物中</span>
-                <span>チェック: <span id="checkCount" class="font-bold text-gray-800">0</span> / <span id="totalCount" class="font-bold text-gray-800">23</span> 品</span>
+                <span>チェック: <span id="checkCount" class="font-bold text-gray-800">0</span> / <span id="totalCount" class="font-bold text-gray-800">24</span> 品</span>
             </div>
             <div class="w-full bg-gray-200 rounded-full h-1.5 overflow-hidden">
                 <div id="progressBar" class="bg-green-500 h-full w-0 transition-all duration-300"></div>
