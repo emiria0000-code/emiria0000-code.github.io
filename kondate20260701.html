@@ -20,14 +20,6 @@
         .tab-content.active {
             display: block;
         }
-        /* スクロールバー非表示 */
-        .scrollbar-none::-webkit-scrollbar {
-            display: none;
-        }
-        .scrollbar-none {
-            -ms-overflow-style: none;
-            scrollbar-width: none;
-        }
     </style>
 </head>
 <body class="text-stone-800 antialiased min-h-screen pb-24">
@@ -71,10 +63,10 @@
                 
                 <div class="space-y-4">
                     <div class="border-l-4 border-amber-500 pl-3">
-                        <h3 class="text-sm font-bold text-stone-800">🥬 キャベツの切り分け（1.5玉分）</h3>
+                        <h3 class="text-sm font-bold text-stone-800">🥬 キャベツの切り分け（1玉分）</h3>
                         <p class="text-xs text-stone-600 mt-1 leading-relaxed">
-                            ・<strong class="text-amber-800">千切りキャベツ：</strong> 月曜（2掴み）、水曜（2掴み）、金曜（大皿分）、日曜（残り全部）用に細切りにして、しっかり水気を切り密閉容器か袋で野菜室保存。<br>
-                            ・<strong class="text-amber-800">ざく切りキャベツ：</strong> 月曜（2掴み）、火曜（2掴み）、金曜（3枚分）、土曜（2枚分）用に3cm角に切り、別袋で野菜室保存。
+                            ・<strong class="text-amber-800">千切りキャベツ：</strong> 月曜（2掴み）、水曜（2掴み）、金曜（大皿分）、日曜（残り）用に細切りにして、水気を切り密閉容器か袋で保存。<br>
+                            ・<strong class="text-amber-800">ざく切りキャベツ：</strong> 月曜（2掴み）、火曜（2掴み）、金曜（3枚分）、土曜（2枚分）用に3cm角に切り、別袋で保存。
                         </p>
                     </div>
 
@@ -97,7 +89,7 @@
                         <p class="font-bold flex items-center mb-1">
                             <span class="mr-1">💡</span>業スー冷凍素材をフル活用！
                         </p>
-                        餃子、ジーパイ、焼き鳥、ポテト、ブロッコリー、ほうれん草などは、冷凍庫から当日凍ったまま取り出して調理できるので、事前カット不要で非常に楽ちんです。
+                        餃子、ジーパイ、焼き鳥、ポテト、ブロッコリー、ほうれん草などは、冷凍庫から当日凍ったまま取り出して調理できるので、事前カット不要で非常に楽ちんでいます。
                     </div>
                 </div>
             </div>
@@ -118,14 +110,6 @@
                 </button>
             </div>
 
-            <!-- アラートヒント -->
-            <div class="bg-amber-100/50 border border-amber-200 rounded-xl p-3 mb-4 text-xs text-amber-950">
-                <p class="font-bold flex items-center mb-1">
-                    <span class="mr-1">📸</span> 業スー食材をカンタンに見つける機能
-                </p>
-                <p class="leading-relaxed">商品名の横の <strong class="underline">📷マーク</strong> を押すと、実際の商品のパッケージ画像をWeb検索できます！もし売切れの場合は、各欄の「代用品」をご参照ください。</p>
-            </div>
-
             <!-- カテゴリ別買い物リスト -->
             <div id="shoppingListContainer" class="space-y-4">
                 <!-- JSで動的に構築されます -->
@@ -136,6 +120,7 @@
         <div id="dailyTab" class="tab-content">
             <!-- 曜日選択ヘッダー（横スクロール） -->
             <div class="flex space-x-2 overflow-x-auto pb-3 mb-4 scrollbar-none" id="daySelector">
+                <!-- 月〜日のボタン -->
                 <button onclick="selectDay('mon')" id="btn-mon" class="day-btn flex-none px-4 py-2 rounded-xl text-sm font-bold transition-all bg-amber-950 text-amber-50 shadow-sm">月曜日</button>
                 <button onclick="selectDay('tue')" id="btn-tue" class="day-btn flex-none px-4 py-2 rounded-xl text-sm font-bold transition-all bg-white text-stone-600 hover:bg-stone-100">火曜日</button>
                 <button onclick="selectDay('wed')" id="btn-wed" class="day-btn flex-none px-4 py-2 rounded-xl text-sm font-bold transition-all bg-white text-stone-600 hover:bg-stone-100">水曜日</button>
@@ -248,9 +233,8 @@
         // ----------------------------------------------------
         const originalServings = 4; // 基準は4人分
         let currentServings = 4;
-        let selectedDayKey = "mon";
 
-        // 曜日ごとの全データ（ロードマップ内の調味料は [調味料名:数値:単位] の形式で記述。人数に合わせてリアルタイムスケール）
+        // 曜日ごとの全データ
         const menuData = {
             mon: {
                 dayName: "月曜日",
@@ -268,7 +252,7 @@
                     { name: "豚バラスライス（下準備済）", amount: 160, unit: "g" },
                     { name: "白菜キムチ", amount: 150, unit: "g" },
                     { name: "ざく切りキャベツ（下準備済）", amount: 2, unit: "掴み" },
-                    { name: "冷凍肉餃子（業務スーパー）", amount: 12, unit: "個", gyosu: true },
+                    { name: "冷凍肉餃子（業務スーパー）", amount: 12, unit: "個" },
                     { name: "絹豆腐", amount: 1, unit: "丁" },
                     { name: "もやし", amount: 1, unit: "袋" },
                     { name: "千切りキャベツ（下準備済）", amount: 2, unit: "掴み" }
@@ -307,11 +291,11 @@
                     "お箸が止まらない！ザーサイ風ピリ辛叩ききゅうり 【サラダ】"
                 ],
                 ingredients: [
-                    { name: "冷凍ジーパイ（業務スーパー）", amount: 1, unit: "パック", gyosu: true },
+                    { name: "冷凍ジーパイ（業務スーパー）", amount: 1, unit: "パック(特大1枚)" },
                     { name: "ざく切りキャベツ（下準備済）", amount: 2, unit: "掴み" },
                     { name: "コーン缶", amount: 0.5, unit: "缶" },
                     { name: "卵", amount: 1, unit: "個" },
-                    { name: "冷凍枝豆（業務スーパー）", amount: 200, unit: "g", gyosu: true },
+                    { name: "冷凍枝豆（業務スーパー）", amount: 200, unit: "g" },
                     { name: "ちくわ", amount: 3, unit: "本" },
                     { name: "ピザ用とろけるチーズ", amount: 30, unit: "g" },
                     { name: "きゅうり", amount: 1, unit: "本" }
@@ -343,14 +327,14 @@
                 menu: [
                     "スモークチキンときゅうりのピリ辛ラー油和え 【主食メイン】",
                     "溶きたまごの和風白だしスープ 【汁物】",
-                    "濃厚ねぎ塩ダレの極上冷奴 【副菜メイン】",
+                    "濃厚ねねぎ塩ダレの極上冷奴 【副菜メイン】",
                     "にんじんとシリシリ風卵炒め 【副菜サブ】",
                     "千切りキャベツとコーンのコールスロー 【サラダ】"
                 ],
                 ingredients: [
-                    { name: "スモークチキンスライス（業務スーパー）", amount: 250, unit: "g", gyosu: true },
+                    { name: "スモークチキンスライス（業務スーパー）", amount: 250, unit: "g" },
                     { name: "きゅうり", amount: 1, unit: "本" },
-                    { name: "卵", amount: 3, unit: "個" },
+                    { name: "卵", amount: 3, unit: "個 (スープ1個、炒め2個)" },
                     { name: "絹豆腐", amount: 1, unit: "丁" },
                     { name: "刻み白ねぎ（下準備済）", amount: 3, unit: "大さじ" },
                     { name: "にんじん", amount: 0.5, unit: "本" },
@@ -372,7 +356,7 @@
                 ],
                 steps: [
                     { title: "コールスローを和える", desc: "ボウルに千切りキャベツ、コーン、[マヨネーズ:2.5:大さじ]、[酢:0.5:小さじ]、塩コショウを混ぜ合わせてコールスローを作り、冷蔵庫へ。" },
-                    { title: "スモークチキン和えを作る", desc: "細切りにしたきゅうりと、ほぐしたスモークチキンを[ごま油:1:小さじ]、[醤油:1:小さじ]、[ラー油:0.5:小さじ]でサッと和めます。" },
+                    { title: "スモークチキン和えを作る", desc: "細切りにしたきゅうりと、ほぐしたスモークチキンを[ごま油:1:小さじ]、[醤油:1:小さじ]、[ラー油:0.5:小さじ]でサッと和えます。" },
                     { title: "ねぎ塩ダレ冷奴の準備", desc: "刻み白ねぎ、[ごま油:1:小さじ]、塩（少々）、[鶏ガラスープの素:0.5:小さじ]を混ぜてタレを作ります。水切りした豆腐の上にたっぷりかけて、お好みで[醤油:0.5:小さじ]を垂らして完成。" },
                     { title: "白だしスープを仕込む", desc: "鍋に[水:600:ml]と[白だし:1:大さじ]を入れ沸騰させます。溶き卵（1個分）を流し入れ、ふんわり固まったら火を止めます。" },
                     { title: "にんじんシリシリを炒める", desc: "フライパンに[ごま油:1:小さじ]を熱し、千切りにしたにんじんを炒めます。しんなりしたら[めんつゆ:1:小さじ]で味付けし、溶き卵（2個分）を流し入れてスクランブル状に炒め合わせます。" }
@@ -384,19 +368,19 @@
                 pairing: "日本酒 or 焼酎水割り",
                 pairingText: "焼き鳥串と、お味噌汁、ちくわチーズの純和風な居酒屋メニューには、すっきりとした日本酒や本格焼酎のソーダ割りがベストマッチ。じんわり染み渡る組み合わせです。",
                 menu: [
-                    "居酒屋再現！もも焼き鳥串の香ばし甘辛タレ焼き 【主食メイン】",
+                    "居酒屋再現！もモ焼き鳥串の香ばし甘辛タレ焼き 【主食メイン】",
                     "油揚げとお豆腐の具だくさんお味噌汁 【汁物】",
                     "ちくわの穴詰めとろけるチーズ焼き 【副菜メイン】",
                     "ブロッコリーのガーリックごま塩蒸し 【副菜サブ】",
                     "無限もやしのナムルサラダ 【サラダ】"
                 ],
                 ingredients: [
-                    { name: "冷凍もも焼きとり串（業務スーパー）", amount: 10, unit: "本", gyosu: true },
+                    { name: "冷凍もも焼きとり串（業務スーパー）", amount: 10, unit: "本" },
                     { name: "油揚げ", amount: 2, unit: "枚" },
                     { name: "絹豆腐", amount: 1, unit: "丁" },
                     { name: "ちくわ", amount: 4, unit: "本" },
                     { name: "ピザ用とろけるチーズ", amount: 40, unit: "g" },
-                    { name: "冷凍ブロッコリー（業務スーパー）", amount: 200, unit: "g", gyosu: true },
+                    { name: "冷凍ブロッコリー（業務スーパー）", amount: 200, unit: "g" },
                     { name: "もやし", amount: 1, unit: "袋" }
                 ],
                 seasonings: [
@@ -433,13 +417,13 @@
                     "千切りキャベツとトマトのシンプル盛り 【サラダ】"
                 ],
                 ingredients: [
-                    { name: "冷凍豚ひき肉（業務スーパー）", amount: 200, unit: "g", gyosu: true },
-                    { name: "冷凍きざみたまねぎ（業務スーパー）", amount: 100, unit: "g", gyosu: true },
+                    { name: "冷凍豚ひき肉", amount: 200, unit: "g" },
+                    { name: "冷凍きざみたまねぎ", amount: 100, unit: "g" },
                     { name: "木綿豆腐（水切り）", amount: 1, unit: "丁" },
                     { name: "ざく切りキャベツ（下準備済）", amount: 3, unit: "枚" },
-                    { name: "冷凍シューストポテト（業務スーパー）", amount: 350, unit: "g", gyosu: true },
+                    { name: "冷凍シューストポテト（業務スーパー）", amount: 350, unit: "g" },
                     { name: "ちくわ", amount: 3, unit: "本" },
-                    { name: "冷凍ほうれん草（業務スーパー）", amount: 80, unit: "g", gyosu: true },
+                    { name: "冷凍ほうれん草", amount: 80, unit: "g" },
                     { name: "千切りキャベツ（下準備済）", amount: 2, unit: "掴み" },
                     { name: "ミニトマト（下準備済）", amount: 2, unit: "個" }
                 ],
@@ -459,7 +443,7 @@
                     { title: "キャベツコンソメスープを煮る", desc: "鍋に[水:600:ml]、[コンソメ顆粒:2:小さじ]、ざく切りキャベツを入れ、とろとろになるまで弱火でコトコト煮込みます。" },
                     { title: "ちくわとほうれん草のソテー", desc: "フライパンにバター（10g）を熱し、ちくわ、ほうれん草を炒めます。仕上げに[醤油:1:小さじ]を回し入れ、サッと炒め合わせて皿に盛ります。" },
                     { title: "麻婆豆腐を仕上げる", desc: "フライパンに[サラダ油:1:小さじ]、チューブにんにく（小さじ1/2）、[豆板醤:1.5:小さじ]を熱し、ひき肉とたまねぎを炒めます。[水:200:ml]、[コンソメ顆粒:1:小さじ]、[醤油:1:小さじ]を加え、豆腐を投入。少し煮て、[片栗粉:1:小さじ]を[水:2:小さじ]で溶いた水溶き片栗粉でとろみをつけます。" },
-                    { title: "フレンチフライを揚げる", desc: "フライパンに多めの[サラダ油:2:大さじ]を熱し、シューストポテトをカリカリになるまで揚げ焼きに。油を切って熱いうちにハーブソルトを振り、山盛りに盛り付けます。" }
+                    { title: "フレンチフライを揚げる", desc: "フライパンに多めの[サラダ油:2:大さじ]を熱し、シューストポテトをカリカリになるまで揚げ焼きに。油を切って熱いうちにハーブソルトを振、山盛りに盛り付けます。" }
                 ]
             },
             sat: {
@@ -475,15 +459,15 @@
                     "キャベツともやしのサッパリお浸しサラダ 【サラダ】"
                 ],
                 ingredients: [
-                    { name: "冷凍むきエビ（業務スーパー）", amount: 150, unit: "g", gyosu: true },
+                    { name: "冷凍むきエビ", amount: 150, unit: "g" },
                     { name: "豚バラスライス（下準備済）", amount: 160, unit: "g" },
                     { name: "焼きそば麺", amount: 4, unit: "玉" },
-                    { name: "ざく切りキャベツ（下準備済）", amount: 2, unit: "枚" },
+                    { name: "ざく切りキャベツ（下準備済）", amount: 2, unit: "枚分" },
                     { name: "もやし", amount: 1, unit: "袋" },
-                    { name: "冷凍ほうれん草（業務スーパー）", amount: 60, unit: "g", gyosu: true },
+                    { name: "冷凍ほうれん草", amount: 60, unit: "g" },
                     { name: "油揚げ", amount: 1, unit: "枚" },
                     { name: "卵", amount: 3, unit: "個" },
-                    { name: "冷凍ブロッコリー（業務スーパー）", amount: 150, unit: "g", gyosu: true },
+                    { name: "冷凍ブロッコリー", amount: 150, unit: "g" },
                     { name: "コーン缶", amount: 0.5, unit: "缶" }
                 ],
                 seasonings: [
@@ -524,11 +508,11 @@
                 ingredients: [
                     { name: "豚バラスライス（下準備済・残り全部）", amount: 180, unit: "g" },
                     { name: "カレールー", amount: 0.5, unit: "箱" },
-                    { name: "冷凍チキンカツ（業務スーパー）", amount: 5, unit: "枚", gyosu: true },
+                    { name: "冷凍チキンカツ（業務スーパー・残り全部）", amount: 5, unit: "枚" },
                     { name: "ピザ用とろけるチーズ", amount: 40, unit: "g" },
-                    { name: "冷凍ほうれん草（業務スーパー）", amount: 150, unit: "g", gyosu: true },
-                    { name: "冷凍ブロッコリー（業務スーパー）", amount: 100, unit: "g", gyosu: true },
-                    { name: "コーン缶", amount: 0.5, unit: "缶" },
+                    { name: "冷凍ほうれん草（残り全部）", amount: 150, unit: "g" },
+                    { name: "冷凍ブロッコリー（残り全部）", amount: 100, unit: "g" },
+                    { name: "コーン缶（残り全部）", amount: 0.5, unit: "缶" },
                     { name: "千切り・ざく切りキャベツ（残り全部）", amount: 150, unit: "g" },
                     { name: "冷蔵庫の余り野菜（何でも）", amount: 100, unit: "g" }
                 ],
@@ -552,23 +536,23 @@
             }
         };
 
-        // 買い出しリスト用マスタ（4人分基準、売切れ代替案の設計）
+        // 買い出しリスト用マスタ（4人分基準、画像検索用キーワードと代替案を追加）
         const shoppingMaster = [
             {
-                category: "🟢 業務スーパーで買うもの（タップで画像検索 📷）",
+                category: "🟢 業務スーパーで買うもの（冷凍・特大・加工食品）",
                 items: [
-                    { id: "gyoza", name: "冷凍肉餃子", amount: 12, unit: "個", note: "月曜用", alternative: "市販のチルド餃子、または冷凍水餃子" },
-                    { id: "gipai", name: "冷凍ジーパイ", amount: 1, unit: "パック", note: "火曜用", alternative: "冷凍骨なし唐揚げ、または冷凍チキンカツ" },
-                    { id: "edamame", name: "冷凍枝豆", amount: 200, unit: "g", note: "火曜おつまみ用", alternative: "生・惣菜の塩ゆで枝豆、または冷凍おつまみ塩えだまめ" },
-                    { id: "yakitori", name: "冷凍もも焼きとり串", amount: 10, unit: "本", note: "木曜用", alternative: "チルド焼き鳥、または鶏もも肉をカットしてタレ焼き" },
-                    { id: "broccoli", name: "冷凍ブロッコリー", amount: 450, unit: "g", note: "木・土・日曜用", alternative: "生のブロッコリーを小房に分けてレンジ加熱（約1〜2株分）" },
-                    { id: "spinach", name: "冷凍ほうれん草", amount: 290, unit: "g", note: "金・土・日曜用", alternative: "生のほうれん草（2束）を茹でてカット" },
-                    { id: "onion_frozen", name: "冷凍きざみたまねぎ", amount: 100, unit: "g", note: "金曜用", alternative: "生のたまねぎ（1/2個分）をみじん切り" },
-                    { id: "potatoes", name: "冷凍シューストポテト", amount: 350, unit: "g", note: "金曜用", alternative: "その他の冷凍フライドポテト、または生のじゃがいもを細切りにして揚げ焼き" },
-                    { id: "chicken_katsu", name: "冷凍チキンカツ", amount: 5, unit: "枚", note: "日曜用", alternative: "惣菜のチキンカツ、または冷凍惣菜カツ類" },
-                    { id: "sm_chicken", name: "スモークチキンスライス（業務スーパー）", amount: 250, unit: "g", note: "水曜用", alternative: "市販のサラダチキン、またはロースハム・チャーシュー" },
-                    { id: "minced_pork", name: "冷凍豚ひき肉", amount: 200, unit: "g", note: "金曜用", alternative: "一般スーパーの生の豚ひき肉、または合挽き肉" },
-                    { id: "shrimp", name: "冷凍むきエビ", amount: 150, unit: "g", note: "土曜用", alternative: "一般スーパーの生・冷凍むきエビ、またはシーフードミックス" }
+                    { id: "gyoza", name: "冷凍肉餃子", amount: 12, unit: "個", note: "月曜用", searchKey: "業務スーパー 冷凍 肉餃子", alternative: "一般スーパーの冷蔵チルド餃子 または 冷凍餃子" },
+                    { id: "gipai", name: "冷凍ジーパイ", amount: 1, unit: "パック", note: "火曜用", searchKey: "業務スーパー ジーパイ", alternative: "鶏もも肉 ＋ 唐揚げ粉・アジアンスパイス" },
+                    { id: "edamame", name: "冷凍枝豆", amount: 200, unit: "g", note: "火曜おつまみ用", searchKey: "業務スーパー 冷凍枝豆", alternative: "一般スーパーのチルド・冷凍枝豆" },
+                    { id: "yakitori", name: "冷凍もも焼きとり串", amount: 10, unit: "本", note: "木曜用", searchKey: "業務スーパー 冷凍 焼き鳥串 50本", alternative: "惣菜の焼き鳥 または 鶏もも肉を一口大に切って串刺し" },
+                    { id: "broccoli", name: "冷凍ブロッコリー", amount: 450, unit: "g", note: "木曜、土曜、日曜用", searchKey: "業務スーパー 冷凍 ブロッコリー", alternative: "生のブロッコリー1株を小房に分けて茹でる" },
+                    { id: "spinach", name: "冷凍ほうれん草", amount: 290, unit: "g", note: "金曜、土曜、日曜用", searchKey: "業務スーパー 冷凍 ほうれん草", alternative: "生のほうれん草2袋を茹でて3cmカット" },
+                    { id: "onion_frozen", name: "冷凍きざみたまねぎ", amount: 100, unit: "g", note: "金曜用", searchKey: "業務スーパー 冷凍 きざみたまねぎ", alternative: "生のたまねぎ1/2個を細かくみじん切り" },
+                    { id: "potatoes", name: "冷凍シューストポテト", amount: 350, unit: "g", note: "金曜ポテト用", searchKey: "業務スーパー 冷凍 シューストリング ポテト", alternative: "一般の冷凍ポテト または じゃがいも2個を細切り" },
+                    { id: "chicken_katsu", name: "冷凍チキンカツ", amount: 5, unit: "枚", note: "日曜用", searchKey: "業務スーパー 冷凍 チキンカツ", alternative: "惣菜のチキンカツ・ひとくちカツ" },
+                    { id: "sm_chicken", name: "スモークチキンスライス（業務スーパー）", amount: 250, unit: "g", note: "水曜用", searchKey: "業務スーパー スモークチキンスライス", alternative: "サラダチキン（プレーンまたはスモーク）" },
+                    { id: "minced_pork", name: "冷凍豚ひき肉", amount: 200, unit: "g", note: "金曜用", searchKey: "業務スーパー 冷凍 豚ひき肉", alternative: "一般の冷蔵豚ひき肉" },
+                    { id: "shrimp", name: "冷凍むきエビ", amount: 150, unit: "g", note: "土曜用", searchKey: "業務スーパー 冷凍 むきエビ", alternative: "一般スーパーのシーフードミックス・冷蔵むきエビ" }
                 ]
             },
             {
@@ -617,13 +601,11 @@
             }
         ];
 
-        // Google画像検索リンク生成
-        function searchImage(itemName) {
-            const query = encodeURIComponent("業務スーパー " + itemName);
-            window.open(`https://www.google.com/search?tbm=isch&q=${query}`, '_blank');
-        }
+        let selectedDayKey = "mon";
 
+        // ----------------------------------------------------
         // 小数を料理用の分数表示に変換するロジック
+        // ----------------------------------------------------
         function decimalToFraction(val) {
             if (val <= 0) return "";
             const integerPart = Math.floor(val);
@@ -656,72 +638,70 @@
         }
 
         // ----------------------------------------------------
-        // 初期化 & ストレージ復元
+        // 初期化処理
         // ----------------------------------------------------
         window.onload = function() {
-            try {
-                // ストレージから人数を復元
-                const savedServings = localStorage.getItem('gyosu_servings');
-                if (savedServings) {
-                    currentServings = parseInt(savedServings);
-                    const sel = document.getElementById('servingSize');
-                    if (sel) sel.value = currentServings;
-                }
-
-                renderShoppingList();
-                selectDay(selectedDayKey);
-                restoreCheckboxStates();
-            } catch(e) {
-                console.error("初期化時にエラーが発生しました: ", e);
+            // ストレージから人数を復元
+            const savedServings = localStorage.getItem('gyosu_servings');
+            if (savedServings) {
+                currentServings = parseInt(savedServings);
+                document.getElementById('servingSize').value = currentServings;
             }
+
+            renderShoppingList();
+            selectDay(selectedDayKey);
+            restoreCheckboxStates();
         };
 
         // ----------------------------------------------------
-        // タブ切り替え制御
+        // タブ切り替え
         // ----------------------------------------------------
         function switchTab(tabId) {
+            // タブコンテンツ切り替え
             document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
-            const targetTab = document.getElementById(tabId + 'Tab');
-            if (targetTab) targetTab.classList.add('active');
+            document.getElementById(tabId + 'Tab').classList.add('active');
 
+            // ナビゲーションスタイル切り替え
             const navIds = ['nav-shopping', 'nav-daily', 'nav-prep'];
             navIds.forEach(id => {
                 const navBtn = document.getElementById(id);
-                if (navBtn) {
-                    if (id === 'nav-' + tabId) {
-                        navBtn.classList.remove('text-stone-400');
-                        navBtn.classList.add('text-amber-900', 'font-bold');
-                    } else {
-                        navBtn.classList.remove('text-amber-900', 'font-bold');
-                        navBtn.classList.add('text-stone-400');
-                    }
+                if (id === 'nav-' + tabId) {
+                    navBtn.classList.remove('text-stone-400');
+                    navBtn.classList.add('text-amber-900', 'font-bold');
+                } else {
+                    navBtn.classList.remove('text-amber-900', 'font-bold');
+                    navBtn.classList.add('text-stone-400');
                 }
             });
 
+            // 画面上部へスクロール
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
         // ----------------------------------------------------
-        // 人数変更ハンドラ
+        // 人数変更処理
         // ----------------------------------------------------
         function changeServings(val) {
             currentServings = parseInt(val);
             localStorage.setItem('gyosu_servings', currentServings);
             
+            // 再描画
             renderShoppingList();
             renderDailyDetails();
         }
 
-        // 分量スケール計算
+        // 分量計算用のヘルパー
         function scaleAmount(amount, unit) {
             if (amount === 0 || amount === undefined) return "";
             const factor = currentServings / originalServings;
             let scaled = amount * factor;
 
+            // スプーンベースの単位（小さじ・大さじ）の場合は分数変換を適用
             if (unit === "小さじ" || unit === "大さじ") {
                 return `${decimalToFraction(scaled)}${unit}`;
             }
 
+            // 綺麗にフォーマット
             if (scaled % 1 !== 0) {
                 scaled = scaled.toFixed(1).replace(/\.0$/, '');
             }
@@ -729,53 +709,74 @@
         }
 
         // ----------------------------------------------------
-        // 買い出しリストのレンダリング
+        // 業務スーパー画像検索・代替案用ヘルパー
+        // ----------------------------------------------------
+        function searchImage(keyword) {
+            const url = `https://www.google.com/search?tbm=isch&q=${encodeURIComponent(keyword)}`;
+            window.open(url, '_blank');
+        }
+
+        function findGyosuInfo(name) {
+            const gyosuCategory = shoppingMaster.find(cat => cat.category.includes("業務スーパー"));
+            if (gyosuCategory) {
+                return gyosuCategory.items.find(item => 
+                    name.includes(item.name) || item.name.includes(name)
+                );
+            }
+            return null;
+        }
+
+        // ----------------------------------------------------
+        // 買い出しリストの描画
         // ----------------------------------------------------
         function renderShoppingList() {
             const container = document.getElementById('shoppingListContainer');
-            if (!container) return;
             container.innerHTML = '';
 
-            shoppingMaster.forEach((cat) => {
+            shoppingMaster.forEach((cat, catIndex) => {
                 let catHtml = `
                     <div class="bg-white rounded-2xl p-4 shadow-sm border border-stone-100">
                         <h3 class="text-sm font-bold text-stone-900 mb-3 flex items-center justify-between pb-2 border-b border-stone-100">
                             <span>${cat.category}</span>
-                            <span class="text-xs text-stone-400 font-normal">チェック</span>
+                            <span class="text-xs text-stone-400 font-normal">チェックしながらお買い物</span>
                         </h3>
-                        <div class="space-y-3">
+                        <div class="space-y-4">
                 `;
 
                 cat.items.forEach((item) => {
+                    // 調味料カテゴリ(isSeasoning: true)の場合は分量計算・表示をスキップする
                     const scaledStr = cat.isSeasoning ? "" : scaleAmount(item.amount, item.unit);
                     const checkboxId = `shop-${item.id}`;
-                    const isGyosu = !!item.alternative; // 代替案があるものは業務スーパー食材と見なす
+                    
+                    // 業務スーパーカテゴリ用、画像検索と代替案表示を組み立てる
+                    const isGyosu = cat.category.includes("業務スーパー") && item.searchKey;
+                    
+                    const nameHtml = isGyosu 
+                        ? `<button onclick="searchImage('${item.searchKey}')" class="text-sm font-bold text-stone-800 hover:text-amber-800 hover:underline text-left inline-flex items-center space-x-1 decoration-amber-600/50">
+                             <span>${item.name}</span>
+                             <span class="text-xs text-amber-600 shrink-0">📷</span>
+                           </button>`
+                        : `<span class="text-sm font-medium text-stone-800">${item.name}</span>`;
+
+                    const altHtml = (isGyosu && item.alternative)
+                        ? `<div class="text-[10px] text-amber-800 bg-amber-50/70 border border-amber-100 px-2 py-1 rounded-lg mt-1 font-medium leading-relaxed">
+                             💡 売切れ代替：${item.alternative}
+                           </div>`
+                        : '';
                     
                     catHtml += `
-                        <div class="border-b border-stone-50 pb-2.5 last:border-0 last:pb-0">
+                        <div class="border-b border-stone-50 pb-3 last:border-0 last:pb-0">
                             <label class="flex items-start space-x-3 cursor-pointer select-none group">
                                 <input type="checkbox" id="${checkboxId}" onchange="saveCheckboxState('${checkboxId}', this.checked)" class="mt-1 w-4 h-4 rounded text-amber-900 border-stone-300 focus:ring-amber-900 accent-amber-950">
                                 <div class="flex-1 min-w-0">
-                                    <div class="flex items-center space-x-1">
-                                        ${isGyosu ? `
-                                            <span onclick="searchImage('${item.name}'); event.stopPropagation(); event.preventDefault();" class="text-sm font-semibold text-stone-800 group-[.checked]:line-through hover:text-amber-800 underline decoration-dashed decoration-amber-600 cursor-pointer">
-                                                ${item.name} <span class="text-xs">📸</span>
-                                            </span>
-                                        ` : `
-                                            <span class="text-sm font-semibold text-stone-800 group-[.checked]:line-through">${item.name}</span>
-                                        `}
+                                    <div class="flex items-center space-x-1.5">
+                                        ${nameHtml}
                                     </div>
                                     <span class="text-xs text-stone-400 block mt-0.5">${item.note ? item.note : ''}</span>
+                                    ${altHtml}
                                 </div>
                                 ${scaledStr ? `<span class="text-sm font-bold text-amber-900 shrink-0 bg-amber-50 px-2 py-0.5 rounded-lg">${scaledStr}</span>` : ''}
                             </label>
-                            
-                            <!-- 代替案表示エリア -->
-                            ${isGyosu ? `
-                                <div class="mt-1.5 ml-7 bg-amber-50/50 rounded-lg p-2 text-[11px] text-amber-900 border border-amber-100/60 leading-relaxed">
-                                    <span class="font-bold">💡 売切れ時の代替案：</span>${item.alternative}
-                                </div>
-                            ` : ''}
                         </div>
                     `;
                 });
@@ -787,15 +788,17 @@
                 container.innerHTML += catHtml;
             });
 
+            // チェック状態を復元
             restoreCheckboxStates();
         }
 
         // ----------------------------------------------------
-        // 曜日選択処理
+        // 曜日詳細画面の制御
         // ----------------------------------------------------
         function selectDay(dayKey) {
             selectedDayKey = dayKey;
 
+            // ボタンアクティブ状態
             document.querySelectorAll('.day-btn').forEach(btn => {
                 btn.classList.remove('bg-amber-950', 'text-amber-50', 'shadow-sm');
                 btn.classList.add('bg-white', 'text-stone-600', 'hover:bg-stone-100');
@@ -805,13 +808,15 @@
             if (activeBtn) {
                 activeBtn.classList.remove('bg-white', 'text-stone-600', 'hover:bg-stone-100');
                 activeBtn.classList.add('bg-amber-950', 'text-amber-50', 'shadow-sm');
+                
+                // 横スクロールを追従
                 activeBtn.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
             }
 
             renderDailyDetails();
         }
 
-        // 調理ロードマップ用にテキスト中のプレースホルダー[調味料名:分量:単位]を置換＆動的計算する
+        // テキスト中の [調味料名:数値:単位] を見つけて自動スケールさせるヘルパー
         function replaceScaleTokens(text) {
             return text.replace(/\[([^:]+):([0-9.]+):([^\]]+)\]/g, (match, name, amount, unit) => {
                 const scaled = scaleAmount(parseFloat(amount), unit);
@@ -819,114 +824,116 @@
             });
         }
 
-        // ----------------------------------------------------
-        // 日別メニュー画面のデータ描画
-        // ----------------------------------------------------
         function renderDailyDetails() {
             const data = menuData[selectedDayKey];
             if (!data) return;
 
-            const titleBadge = document.getElementById('dayTitleBadge');
-            const titleName = document.getElementById('dayTitleName');
-            const pairingTag = document.getElementById('dayPairingTag');
-            const pairingDetails = document.getElementById('pairingDetails');
+            // バッジ & ヘッダー
+            document.getElementById('dayTitleBadge').innerText = data.type;
+            document.getElementById('dayTitleName').innerText = `${data.dayName}の家飲み5品献立`;
+            document.getElementById('dayPairingTag').innerText = `${data.pairing}が抜群！`;
+            document.getElementById('pairingDetails').innerText = data.pairingText;
 
-            if (titleBadge) titleBadge.innerText = data.type;
-            if (titleName) titleName.innerText = `${data.dayName}のおつまみ献立`;
-            if (pairingTag) pairingTag.innerText = `${data.pairing}がおすすめ`;
-            if (pairingDetails) pairingDetails.innerText = data.pairingText;
-
-            // 5品お品書きの更新
+            // お品書き
             const menuList = document.getElementById('todayMenuElements');
-            if (menuList) {
-                menuList.innerHTML = '';
-                data.menu.forEach((dish) => {
-                    let emoji = "🥗";
-                    if (dish.includes("主食")) emoji = "🍳";
-                    else if (dish.includes("汁物")) emoji = "🥣";
-                    else if (dish.includes("副菜メイン")) emoji = "🍗";
-                    else if (dish.includes("副菜サブ")) emoji = "🥢";
-                    
-                    menuList.innerHTML += `
-                        <li class="flex items-start space-x-2.5">
-                            <span class="text-base shrink-0">${emoji}</span>
-                            <span class="font-medium">${dish}</span>
-                        </li>
-                    `;
-                });
-            }
+            menuList.innerHTML = '';
+            data.menu.forEach((dish, index) => {
+                let emoji = "🥗";
+                if (dish.includes("主食")) emoji = "🍳";
+                else if (dish.includes("汁物")) emoji = "🥣";
+                else if (dish.includes("副菜メイン")) emoji = "🍗";
+                else if (dish.includes("副菜サブ")) emoji = "🥢";
+                
+                menuList.innerHTML += `
+                    <li class="flex items-start space-x-2.5">
+                        <span class="text-base shrink-0">${emoji}</span>
+                        <span class="font-medium">${dish}</span>
+                    </li>
+                `;
+            });
 
-            // 当日用意する材料（業スー食材には画像検索カメラマークを付与）
+            // 食材一発取り出しチェックリスト（業スー用の画像検索＆代替案をルックアップして反映）
             const ingContainer = document.getElementById('dayIngredientsList');
-            if (ingContainer) {
-                ingContainer.innerHTML = '';
-                data.ingredients.forEach((ing, index) => {
-                    const scaledStr = scaleAmount(ing.amount, ing.unit);
-                    const id = `ing-${selectedDayKey}-${index}`;
-                    
-                    ingContainer.innerHTML += `
-                        <label class="flex items-center space-x-3 cursor-pointer py-1 select-none group">
-                            <input type="checkbox" id="${id}" onchange="saveCheckboxState('${id}', this.checked)" class="w-4 h-4 rounded text-amber-950 border-stone-300 focus:ring-amber-900 accent-amber-950">
-                            <span class="text-xs font-semibold text-stone-700 flex-1 group-[.checked]:line-through">
-                                ${ing.gyosu ? `
-                                    <span onclick="searchImage('${ing.name.replace('（業務スーパー）', '')}'); event.stopPropagation(); event.preventDefault();" class="underline decoration-dashed decoration-amber-600 hover:text-amber-800 cursor-pointer">
-                                        ${ing.name} <span class="text-[10px]">📸</span>
-                                    </span>
-                                ` : ing.name}
-                            </span>
+            ingContainer.innerHTML = '';
+            data.ingredients.forEach((ing, index) => {
+                const scaledStr = scaleAmount(ing.amount, ing.unit);
+                const id = `ing-${selectedDayKey}-${index}`;
+                
+                const gyosuInfo = findGyosuInfo(ing.name);
+                const nameHtml = gyosuInfo 
+                    ? `<button onclick="searchImage('${gyosuInfo.searchKey}')" class="text-xs font-bold text-stone-700 hover:text-amber-800 hover:underline text-left inline-flex items-center space-x-1 decoration-amber-600/50">
+                         <span>${ing.name}</span>
+                         <span class="text-[10px] text-amber-600 shrink-0">📷</span>
+                       </button>`
+                    : `<span class="text-xs font-semibold text-stone-700">${ing.name}</span>`;
+                
+                const altHtml = (gyosuInfo && gyosuInfo.alternative)
+                    ? `<div class="text-[9px] text-amber-800 bg-amber-50 border border-amber-100/50 px-1.5 py-0.5 rounded-md mt-0.5 font-medium leading-tight">
+                         💡 代替：${gyosuInfo.alternative}
+                       </div>`
+                    : '';
+
+                ingContainer.innerHTML += `
+                    <div class="border-b border-stone-50 pb-1.5 last:border-0 last:pb-0">
+                        <label class="flex items-start space-x-3 cursor-pointer py-0.5">
+                            <input type="checkbox" id="${id}" onchange="saveCheckboxState('${id}', this.checked)" class="mt-0.5 w-4 h-4 rounded text-amber-950 border-stone-300 focus:ring-amber-900 accent-amber-950">
+                            <div class="flex-1 min-w-0">
+                                <div class="flex items-center space-x-1.5">
+                                    ${nameHtml}
+                                </div>
+                                ${altHtml}
+                            </div>
                             <span class="text-xs font-bold text-amber-900 bg-amber-50 px-2 py-0.5 rounded-md shrink-0">${scaledStr}</span>
                         </label>
-                    `;
-                });
-            }
+                    </div>
+                `;
+            });
 
-            // 当日用意する調味料（分量非表示チェックのみ）
+            // 調味料チェックリスト（分量表示なし）
             const secContainer = document.getElementById('daySeasoningsList');
-            if (secContainer) {
-                secContainer.innerHTML = '';
-                data.seasonings.forEach((sec, index) => {
-                    const id = `sec-${selectedDayKey}-${index}`;
-                    secContainer.innerHTML += `
-                        <label class="flex items-center space-x-3 cursor-pointer py-1 select-none">
-                            <input type="checkbox" id="${id}" onchange="saveCheckboxState('${id}', this.checked)" class="w-4 h-4 rounded text-amber-950 border-stone-300 focus:ring-amber-900 accent-amber-950">
-                            <span class="text-xs font-semibold text-stone-700 flex-1">${sec.name}</span>
-                        </label>
-                    `;
-                });
-            }
+            secContainer.innerHTML = '';
+            data.seasonings.forEach((sec, index) => {
+                const id = `sec-${selectedDayKey}-${index}`;
+                secContainer.innerHTML += `
+                    <label class="flex items-center space-x-3 cursor-pointer py-1">
+                        <input type="checkbox" id="${id}" onchange="saveCheckboxState('${id}', this.checked)" class="w-4 h-4 rounded text-amber-950 border-stone-300 focus:ring-amber-900 accent-amber-950">
+                        <span class="text-xs font-semibold text-stone-700 flex-1">${sec.name}</span>
+                    </label>
+                `;
+            });
 
-            // 5品効率調理ロードマップの更新
+            // 効率調理ロードマップステップ
             const stepsContainer = document.getElementById('cookingStepsContainer');
-            if (stepsContainer) {
-                stepsContainer.innerHTML = '';
-                data.steps.forEach((step, index) => {
-                    const processedDesc = replaceScaleTokens(step.desc);
-                    stepsContainer.innerHTML += `
-                        <div class="flex space-x-3 relative">
-                            <div class="z-10 bg-amber-950 text-amber-50 w-8 h-8 rounded-full flex items-center justify-center font-bold text-sm shrink-0 shadow-sm">
-                                ${index + 1}
-                            </div>
-                            <div class="bg-stone-50 rounded-xl p-3.5 border border-stone-100 flex-1">
-                                <h4 class="text-xs font-black text-stone-900 mb-1 flex items-center justify-between">
-                                    <span>${step.title}</span>
-                                    <span class="text-[10px] text-amber-800 bg-amber-100/60 px-2 py-0.5 rounded-full">調理順 ${index + 1}</span>
-                                </h4>
-                                <p class="text-xs text-stone-600 leading-relaxed">${processedDesc}</p>
-                            </div>
+            stepsContainer.innerHTML = '';
+            data.steps.forEach((step, index) => {
+                const processedDesc = replaceScaleTokens(step.desc);
+                stepsContainer.innerHTML += `
+                    <div class="flex space-x-3 relative">
+                        <div class="z-10 bg-amber-950 text-amber-50 w-8 h-8 rounded-full flex items-center justify-center font-bold text-sm shrink-0 shadow-sm">
+                            ${index + 1}
                         </div>
-                    `;
-                });
-            }
+                        <div class="bg-stone-50 rounded-xl p-3.5 border border-stone-100 flex-1">
+                            <h4 class="text-xs font-black text-stone-900 mb-1 flex items-center justify-between">
+                                <span>${step.title}</span>
+                                <span class="text-[10px] text-amber-800 bg-amber-100/60 px-2 py-0.5 rounded-full">調理順 ${index + 1}</span>
+                            </h4>
+                            <p class="text-xs text-stone-600 leading-relaxed">${processedDesc}</p>
+                        </div>
+                    </div>
+                `;
+            });
 
+            // チェック状態を復元
             restoreCheckboxStates();
         }
 
         // ----------------------------------------------------
-        // チェックボックスの状態永続化
+        // ストレージ保存＆チェックボックス制御
         // ----------------------------------------------------
         function saveCheckboxState(id, isChecked) {
             localStorage.setItem(`gyosu_chk_${id}`, isChecked);
             
+            // チェック時の打消し線スタイルコントロール（買い出し用）
             const checkbox = document.getElementById(id);
             if (checkbox) {
                 const parentLabel = checkbox.closest('label');
@@ -944,12 +951,13 @@
             document.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
                 const id = checkbox.id;
                 const savedState = localStorage.getItem(`gyosu_chk_${id}`);
-                const parentLabel = checkbox.closest('label');
                 if (savedState === 'true') {
                     checkbox.checked = true;
+                    const parentLabel = checkbox.closest('label');
                     if (parentLabel) parentLabel.classList.add('opacity-50');
                 } else {
                     checkbox.checked = false;
+                    const parentLabel = checkbox.closest('label');
                     if (parentLabel) parentLabel.classList.remove('opacity-50');
                 }
             });
@@ -957,27 +965,25 @@
 
         function resetShoppingCheckboxes() {
             // 買い出し関連のみ削除
-            const keysToRemove = [];
             for (let i = 0; i < localStorage.length; i++) {
                 const key = localStorage.key(i);
                 if (key && key.startsWith('gyosu_chk_shop-')) {
-                    keysToRemove.push(key);
+                    localStorage.removeItem(key);
+                    i--; // インデックスずれ対応
                 }
             }
-            keysToRemove.forEach(key => localStorage.removeItem(key));
             renderShoppingList();
         }
 
         function resetDailyCheckboxes() {
-            // 日別のチェックボックスのみ削除
-            const keysToRemove = [];
+            // 当日の調味料・食材チェックのみ削除
             for (let i = 0; i < localStorage.length; i++) {
                 const key = localStorage.key(i);
                 if (key && (key.startsWith(`gyosu_chk_ing-${selectedDayKey}`) || key.startsWith(`gyosu_chk_sec-${selectedDayKey}`))) {
-                    keysToRemove.push(key);
+                    localStorage.removeItem(key);
+                    i--;
                 }
             }
-            keysToRemove.forEach(key => localStorage.removeItem(key));
             renderDailyDetails();
         }
     </script>
