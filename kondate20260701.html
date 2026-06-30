@@ -20,6 +20,14 @@
         .tab-content.active {
             display: block;
         }
+        /* スクロールバーの非表示（曜日セレクター用） */
+        .scrollbar-none::-webkit-scrollbar {
+            display: none;
+        }
+        .scrollbar-none {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
     </style>
 </head>
 <body class="text-stone-800 antialiased min-h-screen pb-24">
@@ -63,25 +71,25 @@
                 
                 <div class="space-y-4">
                     <div class="border-l-4 border-amber-500 pl-3">
-                        <h3 class="text-sm font-bold text-stone-800">🥬 キャベツの切り分け（1玉分）</h3>
+                        <h3 class="text-sm font-bold text-stone-800">🥬 キャベツの切り分け（1.5玉分）</h3>
                         <p class="text-xs text-stone-600 mt-1 leading-relaxed">
-                            ・<strong class="text-amber-800">千切りキャベツ：</strong> 月曜（2掴み）、水曜（2掴み）、金曜（大皿分）、日曜（残り）用に細切りにして、水気を切り密閉容器か袋で保存。<br>
-                            ・<strong class="text-amber-800">ざく切りキャベツ：</strong> 月曜（2掴み）、火曜（2掴み）、金曜（3枚分）、土曜（2枚分）用に3cm角に切り、別袋で保存。
+                            ・<strong class="text-amber-800">千切りキャベツ：</strong> 月曜（2掴み）、水曜（2掴み）、金曜（大皿分）、日曜（残り全部）用に細切りにして、水気をしっかり切り密閉容器か袋で冷蔵保存。<br>
+                            ・<strong class="text-amber-800">ざく切りキャベツ：</strong> 月曜（2掴み）、火曜（2掴み）、金曜（3枚分）、土曜（2枚分）用に3cm角に切り、別の保存袋で冷蔵保存。
                         </p>
                     </div>
 
                     <div class="border-l-4 border-emerald-500 pl-3">
                         <h3 class="text-sm font-bold text-stone-800">🥩 お肉の小分け＆下処理</h3>
                         <p class="text-xs text-stone-600 mt-1 leading-relaxed">
-                            ・<strong class="text-emerald-800">豚バラスライス：</strong> 月曜（160g）、土曜（160g）、日曜（180g）に小分けして冷凍、または使う前日に冷蔵室へ移動させておきます。
+                            ・<strong class="text-emerald-800">豚バラスライス：</strong> 月曜（160g）、土曜（160g）、日曜（180g）にきっちり小分けしてラップで包み冷凍、または使う前日に冷蔵室へ移動させておきます。
                         </p>
                     </div>
 
                     <div class="border-l-4 border-blue-500 pl-3">
                         <h3 class="text-sm font-bold text-stone-800">🧅 野菜のカット</h3>
                         <p class="text-xs text-stone-600 mt-1 leading-relaxed">
-                            ・<strong class="text-blue-800">白ねぎ（水曜用）：</strong> 大さじ3杯分をみじん切りにしてタッパーへ。<br>
-                            ・<strong class="text-blue-800">きゅうり（火・水用）：</strong> 使う当日にサッと叩く/切るだけでOKですが、すぐ使えるよう野菜室の手前に配置。
+                            ・<strong class="text-blue-800">白ねぎ（水曜用）：</strong> 大さじ3杯分をみじん切りにして小さめの密閉容器へ。<br>
+                            ・<strong class="text-blue-800">きゅうり（火・水用）：</strong> 使う当日にサッと叩く/切るだけでOKですが、すぐ取り出せるよう野菜室の手前に配置しておきます。
                         </p>
                     </div>
 
@@ -89,7 +97,7 @@
                         <p class="font-bold flex items-center mb-1">
                             <span class="mr-1">💡</span>業スー冷凍素材をフル活用！
                         </p>
-                        餃子、ジーパイ、焼き鳥、ポテト、ブロッコリー、ほうれん草などは、冷凍庫から当日凍ったまま取り出して調理できるので、事前カット不要で非常に楽ちんでいます。
+                        餃子、ジーパイ、焼き鳥、ポテト、ブロッコリー、ほうれん草などは、冷凍庫から当日凍ったまま取り出して調理できるので、事前カット不要で非常に楽になります。
                     </div>
                 </div>
             </div>
@@ -120,7 +128,6 @@
         <div id="dailyTab" class="tab-content">
             <!-- 曜日選択ヘッダー（横スクロール） -->
             <div class="flex space-x-2 overflow-x-auto pb-3 mb-4 scrollbar-none" id="daySelector">
-                <!-- 月〜日のボタン -->
                 <button onclick="selectDay('mon')" id="btn-mon" class="day-btn flex-none px-4 py-2 rounded-xl text-sm font-bold transition-all bg-amber-950 text-amber-50 shadow-sm">月曜日</button>
                 <button onclick="selectDay('tue')" id="btn-tue" class="day-btn flex-none px-4 py-2 rounded-xl text-sm font-bold transition-all bg-white text-stone-600 hover:bg-stone-100">火曜日</button>
                 <button onclick="selectDay('wed')" id="btn-wed" class="day-btn flex-none px-4 py-2 rounded-xl text-sm font-bold transition-all bg-white text-stone-600 hover:bg-stone-100">水曜日</button>
@@ -323,11 +330,11 @@
                 dayName: "水曜日",
                 type: "簡単調理",
                 pairing: "スッキリ角ハイボール",
-                pairingText: "スモークチキンの燻製の香りと、ねねぎ塩ダレの冷奴には、キリッとウイスキーのコクが引き立つハイボールがぴったり。お口がスッキリして、箸が進みます！",
+                pairingText: "スモークチキンの燻製の香りと、ねぎ塩ダレの冷奴には、キリッとウイスキーのコクが引き立つハイボールがぴったり。お口がスッキリして、箸が進みます！",
                 menu: [
                     "スモークチキンときゅうりのピリ辛ラー油和え 【主食メイン】",
                     "溶きたまごの和風白だしスープ 【汁物】",
-                    "濃厚ねねぎ塩ダレの極上冷奴 【副菜メイン】",
+                    "濃厚ねぎ塩ダレの極上冷奴 【副菜メイン】",
                     "にんじんとシリシリ風卵炒め 【副菜サブ】",
                     "千切りキャベツとコーンのコールスロー 【サラダ】"
                 ],
@@ -368,7 +375,7 @@
                 pairing: "日本酒 or 焼酎水割り",
                 pairingText: "焼き鳥串と、お味噌汁、ちくわチーズの純和風な居酒屋メニューには、すっきりとした日本酒や本格焼酎のソーダ割りがベストマッチ。じんわり染み渡る組み合わせです。",
                 menu: [
-                    "居酒屋再現！もモ焼き鳥串の香ばし甘辛タレ焼き 【主食メイン】",
+                    "居酒屋再現！もも焼き鳥串の香ばし甘辛タレ焼き 【主食メイン】",
                     "油揚げとお豆腐の具だくさんお味噌汁 【汁物】",
                     "ちくわの穴詰めとろけるチーズ焼き 【副菜メイン】",
                     "ブロッコリーのガーリックごま塩蒸し 【副菜サブ】",
@@ -443,7 +450,7 @@
                     { title: "キャベツコンソメスープを煮る", desc: "鍋に[水:600:ml]、[コンソメ顆粒:2:小さじ]、ざく切りキャベツを入れ、とろとろになるまで弱火でコトコト煮込みます。" },
                     { title: "ちくわとほうれん草のソテー", desc: "フライパンにバター（10g）を熱し、ちくわ、ほうれん草を炒めます。仕上げに[醤油:1:小さじ]を回し入れ、サッと炒め合わせて皿に盛ります。" },
                     { title: "麻婆豆腐を仕上げる", desc: "フライパンに[サラダ油:1:小さじ]、チューブにんにく（小さじ1/2）、[豆板醤:1.5:小さじ]を熱し、ひき肉とたまねぎを炒めます。[水:200:ml]、[コンソメ顆粒:1:小さじ]、[醤油:1:小さじ]を加え、豆腐を投入。少し煮て、[片栗粉:1:小さじ]を[水:2:小さじ]で溶いた水溶き片栗粉でとろみをつけます。" },
-                    { title: "フレンチフライを揚げる", desc: "フライパンに多めの[サラダ油:2:大さじ]を熱し、シューストポテトをカリカリになるまで揚げ焼きに。油を切って熱いうちにハーブソルトを振、山盛りに盛り付けます。" }
+                    { title: "フレンチフライを揚げる", desc: "フライパンに多めの[サラダ油:2:大さじ]を熱し、シューストポテトをカリカリになるまで揚げ焼きに。油を切って熱いうちにハーブソルトを振り、山盛りに盛り付けます。" }
                 ]
             },
             sat: {
@@ -544,7 +551,7 @@
                     { id: "gyoza", name: "冷凍肉餃子", amount: 12, unit: "個", note: "月曜用", searchKey: "業務スーパー 冷凍 肉餃子", alternative: "一般スーパーの冷蔵チルド餃子 または 冷凍餃子" },
                     { id: "gipai", name: "冷凍ジーパイ", amount: 1, unit: "パック", note: "火曜用", searchKey: "業務スーパー ジーパイ", alternative: "鶏もも肉 ＋ 唐揚げ粉・アジアンスパイス" },
                     { id: "edamame", name: "冷凍枝豆", amount: 200, unit: "g", note: "火曜おつまみ用", searchKey: "業務スーパー 冷凍枝豆", alternative: "一般スーパーのチルド・冷凍枝豆" },
-                    { id: "yakitori", name: "冷凍もも焼きとり串", amount: 10, unit: "本", note: "木曜用", searchKey: "業務スーパー 冷凍 焼き鳥串 50本", alternative: "惣菜の焼き鳥 または 鶏もも肉を一口大に切って串刺し" },
+                    { id: "yakitori", name: "冷凍もモ焼きとり串", amount: 10, unit: "本", note: "木曜用", searchKey: "業務スーパー 冷凍 焼き鳥串 50本", alternative: "惣菜の焼き鳥 または 鶏もも肉を一口大に切って串刺し" },
                     { id: "broccoli", name: "冷凍ブロッコリー", amount: 450, unit: "g", note: "木曜、土曜、日曜用", searchKey: "業務スーパー 冷凍 ブロッコリー", alternative: "生のブロッコリー1株を小房に分けて茹でる" },
                     { id: "spinach", name: "冷凍ほうれん草", amount: 290, unit: "g", note: "金曜、土曜、日曜用", searchKey: "業務スーパー 冷凍 ほうれん草", alternative: "生のほうれん草2袋を茹でて3cmカット" },
                     { id: "onion_frozen", name: "冷凍きざみたまねぎ", amount: 100, unit: "g", note: "金曜用", searchKey: "業務スーパー 冷凍 きざみたまねぎ", alternative: "生のたまねぎ1/2個を細かくみじん切り" },
