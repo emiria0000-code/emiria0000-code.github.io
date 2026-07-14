@@ -1,0 +1,970 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>業スー活用！1週間おつまみ家飲み献立【Vol.4】</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts Inter & Noto Sans JP -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Sans+JP:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', 'Noto Sans JP', sans-serif;
+            background-color: #fcfbfa;
+        }
+        .tab-content {
+            display: none;
+        }
+        .tab-content.active {
+            display: block;
+        }
+    </style>
+</head>
+<body class="text-stone-800 antialiased min-h-screen pb-24">
+
+    <!-- ヘッダー -->
+    <header class="bg-amber-950 text-amber-50 sticky top-0 z-50 shadow-md">
+        <div class="max-w-md mx-auto px-4 py-3 flex items-center justify-between">
+            <div class="flex items-center space-x-2">
+                <span class="text-2xl">🍺</span>
+                <div>
+                    <h1 class="text-base font-bold leading-tight">簡単おつまみ家飲み編</h1>
+                    <p class="text-xs text-amber-300">業スー1週間献立 Vol.4 (包丁極小・キャベツなしサラダ)</p>
+                </div>
+            </div>
+            <!-- 人数切り替え -->
+            <div class="bg-amber-900/60 px-2 py-1 rounded-lg flex items-center space-x-1 border border-amber-800">
+                <span class="text-xs text-amber-200">家族:</span>
+                <select id="servingSize" class="bg-transparent text-amber-50 text-xs font-bold focus:outline-none cursor-pointer" onchange="changeServings(this.value)">
+                    <option value="1" class="text-stone-800">1人分</option>
+                    <option value="2" class="text-stone-800">2人分</option>
+                    <option value="3" class="text-stone-800">3人分</option>
+                    <option value="4" class="text-stone-800" selected>4人分</option>
+                    <option value="5" class="text-stone-800">5人分</option>
+                    <option value="6" class="text-stone-800">6人分</option>
+                </select>
+            </div>
+        </div>
+    </header>
+
+    <!-- メインコンテンツ -->
+    <main class="max-w-md mx-auto px-4 pt-4">
+
+        <!-- タブ1: 週末下準備 -->
+        <div id="prepTab" class="tab-content">
+            <div class="bg-white rounded-2xl p-5 shadow-sm border border-stone-100 mb-4">
+                <div class="flex items-center space-x-2 mb-4">
+                    <span class="text-xl">🔪</span>
+                    <h2 class="text-lg font-bold text-stone-900">週末のまとめて下準備（ほぼゼロ）</h2>
+                </div>
+                <p class="text-xs text-stone-500 mb-4">今週は徹底的に「包丁を極限まで使わない」テーマのため、面倒な野菜の千切り・みじん切りの下準備はほぼゼロです！</p>
+                
+                <div class="space-y-4">
+                    <div class="border-l-4 border-amber-500 pl-3">
+                        <h3 class="text-sm font-bold text-stone-800">🧅 スライス玉ねぎ（水曜用）</h3>
+                        <p class="text-xs text-stone-600 mt-1 leading-relaxed">
+                            ・水曜日の「合鴨パストラミ」に敷くための玉ねぎ（1/2玉分）だけスライスして小袋に入れ、水にさらして水気をしっかり切ってから冷蔵保存しておきます。
+                        </p>
+                    </div>
+
+                    <div class="border-l-4 border-emerald-500 pl-3">
+                        <h3 class="text-sm font-bold text-stone-800">🥩 お肉の小分け冷凍</h3>
+                        <p class="text-xs text-stone-600 mt-1 leading-relaxed">
+                            ・<strong class="text-emerald-800">豚バラスライス：</strong> 金曜（200g）用に小分けしてラップ。残ったお肉（約150g）は日曜のおそうじ焼きカレー用に冷凍保存。
+                        </p>
+                    </div>
+
+                    <div class="bg-amber-50 p-3 rounded-xl border border-amber-100 text-xs text-amber-900">
+                        <p class="font-bold flex items-center mb-1">
+                            <span class="mr-1">💡</span>包丁を使わない神テクニック
+                        </p>
+                        ・レタス → 手でちぎるだけ<br>
+                        ・ピーマン → 手で一口大にちぎるだけ<br>
+                        ・ちくわ、油揚げ、えのき、ベーコン → キッチンバサミでカット<br>
+                        ・きゅうり → ポリ袋に入れてすりこぎで叩き割るだけ<br>
+                        ・ブロッコリー、ほうれん草、玉ねぎ → 業スーの冷凍カット品を使用！
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- タブ2: 買い出しリスト -->
+        <div id="shoppingTab" class="tab-content active">
+            <!-- 買い出し全体のサマリー -->
+            <div class="bg-amber-50 border border-amber-100 rounded-2xl p-4 mb-4 flex items-center justify-between">
+                <div>
+                    <h2 class="text-sm font-bold text-amber-900 flex items-center">
+                        <span class="mr-1">🛒</span>1週間のまとめ買いリスト
+                    </h2>
+                    <p class="text-xs text-amber-700 mt-0.5">商品名をタップするとビジュアル画像検索が開きます 📸</p>
+                </div>
+                <button onclick="resetShoppingCheckboxes()" class="text-xs bg-white text-stone-600 border border-stone-200 py-1.5 px-3 rounded-lg hover:bg-stone-50 transition active:scale-95 font-medium">
+                    リセット
+                </button>
+            </div>
+
+            <!-- カテゴリ別買い物リスト -->
+            <div id="shoppingListContainer" class="space-y-4">
+                <!-- JSで動的に構築 -->
+            </div>
+        </div>
+
+        <!-- タブ3: 日別メニュー＆当日ダッシュボード -->
+        <div id="dailyTab" class="tab-content">
+            <!-- 曜日選択ヘッダー -->
+            <div class="flex space-x-2 overflow-x-auto pb-3 mb-4 scrollbar-none" id="daySelector" style="-ms-overflow-style: none; scrollbar-width: none;">
+                <button onclick="selectDay('mon')" id="btn-mon" class="day-btn flex-none px-4 py-2 rounded-xl text-sm font-bold transition-all bg-amber-950 text-amber-50 shadow-sm">月曜日</button>
+                <button onclick="selectDay('tue')" id="btn-tue" class="day-btn flex-none px-4 py-2 rounded-xl text-sm font-bold transition-all bg-white text-stone-600 hover:bg-stone-100">火曜日</button>
+                <button onclick="selectDay('wed')" id="btn-wed" class="day-btn flex-none px-4 py-2 rounded-xl text-sm font-bold transition-all bg-white text-stone-600 hover:bg-stone-100">水曜日</button>
+                <button onclick="selectDay('thu')" id="btn-thu" class="day-btn flex-none px-4 py-2 rounded-xl text-sm font-bold transition-all bg-white text-stone-600 hover:bg-stone-100">木曜日</button>
+                <button onclick="selectDay('fri')" id="btn-fri" class="day-btn flex-none px-4 py-2 rounded-xl text-sm font-bold transition-all bg-white text-stone-600 hover:bg-stone-100">金曜日</button>
+                <button onclick="selectDay('sat')" id="btn-sat" class="day-btn flex-none px-4 py-2 rounded-xl text-sm font-bold transition-all bg-white text-stone-600 hover:bg-stone-100">土曜日</button>
+                <button onclick="selectDay('sun')" id="btn-sun" class="day-btn flex-none px-4 py-2 rounded-xl text-sm font-bold transition-all bg-white text-stone-600 hover:bg-stone-100">日曜日</button>
+            </div>
+
+            <!-- 今日の献立カード -->
+            <div class="bg-white rounded-2xl p-5 shadow-sm border border-stone-100 mb-4">
+                <div class="flex items-center justify-between mb-3">
+                    <span id="dayTitleBadge" class="bg-amber-100 text-amber-900 text-xs font-bold px-2.5 py-1 rounded-full">超簡単・包丁極小</span>
+                    <!-- お酒ペアリング -->
+                    <div class="flex items-center space-x-1 text-xs text-amber-800 bg-amber-50 px-2 py-1 rounded-lg">
+                        <span>🍶</span>
+                        <span id="dayPairingTag" class="font-medium">おつまみペアリング</span>
+                    </div>
+                </div>
+                
+                <h2 id="dayTitleName" class="text-xl font-black text-stone-900 mb-4">月曜日のおつまみ献立</h2>
+
+                <!-- 5品お品書き -->
+                <div class="bg-stone-50 rounded-xl p-4 border border-stone-100 mb-4">
+                    <p class="text-xs text-stone-400 font-bold mb-2 tracking-wider uppercase">Today's Menu / 5品構成おしながき</p>
+                    <ul class="space-y-2 text-sm text-stone-800" id="todayMenuElements">
+                        <!-- JSで動的に表示 -->
+                    </ul>
+                </div>
+
+                <div class="bg-amber-950 text-amber-100 p-3.5 rounded-xl text-xs mb-2">
+                    <p class="font-bold mb-1 flex items-center">
+                        <span>💡</span> <span class="ml-1">今夜のペアリングおつまみメモ</span>
+                    </p>
+                    <p id="pairingDetails" class="leading-relaxed text-amber-200">
+                        <!-- ペアリング文章 -->
+                    </p>
+                </div>
+            </div>
+
+            <!-- 当日準備：冷蔵庫から出すものリスト -->
+            <div class="bg-white rounded-2xl p-5 shadow-sm border border-stone-100 mb-4">
+                <div class="flex items-center justify-between mb-3">
+                    <div class="flex items-center space-x-2">
+                        <span class="text-xl">📥</span>
+                        <h3 class="text-base font-bold text-stone-900">冷蔵庫から一発取り出しリスト</h3>
+                    </div>
+                    <button onclick="resetDailyCheckboxes()" class="text-xs text-stone-500 underline">リセット</button>
+                </div>
+                <p class="text-xs text-stone-500 mb-4">調理を始める前に、これらの材料と調味料を並べるとさらにスムーズです。</p>
+
+                <!-- 食材チェック -->
+                <div class="mb-4">
+                    <h4 class="text-xs font-bold text-stone-400 tracking-wider mb-2 uppercase">● 用意する材料（📷タップで画像検索）</h4>
+                    <div class="space-y-2" id="dayIngredientsList">
+                        <!-- JSで描画 -->
+                    </div>
+                </div>
+
+                <!-- 調味料チェック -->
+                <div>
+                    <h4 class="text-xs font-bold text-stone-400 tracking-wider mb-2 uppercase">● 用意する調味料（チェック専用）</h4>
+                    <div class="space-y-2" id="daySeasoningsList">
+                        <!-- JSで描画 -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- 5品効率調理ロードマップ -->
+            <div class="bg-white rounded-2xl p-5 shadow-sm border border-stone-100 mb-4">
+                <div class="flex items-center space-x-2 mb-4">
+                    <span class="text-xl">🔥</span>
+                    <h3 class="text-base font-bold text-stone-900">5品爆速調理ロードマップ</h3>
+                </div>
+                <p class="text-xs text-stone-500 mb-4">コンロやレンジ、トースターを同時並行でフル活用し、15分で5品を仕上げる手順です。</p>
+
+                <!-- ステップリスト -->
+                <div class="space-y-4 relative before:absolute before:bottom-2 before:top-2 before:left-[15px] before:w-[2px] before:bg-stone-100" id="cookingStepsContainer">
+                    <!-- JSで描画 -->
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- 下部固定ナビゲーションバー -->
+    <nav class="fixed bottom-0 left-0 right-0 bg-white border-t border-stone-200 shadow-[0_-2px_10px_rgba(0,0,0,0.05)] z-50">
+        <div class="max-w-md mx-auto flex justify-around py-2">
+            <!-- 買い出し -->
+            <button onclick="switchTab('shopping')" id="nav-shopping" class="flex flex-col items-center space-y-1 text-amber-900 font-bold">
+                <span class="text-xl">🛒</span>
+                <span class="text-[10px]">買い出しリスト</span>
+            </button>
+            <!-- 献立＆調理 -->
+            <button onclick="switchTab('daily')" id="nav-daily" class="flex flex-col items-center space-y-1 text-stone-400">
+                <span class="text-xl">🍳</span>
+                <span class="text-[10px]">日別メニュー</span>
+            </button>
+            <!-- 下準備 -->
+            <button onclick="switchTab('prep')" id="nav-prep" class="flex flex-col items-center space-y-1 text-stone-400">
+                <span class="text-xl">🔪</span>
+                <span class="text-[10px]">週末下準備</span>
+            </button>
+        </div>
+    </nav>
+
+    <script>
+        // ----------------------------------------------------
+        // マスターデータ
+        // ----------------------------------------------------
+        const originalServings = 4; // 4人分が基準値
+        let currentServings = 4;
+
+        // 曜日別データ（ロードマップ内の調味料は [調味料名:数値:単位] の形式で記述し、人数で連動スケール）
+        const menuData = {
+            mon: {
+                dayName: "月曜日",
+                type: "超簡単・包丁不要",
+                pairing: "爽快ハイボール",
+                pairingText: "ぷるっと酸味の効いた水餃子塩炒めと、トースターで焼いた香ばしい明太マヨポテト。このスパイシーで濃厚なおつまみには、キリッと冷えた炭酸強めのハイボールが極上です！",
+                menu: [
+                    "フライパンで一発！タレなし旨辛ねぎ塩餃子炒め 【主食メイン】",
+                    "包丁いらず！ちぎり豆腐とワカメの中華ごま油スープ 【汁物】",
+                    "トースターにお任せ！冷凍ポテトの明太マヨチーズ焼き 【副菜メイン】",
+                    "もやしとカニカマのポリポリポン酢ラー油和え 【副菜サブ】",
+                    "たたききゅうりと塩昆布のピリ辛ポリポリサラダ 【サラダ】"
+                ],
+                ingredients: [
+                    { name: "冷凍肉餃子（業務スーパー）", amount: 16, unit: "個", isGyosu: true },
+                    { name: "冷凍フレンチフライ（業務スーパー）", amount: 150, unit: "g", isGyosu: true },
+                    { name: "絹豆腐", amount: 0.5, unit: "丁" },
+                    { name: "もやし", amount: 1, unit: "袋" },
+                    { name: "カニカマ", amount: 0.5, unit: "パック" },
+                    { name: "きゅうり", amount: 1, unit: "本" },
+                    { name: "塩昆布", amount: 10, unit: "g" },
+                    { name: "乾燥わかめ", amount: 1, unit: "大さじ" },
+                    { name: "ピザ用とろけるチーズ", amount: 50, unit: "g" }
+                ],
+                seasonings: [{ name: "ごま油" }, { name: "鶏ガラスープの素" }, { name: "ポン酢" }, { name: "ラー油" }, { name: "塩・コショウ" }, { name: "明太子（またはたらこソース）" }, { name: "マヨネーズ" }, { name: "水" }],
+                steps: [
+                    { title: "たたききゅうりの塩昆布サラダを作る", desc: "きゅうりをポリ袋に入れ、すりこぎ等で叩いて割り、手で一口大にちぎります。袋に[塩昆布:10:g]、[ごま油:1:小さじ]、塩コショウ（少々）を加えてよく揉んで冷蔵庫へ。" },
+                    { title: "もやしカニカマのポン酢和え", desc: "耐熱ボウルにもやし（1袋）を入れ、ふんわりラップしてレンジで2分加熱。水気をしっかり絞ったら、手でほぐしたカニカマ、[ポン酢:1.5:大さじ]、ラー油（数滴）を加えて和えます。" },
+                    { title: "レンジでポテト明太マヨチーズ焼き", desc: "耐熱皿に冷凍ポテトを並べ、レンジで2分加熱。[明太子:1:大さじ]と[マヨネーズ:1:大さじ]を混ぜてポテトにかけ、[ピザ用とろけるチーズ:50:g]を散らしてトースターで5分焼き上げます。" },
+                    { title: "ちぎり豆腐の中華わかめスープを煮る", desc: "鍋に[水:600:ml]、[鶏ガラスープの素:1.5:小さじ]、乾燥わかめを入れて火に。沸騰したら豆腐を手で大きくちぎって入れ、仕上げに[ごま油:1:小さじ]を垂らします。" },
+                    { title: "タレなし旨辛ねぎ塩餃子炒めを仕上げる", desc: "フライパンに[ごま油:1:大さじ]を熱し、凍ったままの餃子を並べ、[水:50:ml]を加えてフタをし中火で3分蒸し焼きに。水分が飛んだら、[鶏ガラスープの素:1:小さじ]、塩コショウ、お好みで冷凍きざみねぎ（適量）を加えて一気に絡め焼きします。" }
+                ]
+            },
+            tue: {
+                dayName: "火曜日",
+                type: "子供ウケ抜群",
+                pairing: "冷え冷えレモンサワー",
+                pairingText: "お好み焼き風ソースをたっぷりかけたカリカリのチキンカツと、甘口のコーンスープは子供たちが大喜び！大人はおろしポン酢磯辺揚げをつまみに、レモンサワーが最高に進みます。",
+                menu: [
+                    "ハサミで一瞬！冷凍チキンカツのデミお好み焼き風ソースカツ 【主食メイン】",
+                    "えのきとコーンの卵バターコンソメスープ 【汁物】",
+                    "レンジで時短！冷凍ちくわ磯辺揚げの甘辛おろしポン酢 【副菜メイン】",
+                    "もやしとツナのカレーマヨスパイシー和え 【副菜サブ】",
+                    "ちぎりレタスとミニトマトのシンプル塩チョレギサラダ 【サラダ】"
+                ],
+                ingredients: [
+                    { name: "冷凍チキンカツ（業務スーパー）", amount: 5, unit: "枚", isGyosu: true },
+                    { name: "冷凍ちくわ磯辺揚げ（業務スーパー）", amount: 12, unit: "個", isGyosu: true },
+                    { name: "えのき", amount: 0.5, unit: "パック" },
+                    { name: "コーン缶", amount: 0.5, unit: "缶" },
+                    { name: "卵", amount: 1, unit: "個" },
+                    { name: "もやし", amount: 1, unit: "袋" },
+                    { name: "ツナ缶", amount: 0.5, unit: "缶" },
+                    { name: "レタス", amount: 3, unit: "枚" },
+                    { name: "ミニトマト", amount: 4, unit: "個" },
+                    { name: "大根（おろし用）", amount: 3, unit: "cm" }
+                ],
+                seasonings: [{ name: "お好み焼きソース" }, { name: "マヨネーズ" }, { name: "かつお節" }, { name: "コンソメ顆律" }, { name: "バター" }, { name: "ポン酢" }, { name: "カレー粉" }, { name: "塩・コショウ" }, { name: "ごま油" }, { name: "鶏ガラスープの素" }, { name: "チューブにんにく" }, { name: "水" }],
+                steps: [
+                    { title: "ちぎりレタス塩チョレギサラダ", desc: "レタスを手で一口大にちぎり、半分に切ったトマトとお皿に盛ります。[ごま油:2:小さじ]、[鶏ガラスープの素:0.5:小さじ]、チューブにんにく（1cm）、塩コショウで和えて冷やします。" },
+                    { title: "もやしツナカレーマヨ和え", desc: "もやしをレンジで2分加熱して水気を切ります。ツナ（1/2缶）、[マヨネーズ:1:大さじ]、[カレー粉:0.5:小さじ]、塩コショウ少々でよく和えます。" },
+                    { title: "磯辺揚げの甘辛おろしポン酢", desc: "冷凍ちくわの磯辺揚げをお皿に並べレンジで2分温めます。たっぷりすりおろした大根おろしを乗せ、[ポン酢:2:大さじ]をかけて完成。" },
+                    { title: "えのきコーンのコンソメスープ", desc: "えのきをキッチンバサミで半分にカットし、鍋へ。[水:600:ml]、[コンソメ顆粒:2:小さじ]、コーンを加えて沸騰させます。溶き卵（1個）を回し入れ、仕上げに[バター:10:g]を溶かします。" },
+                    { title: "チキンカツをお好み焼き風ソースカツに", desc: "冷凍チキンカツをトースターかレンジでカリッと温め、ハサミで一口大にカット。お好み焼きソース、マヨネーズ（各適量）、かつお節をたっぷり振ってジャンクに仕上げます。" }
+                ]
+            },
+            wed: {
+                dayName: "水曜日",
+                type: "超簡単・盛るだけ",
+                pairing: "ウイスキー角ハイボール",
+                pairingText: "スパイシーで荒々しい合鴨パストラミと、濃厚なバター醤油でソテーした焼き鳥串。これにはすっきりした強炭酸のウイスキーハイボールがこの上なく調和します！",
+                menu: [
+                    "並べるだけ！冷凍合鴨パストラミのオニオンハニーマスタード 【主食メイン】",
+                    "えのきと油揚げの白だしすっきりスープ 【汁物】",
+                    "フライパンソテー！もも焼き鳥串の香ばしバター醤油焼き 【副菜メイン】",
+                    "とろっとクリーミー！アボカドとトマトのわさびマヨ和え 【副菜サブ】",
+                    "もやしとワカメのサッパリツナごまポン酢サラダ 【サラダ】"
+                ],
+                ingredients: [
+                    { name: "冷凍合鴨パストラミ（業務スーパー）", amount: 1, unit: "本", isGyosu: true },
+                    { name: "冷凍もも焼きとり串（業務スーパー）", amount: 10, unit: "本", isGyosu: true },
+                    { name: "玉ねぎ（スライス済）", amount: 0.5, unit: "個" },
+                    { name: "油揚げ", amount: 1, unit: "枚" },
+                    { name: "えのき（残りの半分）", amount: 0.5, unit: "パック" },
+                    { name: "冷凍アボカドマッシュ（または生）", amount: 100, unit: "g" },
+                    { name: "ミニトマト", amount: 4, unit: "個" },
+                    { name: "もやし", amount: 1, unit: "袋" },
+                    { name: "乾燥わかめ", amount: 1, unit: "大さじ" },
+                    { name: "ツナ缶（昨日の残り）", amount: 0.5, unit: "缶" }
+                ],
+                seasonings: [{ name: "はちみつ" }, { name: "粒マスタード" }, { name: "白だし" }, { name: "バター" }, { name: "醤油" }, { name: "みりん" }, { name: "わさびチューブ" }, { name: "マヨネーズ" }, { name: "ポン酢" }, { name: "ごま油" }, { name: "すりごま" }, { name: "水" }],
+                steps: [
+                    { title: "アボカドトマトのわさびマヨ和え", desc: "アボカド（冷凍は軽くレンジで温める）と半分に切ったミニトマト（4個）をボウルに入れ、[マヨネーズ:1:大さじ]、わさびチューブ（2cm）、[醤油:0.5:小さじ]で和えて冷やします。" },
+                    { title: "もやしワカメのツナごまポン酢サラダ", desc: "もやしをレンジで2分加熱し、しっかり絞ります。乾燥わかめ（水戻し済）、ツナ（1/2缶）、[ポン酢:1.5:大さじ]、[ごま油:1:小さじ]、[すりごま:1:小さじ]で和えます。" },
+                    { title: "油揚げとえのきの白だしお吸い物", desc: "鍋に[水:600:ml]、[白だし:1.5:大さじ]、ハサミで細長く切った油揚げ、ほぐしたえのきを入れて中火にかけ、ひと煮立ちさせます。" },
+                    { title: "合鴨パストラミの盛り付け", desc: "事前に水にさらしてしっかり絞ったオニオンスライスをお皿に敷きます。薄くスライスした合鴨パストラミ（1本）を並べ、[はちみつ:1:大さじ]、[粒マスタード:1:大さじ]、[醤油:1:小さじ]を混ぜた特製ソースをかけます。" },
+                    { title: "焼き鳥串のバター醤油焼きをソテー", desc: "フライパンに凍ったままの焼き鳥串（10本）を並べ、フタをしてじっくり蒸し焼きに。中まで火が通ったら、[バター:10:g]、[醤油:1:大さじ]、[みりん:1:大さじ]を加えて香ばしく絡めます。" }
+                ]
+            },
+            tue: {
+                dayName: "火曜日",
+                type: "子供ウケ抜群",
+                pairing: "冷え冷えレモンサワー",
+                pairingText: "お好み焼き風ソースをたっぷりかけたカリカリのチキンカツと、甘口のコーンスープは子供たちが大喜び！大人はおろしポン酢磯辺揚げをつまみに、レモンサワーが最高に進みます。",
+                menu: [
+                    "ハサミで一瞬！冷凍チキンカツのデミお好み焼き風ソースカツ 【主食メイン】",
+                    "えのきとコーンの卵バターコンソメスープ 【汁物】",
+                    "レンジで時短！冷凍ちくわ磯辺揚げの甘辛おろしポン酢 【副菜メイン】",
+                    "もやしとツナのカレーマヨスパイシー和え 【副菜サブ】",
+                    "ちぎりレタスとミニトマトのシンプル塩チョレギサラダ 【サラダ】"
+                ],
+                ingredients: [
+                    { name: "冷凍チキンカツ（業務スーパー）", amount: 5, unit: "枚", isGyosu: true },
+                    { name: "冷凍ちくわ磯辺揚げ（業務スーパー）", amount: 12, unit: "個", isGyosu: true },
+                    { name: "えのき", amount: 0.5, unit: "パック" },
+                    { name: "コーン缶", amount: 0.5, unit: "缶" },
+                    { name: "卵", amount: 1, unit: "個" },
+                    { name: "もやし", amount: 1, unit: "袋" },
+                    { name: "ツナ缶", amount: 0.5, unit: "缶" },
+                    { name: "レタス", amount: 3, unit: "枚" },
+                    { name: "ミニトマト", amount: 4, unit: "個" },
+                    { name: "大根（おろし用）", amount: 3, unit: "cm" }
+                ],
+                seasonings: [{ name: "お好み焼きソース" }, { name: "マヨネーズ" }, { name: "かつお節" }, { name: "コンソメ顆律" }, { name: "バター" }, { name: "ポン酢" }, { name: "カレー粉" }, { name: "塩・コショウ" }, { name: "ごま油" }, { name: "鶏ガラスープの素" }, { name: "チューブにんにく" }, { name: "水" }],
+                steps: [
+                    { title: "ちぎりレタス塩チョレギサラダ", desc: "レタスを手で一口大にちぎり、半分に切ったトマトとお皿に盛ります。[ごま油:2:小さじ]、[鶏ガラスープの素:0.5:小さじ]、チューブにんにく（1cm）、塩コショウで和えて冷やします。" },
+                    { title: "もやしツナカレーマヨ和え", desc: "もやしをレンジで2分加熱して水気を切ります。ツナ（1/2缶）、[マヨネーズ:1:大さじ]、[カレー粉:0.5:小さじ]、塩コショウ少々でよく和えます。" },
+                    { title: "磯辺揚げの甘辛おろしポン酢", desc: "冷凍ちくわの磯辺揚げをお皿に並べレンジで2分温めます。たっぷりすりおろした大根おろしを乗せ、[ポン酢:2:大さじ]をかけて完成。" },
+                    { title: "えのきコーンのコンソメスープ", desc: "えのきをキッチンバサミで半分にカットし、鍋へ。[水:600:ml]、[コンソメ顆粒:2:小さじ]、コーンを加えて沸騰させます。溶き卵（1個）を回し入れ、仕上げにバター（10g）を溶かします。" },
+                    { title: "チキンカツをお好み焼き風ソースカツに", desc: "冷凍チキンカツをトースターかレンジでカリッと温め、ハサミで一口大にカット。お好み焼きソース、マヨネーズ（各適量）、かつお節をたっぷり振ってジャンクに仕上げます。" }
+                ]
+            },
+            wed: {
+                dayName: "水曜日",
+                type: "超簡単・盛るだけ",
+                pairing: "ウイスキー角ハイボール",
+                pairingText: "スパイシーで芳醇な合鴨パストラミと、濃厚なバター醤油でソテーした焼き鳥串。これにはすっきりした強炭酸のウイスキーハイボールがこの上なく調和します！",
+                menu: [
+                    "並べるだけ！冷凍合鴨パストラミのオニオンハニーマスタード 【主食メイン】",
+                    "えのきと油揚げの白だしすっきりスープ 【汁物】",
+                    "フライパンソテー！もも焼き鳥串の香ばしバター醤油焼き 【副菜メイン】",
+                    "とろっとクリーミー！アボカドとトマトのわさびマヨ和え 【副菜サブ】",
+                    "もやしとワカメのサッパリツナごまポン酢サラダ 【サラダ】"
+                ],
+                ingredients: [
+                    { name: "冷凍合鴨パストラミ（業務スーパー）", amount: 1, unit: "本", isGyosu: true },
+                    { name: "冷凍もも焼きとり串（業務スーパー）", amount: 10, unit: "本", isGyosu: true },
+                    { name: "玉ねぎ（スライス済）", amount: 0.5, unit: "個" },
+                    { name: "油揚げ", amount: 1, unit: "枚" },
+                    { name: "えのき（残りの半分）", amount: 0.5, unit: "パック" },
+                    { name: "冷凍アボカドマッシュ（または生）", amount: 100, unit: "g" },
+                    { name: "ミニトマト", amount: 4, unit: "個" },
+                    { name: "もやし", amount: 1, unit: "袋" },
+                    { name: "乾燥わかめ", amount: 1, unit: "大さじ" },
+                    { name: "ツナ缶（昨日の残り）", amount: 0.5, unit: "缶" }
+                ],
+                seasonings: [{ name: "はちみつ" }, { name: "粒マスタード" }, { name: "白だし" }, { name: "バター" }, { name: "醤油" }, { name: "みりん" }, { name: "わさびチューブ" }, { name: "マヨネーズ" }, { name: "ポン酢" }, { name: "ごま油" }, { name: "すりごま" }, { name: "水" }],
+                steps: [
+                    { title: "アボカドトマトのわさびマヨ和え", desc: "アボカド（冷凍は軽くレンジで温める）と半分に切ったミニトマト（4個）をボウルに入れ、[マヨネーズ:1:大さじ]、わさびチューブ（2cm）、[醤油:0.5:小さじ]で和えて冷やします。" },
+                    { title: "もやしワカメのツナごまポン酢サラダ", desc: "もやしをレンジで2分加熱し、しっかり絞ります。乾燥わかめ（水戻し済）、ツナ（1/2缶）、[ポン酢:1.5:大さじ]、[ごま油:1:小さじ]、すりごま（小さじ1）で和えます。" },
+                    { title: "油揚げとえのきの白だしお吸い物", desc: "鍋に[水:600:ml]、[白だし:1.5:大さじ]、ハサミで細長く切った油揚げ、ほぐしたえのきを入れて中火にかけ、ひと煮立ちさせます。" },
+                    { title: "合鴨パストラミの盛り付け", desc: "事前に水にさらしてしっかり絞ったオニオンスライスをお皿に敷きます。薄くスライスした合鴨パストラミ（1本）を並べ、[はちみつ:1:大さじ]、[粒マスタード:1:大さじ]、[醤油:1:小さじ]を混ぜた特製ソースをかけます。" },
+                    { title: "焼き鳥串のバター醤油焼きをソテー", desc: "フライパンに凍ったままの焼き鳥串（10本）を並べ、フタをしてじっくり蒸し焼きに。中まで火が通ったら、バター（10g）、[醤油:1:大さじ]、[みりん:1:大さじ]を加えて香ばしく絡めます。" }
+                ]
+            },
+            thu: {
+                dayName: "木曜日",
+                type: "栄養重視・包丁いらず",
+                pairing: "芳醇な日本酒 or 焼酎水割り",
+                pairingText: "甘辛のタレと温泉卵が絡み合うビビンバ丼と、ジャコが香ばしいピーマン炒め。この深い旨味には、すっきりとした冷酒や、麦・芋焼酎の水割りが絶妙なペアリングになります。",
+                menu: [
+                    "豚ひき肉とほうれん草のガッツリ男前ビビンバ丼 【主食メイン】",
+                    "お豆腐とワカメのまろやかお味噌汁 【汁物】",
+                    "ハサミで一瞬！ちくわピーマンのジャコごま油炒め 【副菜メイン】",
+                    "ブロッコリーのめんつゆおかかマヨ和え 【副菜サブ】",
+                    "スライスきゅうりとミニトマトのイタリアンマリネ 【サラダ】"
+                ],
+                ingredients: [
+                    { name: "冷凍豚ひき肉（業務スーパー）", amount: 200, unit: "g", isGyosu: true },
+                    { name: "冷凍ほうれん草（業務スーパー）", amount: 80, unit: "g", isGyosu: true },
+                    { name: "もやし", amount: 1, unit: "袋" },
+                    { name: "絹豆腐（月曜の残り）", amount: 0.5, unit: "丁" },
+                    { name: "乾燥わかめ", amount: 1, unit: "大さじ" },
+                    { name: "ちくわ", amount: 3, unit: "本" },
+                    { name: "ピーマン", amount: 3, unit: "個" },
+                    { name: "ちりめんジャコ", amount: 2, unit: "大さじ" },
+                    { name: "冷凍ブロッコリー（業務スーパー）", amount: 100, unit: "g", isGyosu: true },
+                    { name: "きゅうり", amount: 1, unit: "本" },
+                    { name: "ミニトマト", amount: 4, unit: "個" },
+                    { name: "卵（目玉焼きまたは温玉）", amount: 4, unit: "個" },
+                    { name: "ご飯", amount: 4, unit: "人分" }
+                ],
+                seasonings: [{ name: "焼肉のタレ" }, { name: "コチュジャン" }, { name: "ごま油" }, { name: "めんつゆ (3倍濃縮)" }, { name: "かつお節" }, { name: "マヨネーズ" }, { name: "オリーブオイル" }, { name: "酢" }, { name: "塩・コショウ" }, { name: "味噌" }, { name: "和風だしの素" }, { name: "水" }],
+                steps: [
+                    { title: "きゅうりとミニトマトのイタリアンサラダ", desc: "スライサー等できゅうりを薄切りにし、半分に切ったミニトマト（4個）と合わせます。[オリーブオイル:1:大さじ]、[酢:2:小さじ]、塩コショウ（少々）を加えて和えて冷やします。" },
+                    { title: "ブロッコリーのおかかマヨ和え", desc: "冷凍ブロッコリーをレンジで2分加熱して水気を切ります。[めんつゆ:1:小さじ]、[マヨネーズ:1:大さじ]、かつお節（1パック）で和えます。" },
+                    { title: "ちぎり豆腐とワカメのまろやかお味噌汁", desc: "鍋に[水:600:ml]、[和風だしの素:1:小さじ]、乾燥わかめを入れ沸騰させます。豆腐（1/2丁）を手でちぎって入れ、仕上げに[味噌:2:大さじ]を溶き入れます。" },
+                    { title: "ちくわピーマンとジャコのごま油炒め", desc: "ピーマンとちくわをキッチンバサミで細長く切ります。フライパンに[ごま油:2:小さじ]を熱し、ピーマン、ちくわ、ジャコを炒め、塩コショウ少々で調えます。" },
+                    { title: "男前ビビンバ丼を仕上げる", desc: "もやし（1袋）とほうれん草（80g）をそれぞれレンジで温め、[ごま油:1:小さじ]、塩少々でナムルにします。フライパンで豚ひき肉（200g）を炒め、[焼肉のタレ:3:大さじ]で味付け。丼にご飯を盛り、具を美しくのせ、卵をトッピングします。" }
+                ]
+            },
+            fri: {
+                dayName: "金曜日",
+                type: "子供ウケ抜群",
+                pairing: "冷えたウーロンハイ or ビール",
+                pairingText: "華金！みんなでホットプレートやフライパンを囲むチーズプルコギうどんには、さっぱりとお口をリセットする濃いめのウーロンハイや冷たいビールが絶品です。",
+                menu: [
+                    "豚バラと冷凍たまねぎの甘口濃厚チーズプルコギうどん 【主食メイン】",
+                    "もやしとベーコンの中華風コンソメとろみスープ 【汁物】",
+                    "サクサク山盛り！冷凍オニオンリングフライ 【副菜メイン】",
+                    "ちくわとブロッコリーのコーンバター炒め 【副菜サブ】",
+                    "ちぎりレタスとトマトの和風梅ドレッシングサラダ 【サラダ】"
+                ],
+                ingredients: [
+                    { name: "冷凍うどん（業務スーパー）", amount: 4, unit: "玉", isGyosu: true },
+                    { name: "豚バラスライス", amount: 200, unit: "g" },
+                    { name: "冷凍きざみたまねぎ（業務スーパー）", amount: 150, unit: "g", isGyosu: true },
+                    { name: "ハーフベーコン", amount: 3, unit: "枚" },
+                    { name: "もやし", amount: 1, unit: "袋" },
+                    { name: "冷凍オニオンリング（業務スーパー）", amount: 300, unit: "g", isGyosu: true },
+                    { name: "ちくわ", amount: 2, unit: "本" },
+                    { name: "冷凍ブロッコリー（業務スーパー）", amount: 100, unit: "g", isGyosu: true },
+                    { name: "コーン缶", amount: 0.5, unit: "缶" },
+                    { name: "レタス", amount: 3, unit: "枚" },
+                    { name: "ミニトマト", amount: 4, unit: "個" },
+                    { name: "ピザ用とろけるチーズ", amount: 100, unit: "g" }
+                ],
+                seasonings: [{ name: "焼肉のタレ" }, { name: "醤油" }, { name: "砂糖" }, { name: "コンソメ顆粒" }, { name: "バター" }, { name: "梅干し" }, { name: "ポン酢" }, { name: "ごま油" }, { name: "サラダ油" }, { name: "塩・コショウ" }, { name: "水" }],
+                steps: [
+                    { title: "ちぎりレタスとミニトマトの梅和えサラダ", desc: "ちぎったレタスと半分に切ったトマトを器に盛ります。潰した梅干し（1個）、[ポン酢:1:大さじ]、[ごま油:1:小さじ]をよく混ぜ合わせたドレッシングを冷やしておき、直前にかけます。" },
+                    { title: "もやしとベーコンの中華コンソメスープ", desc: "鍋に[水:600:ml]、[コンソメ顆粒:2:小さじ]、もやし、ハサミで細長く切ったベーコンを入れて火にかけます。沸騰したら弱火にし、コショウ少々で味を調えます。" },
+                    { title: "ちくわブロッコリーコーンのソテー", desc: "フライパンに[バター:10:g]を熱し、ハサミで輪切りにしたちくわ、冷凍ブロッコリー、コーンをサッと塩コショウで香ばしくソテーします。" },
+                    { title: "オニオンリングをトースターで焼く", desc: "アルミホイルを敷いたトースターに冷凍オニオンリング（300g）を並べ、表面がカリッと香ばしくなるまで5〜7分焼き上げます。" },
+                    { title: "濃厚甘口チーズプルコギうどん", desc: "別のフライパン（またはホットプレート）に[サラダ油:1:小さじ]を熱し、豚バラ肉、きざみたまねぎを炒めます。温めたうどん（4玉）を入れ、[焼肉のタレ:4:大さじ]、[醤油:1:小さじ]、[砂糖:1:小さじ]で炒め、とろけるチーズをドカンとのせてフタをし、溶かします。" }
+                ]
+            },
+            sat: {
+                dayName: "土曜日",
+                type: "簡単調理・包丁ゼロ",
+                pairing: "すっきりウーロンハイ or レモンサワー",
+                pairingText: "おうちがお祭り屋台に大変身！海鮮の旨味がぎっしり詰まったエビチリ焼きそばと、スパイシーなイカ唐揚げ。すっきり冷えたレモンサワーが最高に似合います！",
+                menu: [
+                    "ぷりぷりエビのたまごエビチリ風焼きそば 【主食メイン】",
+                    "ほうれん草と油揚げのすっきり味噌スープ 【汁物】",
+                    "冷凍イカ唐揚げの甘辛スイートチリマヨ和え 【副菜メイン】",
+                    "ブロッコリーとミニトマトのガーリック和え 【副菜サブ】",
+                    "もやしとカニカマのさっぱりごま酢和え 【サラダ】"
+                ],
+                ingredients: [
+                    { name: "冷凍むきエビ（業務スーパー）", amount: 150, unit: "g", isGyosu: true },
+                    { name: "卵", amount: 2, unit: "個" },
+                    { name: "焼きそば麺", amount: 4, unit: "玉" },
+                    { name: "冷凍ほうれん草（業務スーパー）", amount: 80, unit: "g", isGyosu: true },
+                    { name: "油揚げ", amount: 1, unit: "枚" },
+                    { name: "冷凍イカ唐揚げ（業務スーパー）", amount: 12, unit: "個", isGyosu: true },
+                    { name: "冷凍ブロッコリー（業務スーパー）", amount: 100, unit: "g", isGyosu: true },
+                    { name: "ミニトマト", amount: 4, unit: "個" },
+                    { name: "もやし", amount: 1, unit: "袋" },
+                    { name: "カニカマ（月曜の残り）", amount: 0.5, unit: "パック" }
+                ],
+                seasonings: [{ name: "ケチャップ" }, { name: "砂糖" }, { name: "鶏ガラスープの素" }, { name: "豆板醤" }, { name: "味噌" }, { name: "和風だしの素" }, { name: "スイートチリソース" }, { name: "マヨネーズ" }, { name: "チューブにんにく" }, { name: "オリーブオイル" }, { name: "酢" }, { name: "ごま油" }, { name: "サラダ油" }, { name: "水" }],
+                steps: [
+                    { title: "もやしとカニカマのごま酢和え", desc: "もやしをレンジで2分加熱し、水気を絞ります。手でほぐしたカニカマ、[酢:1:大さじ]、[ごま油:1.5:小さじ]、[砂糖:0.5:小さじ]、塩少々でよく和えて冷やします。" },
+                    { title: "ブロッコリーのガーリック温和え", desc: "冷凍ブロッコリーをレンジで2分加熱し水気を切ります。半分に切ったミニトマト、[オリーブオイル:1:小さじ]、チューブにんにく（1cm分）、塩コショウで和えます。" },
+                    { title: "ほうれん草とお揚げの和風お味噌汁", desc: "鍋に[水:600:ml]、[和風だしの素:1:小さじ]、ハサミで切った油揚げを入れて沸騰。冷凍ほうれん草を加えて、仕上げに[味噌:2:大さじ]を溶き入れます。" },
+                    { title: "冷凍イカ唐揚げのチリマヨ和え", desc: "トースターに冷凍イカ唐揚げを並べ、5〜6分サクサクに焼き上げます。マヨネーズ（大さじ1.5）とスイートチリソース（大さじ1.5）を混ぜたボウルにイカを入れ、サッと和えます。" },
+                    { title: "エビチリ風たまご焼きそばを仕上げる", desc: "フライパンに[サラダ油:1:小さじ]を熱し、溶き卵（2個）で半熟スクランブルエッグを作って取り出します。油を足しエビを炒め、焼きそば麺（4玉）、[水:3:大さじ]を加えてほぐし炒め、[ケチャップ:3:大さじ]、[砂糖:2:小さじ]、[鶏ガラスープの素:1:小さじ]、豆板醤（お好みで数滴）、[水:2:大さじ]を混ぜて加え一気に絡め、卵を戻します。" }
+                ]
+            },
+            sun: {
+                dayName: "日曜日",
+                type: "冷蔵庫お掃除・お楽しみ",
+                pairing: "残りのお酒なんでも！",
+                pairingText: "1週間の締めくくり！おそうじも兼ねた贅沢なデミ焼きカレーと、ハニーペッパーチキン。今週余ったビールやワイン、どんなお酒もおいしいディナーに変身させます！",
+                menu: [
+                    "残りお肉と冷凍野菜全部のせ！濃厚デミグラス焼きカレー 【主食メイン】",
+                    "※スープカレー風でお汁が多いためスープはお休み 【汁物】",
+                    "冷凍フライドチキンのハチミツ醤油ペッパー焼き 【副菜メイン】",
+                    "ほうれん草とベーコンのカリカリおそうじソテー 【副菜サブ】",
+                    "冷蔵庫お掃除！大皿山盛りレタスとトマト、きゅうりの残り野菜サラダ 【サラダ】"
+                ],
+                ingredients: [
+                    { name: "残りのお肉（豚肉やひき肉等）", amount: 150, unit: "g" },
+                    { name: "カレールー", amount: 0.5, unit: "箱" },
+                    { name: "ピザ用とろけるチーズ", amount: 80, unit: "g" },
+                    { name: "冷凍フライドチキン（業務スーパー）", amount: 5, unit: "本", isGyosu: true },
+                    { name: "ハーフベーコン（残り全部）", amount: 3, unit: "枚" },
+                    { name: "冷凍ほうれん草・冷凍ブロッコリーの残り", amount: 100, unit: "g" },
+                    { name: "レタス・きゅうり・トマトなど余り生鮮野菜", amount: 150, unit: "g" }
+                ],
+                seasonings: [{ name: "はちみつ" }, { name: "醤油" }, { name: "黒コショウ" }, { name: "バター" }, { name: "サラダ油" }, { name: "お好みのドレッシング" }, { name: "水" }],
+                steps: [
+                    { title: "冷蔵庫お掃除の千切り・ちぎり大皿サラダ", desc: "冷蔵庫に残っているレタスを手でちぎり、残ったきゅうりやトマトをハサミで切って大皿に盛り付けます。お好みのドレッシングをかけます。" },
+                    { title: "残りほうれん草とコーンのベーコンバター炒め", desc: "フライパンに[バター:10:g]を熱し、細切りのベーコン、残っている冷凍ほうれん草などの冷凍野菜を塩コショウで香ばしく炒めます。" },
+                    { title: "冷凍チキンのハニーペッパー焼き", desc: "冷凍フライドチキンをレンジかトースターでしっかり温めます。フライパン（火を止めた状態）で[はちみつ:1:大さじ]、[醤油:1:大さじ]、たっぷりの黒コショウを混ぜ、温めたチキンを投入して絡め焼きにします。" },
+                    { title: "おそうじ濃厚デミ焼きカレー", desc: "別のフライパンに[サラダ油:1:小さじ]を熱し、残りのお肉、余ったブロッコリーなどを炒めます。[水:350:ml]を加えて煮込み、アクを取り、カレールーを溶かして煮ます。ご飯にカレーをかけ、チーズ（80g）を散らしてトースターで5分焼きます。" }
+                ]
+            }
+        };
+
+        // 買い出しリスト用マスタデータ（4人分基準）
+        const shoppingMaster = [
+            {
+                category: "🟢 業務スーパーで買うもの（冷凍・特大・加工食品）",
+                items: [
+                    { id: "v4_gyoza", name: "冷凍肉餃子", amount: 16, unit: "個", note: "月曜主食用", isGyosu: true, searchKey: "業務スーパー 冷凍餃子", alternative: "チルドの肉餃子 1パック" },
+                    { id: "v4_potatoes", name: "冷凍フレンチフライ", amount: 150, unit: "g", note: "月曜おつまみポテト用", isGyosu: true, searchKey: "業務スーパー 冷凍フライドポテト", alternative: "生のじゃがいも 2個分" },
+                    { id: "v4_isobe", name: "冷凍ちくわ磯辺揚げ", amount: 12, unit: "個", note: "火曜副菜用", isGyosu: true, searchKey: "業務スーパー 冷凍 ちくわ磯辺揚げ", alternative: "スーパーのお惣菜のちくわ磯辺揚げ" },
+                    { id: "v4_kamo", name: "冷凍合鴨パストラミ", amount: 1, unit: "本", note: "水曜高級おつまみ用", isGyosu: true, searchKey: "業務スーパー 冷凍合鴨パストラミ", alternative: "鴨スモークまたはパストラミチキン" },
+                    { id: "v4_yakitori", name: "冷凍もも焼きとり串", amount: 10, unit: "本", note: "水曜メイン用", isGyosu: true, searchKey: "業務スーパー 冷凍もも焼き鳥串", alternative: "生の鶏もも肉を一口大に切って炒める" },
+                    { id: "v4_pork_hiki", name: "冷凍豚ひき肉", amount: 200, unit: "g", note: "木曜ビビンバ用", isGyosu: true, searchKey: "業務スーパー 冷凍豚ひき肉", alternative: "通常の冷蔵ひき肉 200g" },
+                    { id: "v4_spinach", name: "冷凍ほうれん草", amount: 260, unit: "g", note: "木曜、土曜、日曜用", isGyosu: true, searchKey: "業務スーパー 冷凍ほうれん草", alternative: "生のほうれん草 2束" },
+                    { id: "v4_broccoli", name: "冷凍ブロッコリー", amount: 300, unit: "g", note: "木曜、金曜、土曜用", isGyosu: true, searchKey: "業務スーパー 冷凍ブロッコリー", alternative: "生のブロッコリー 1株" },
+                    { id: "v4_udon", name: "冷凍うどん", amount: 4, unit: "玉", note: "金曜主食うどん用", isGyosu: true, searchKey: "業務スーパー 冷凍うどん", alternative: "チルドのうどん 又は 焼きそば麺" },
+                    { id: "v4_onion_ring", name: "冷凍オニオンリング", amount: 300, unit: "g", note: "金曜副菜用", isGyosu: true, searchKey: "業務スーパー 冷凍オニオンリング", alternative: "たまねぎに小麦粉衣をつけて自分で揚げる" },
+                    { id: "v4_shrimp", name: "冷凍むきエビ", amount: 150, unit: "g", note: "土曜焼きそば用", isGyosu: true, searchKey: "業務スーパー 冷凍むきエビ", alternative: "生のエビまたはシーフードミックス" },
+                    { id: "v4_ika", name: "冷凍イカ唐揚げ", amount: 12, unit: "個", note: "土曜チリマヨ用", isGyosu: true, searchKey: "業務スーパー 冷凍イカ唐揚げ", alternative: "冷凍イカリングフライまたはスーパーのお惣菜" },
+                    { id: "v4_chicken", name: "冷凍フライドチキン", amount: 5, unit: "本", note: "日曜用（火曜の残り等でも可）", isGyosu: true, searchKey: "業務スーパー 冷凍フライドチキン", alternative: "骨なしの冷凍唐揚げ 1袋" },
+                    { id: "v4_katsu", name: "冷凍チキンカツ", amount: 5, unit: "枚", note: "火曜お好み風カツ用", isGyosu: true, searchKey: "業務スーパー 冷凍チキンカツ", alternative: "スーパーのお惣菜のチキンカツ 又は 豚カツ" }
+                ]
+            },
+            {
+                category: "🛍️ 一般スーパーで買うもの（生鮮食品・卵・豆腐など）",
+                items: [
+                    { id: "v4_pork_b", name: "豚バラスライス", amount: 200, unit: "g", note: "金曜用お肉" },
+                    { id: "v4_pork_rem", name: "今週の残り肉（デミカレー用）", amount: 150, unit: "g", note: "金曜の残りを充当。足りなければ買い足し" },
+                    { id: "v4_moyashi", name: "もやし", amount: 6, unit: "袋", note: "月、火、水、木、金、土で毎日大活躍" },
+                    { id: "v4_cucumber", name: "きゅうり", amount: 2, unit: "本", note: "月曜、木曜サラダ用" },
+                    { id: "v4_lettuce", name: "レタス", amount: 1, unit: "玉", note: "火、金、日曜サラダ用" },
+                    { id: "v4_tomato", name: "ミニトマト", amount: 2, unit: "パック(約24個)", note: "毎日おそうじまで大活躍" },
+                    { id: "v4_tofu", name: "絹豆腐", amount: 1, unit: "丁", note: "月曜、木曜用" },
+                    { id: "v4_kanikama", name: "カニカマ", amount: 1, unit: "パック", note: "月曜、土曜用" },
+                    { id: "v4_negi_onion", name: "玉ねぎ", amount: 1, unit: "玉", note: "水曜スライス用" },
+                    { id: "v4_aburaage", name: "油揚げ", amount: 2, unit: "枚", note: "水曜、土曜スープ用" },
+                    { id: "v4_enoki", name: "えのき", amount: 1, unit: "パック", note: "火曜、水曜用" },
+                    { id: "v4_peaman", name: "ピーマン", amount: 3, unit: "個", note: "木曜ジャコソテー用" },
+                    { id: "v4_chikuwa", name: "ちくわ", amount: 5, unit: "本", note: "木曜3本、金曜2本" },
+                    { id: "v4_jako", name: "ちりめんジャコ", amount: 2, unit: "大さじ", note: "木曜ピーマン用" },
+                    { id: "v4_corn", name: "コーン缶", amount: 1, unit: "缶", note: "火、金、日曜用" },
+                    { id: "v4_tsuna", name: "ツナ缶", amount: 1, unit: "缶", note: "火、水曜和え物用" },
+                    { id: "v4_bacon", name: "ハーフベーコン", amount: 2, unit: "パック", note: "金曜、日曜用" },
+                    { id: "v4_yakisoba", name: "焼きそば麺", amount: 4, unit: "玉", note: "土曜海鮮チリ用" },
+                    { id: "v4_cheese", name: "ピザ用とろけるチーズ", amount: 230, unit: "g", note: "月50g、金100g、日80g" },
+                    { id: "v4_eggs", name: "卵", amount: 7, unit: "個", note: "火1個、木4個、土2個" },
+                    { id: "v4_curry_box", name: "カレールー", amount: 0.5, unit: "箱", note: "日曜焼きカレー用" }
+                ]
+            },
+            {
+                category: "🧂 基本の調味料（お家にあるかチェック）",
+                isSeasoning: true,
+                items: [
+                    { id: "v4_goma_oil", name: "ごま油", note: "中華・和え物全般" },
+                    { id: "v4_soy_sauce", name: "醤油", note: "基本調味" },
+                    { id: "v4_sugar", name: "砂糖", note: "甘み付け用" },
+                    { id: "v4_rayu", name: "ラー油", note: "ピリ辛用" },
+                    { id: "v4_torigara", name: "鶏ガラスープの素", note: "スープやコク出し" },
+                    { id: "v4_ponzu", name: "ポン酢", note: "タレやおろしポン酢" },
+                    { id: "v4_mayo", name: "マヨネーズ", note: "サラダや和え物" },
+                    { id: "v4_mentai", name: "明太子（またはたらこパスタソース）", note: "月曜ポテト焼き" },
+                    { id: "v4_consome", name: "コンソメ顆粒", note: "スープや味付け" },
+                    { id: "v4_butter", name: "バター", note: "炒め物・風味付け" },
+                    { id: "v4_hachimitsu", name: "はちみつ", note: "パストラミやチキン用" },
+                    { id: "v4_mustard", name: "粒マスタード", note: "水曜合鴨ソース用" },
+                    { id: "v4_shiradashi", name: "白だし", note: "スープ用" },
+                    { id: "v4_mirin", name: "みりん", note: "ソテーや和風味付け" },
+                    { id: "v4_wasabi", name: "わさびチューブ", note: "水曜和え物" },
+                    { id: "v4_yakiniku", name: "焼肉のタレ", note: "木・金曜ガッツリ味付け用" },
+                    { id: "v4_cochu", name: "コチュジャン", note: "木曜ビビンバ用" },
+                    { id: "v4_okonomi", name: "お好み焼きソース", note: "火曜チキンカツ用" },
+                    { id: "v4_katsuo", name: "かつお節", note: "和え物・トッピング用" },
+                    { id: "v4_olive_oil", name: "オリーブオイル", note: "木・土曜イタリアン・ガーリック和え" },
+                    { id: "v4_su", name: "酢", note: "マリネ、ナムル、ごま酢" },
+                    { id: "v4_miso", name: "味噌", note: "木、土曜お味噌汁・スープ用" },
+                    { id: "v4_dashi", name: "和風だしの素", note: "和風味噌汁用" },
+                    { id: "v4_ketchup", name: "ケチャップ", note: "土曜エビチリ焼きそば用" },
+                    { id: "v4_chili", name: "スイートチリソース", note: "土曜チリマヨ和え用" }
+                ]
+            }
+        ];
+
+        // ----------------------------------------------------
+        // 小数を料理用の分数表示に変換するロジック
+        // ----------------------------------------------------
+        function decimalToFraction(val) {
+            if (val <= 0) return "";
+            const integerPart = Math.floor(val);
+            const decimalPart = val - integerPart;
+
+            let fractionStr = "";
+            if (decimalPart > 0) {
+                const eps = 0.03;
+                if (Math.abs(decimalPart - 0.125) < eps) fractionStr = "1/8";
+                else if (Math.abs(decimalPart - 0.25) < eps) fractionStr = "1/4";
+                else if (Math.abs(decimalPart - 0.375) < eps) fractionStr = "3/8";
+                else if (Math.abs(decimalPart - 0.5) < eps) fractionStr = "1/2";
+                else if (Math.abs(decimalPart - 0.625) < eps) fractionStr = "5/8";
+                else if (Math.abs(decimalPart - 0.75) < eps) fractionStr = "3/4";
+                else if (Math.abs(decimalPart - 0.875) < eps) fractionStr = "7/8";
+                else if (Math.abs(decimalPart - 0.33) < eps) fractionStr = "1/3";
+                else if (Math.abs(decimalPart - 0.66) < eps) fractionStr = "2/3";
+                else {
+                    fractionStr = decimalPart.toFixed(1).replace(/\.?0+$/, '');
+                }
+            }
+
+            if (integerPart > 0) {
+                if (fractionStr) {
+                    return `${integerPart}と${fractionStr}`;
+                }
+                return `${integerPart}`;
+            }
+            return fractionStr;
+        }
+
+        // ----------------------------------------------------
+        // アプリ起動時のイニシャライズ
+        // ----------------------------------------------------
+        window.onload = function() {
+            const savedServings = localStorage.getItem('gyosu_v4_servings');
+            if (savedServings) {
+                currentServings = parseInt(savedServings);
+                document.getElementById('servingSize').value = currentServings;
+            }
+
+            renderShoppingList();
+            selectDay(selectedDayKey);
+            restoreCheckboxStates();
+        };
+
+        // ----------------------------------------------------
+        // タブ切り替え処理
+        // ----------------------------------------------------
+        function switchTab(tabId) {
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+            document.getElementById(tabId + 'Tab').classList.add('active');
+
+            const navIds = ['nav-shopping', 'nav-daily', 'nav-prep'];
+            navIds.forEach(id => {
+                const navBtn = document.getElementById(id);
+                if (id === 'nav-' + tabId) {
+                    navBtn.classList.remove('text-stone-400');
+                    navBtn.classList.add('text-amber-900', 'font-bold');
+                } else {
+                    navBtn.classList.remove('text-amber-900', 'font-bold');
+                    navBtn.classList.add('text-stone-400');
+                }
+            });
+
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // 人数によるスケーリング計算
+        function scaleAmount(amount, unit) {
+            if (amount === 0 || amount === undefined) return "";
+            const factor = currentServings / originalServings;
+            let scaled = amount * factor;
+
+            if (unit === "小さじ" || unit === "大さじ") {
+                return `${decimalToFraction(scaled)}${unit}`;
+            }
+
+            if (scaled % 1 !== 0) {
+                scaled = scaled.toFixed(1).replace(/\.0$/, '');
+            }
+            return `${scaled}${unit}`;
+        }
+
+        // 人数チェンジトリガー
+        function changeServings(val) {
+            currentServings = parseInt(val);
+            localStorage.setItem('gyosu_v4_servings', currentServings);
+            
+            renderShoppingList();
+            renderDailyDetails();
+        }
+
+        // 画像検索・代替品の補助機能
+        function searchImage(keyword) {
+            const url = `https://www.google.com/search?tbm=isch&q=${encodeURIComponent(keyword)}`;
+            window.open(url, '_blank');
+        }
+
+        function findGyosuInfo(name) {
+            const gyoCat = shoppingMaster.find(cat => cat.category.includes("業務スーパー"));
+            if (gyoCat) {
+                return gyoCat.items.find(item => 
+                    name.includes(item.name) || item.name.includes(name)
+                );
+            }
+            return null;
+        }
+
+        // ----------------------------------------------------
+        // 買い出しリスト表示
+        // ----------------------------------------------------
+        function renderShoppingList() {
+            const container = document.getElementById('shoppingListContainer');
+            container.innerHTML = '';
+
+            shoppingMaster.forEach((cat) => {
+                let catHtml = `
+                    <div class="bg-white rounded-2xl p-4 shadow-sm border border-stone-100">
+                        <h3 class="text-sm font-bold text-stone-900 mb-3 flex items-center justify-between pb-2 border-b border-stone-100">
+                            <span>${cat.category}</span>
+                            <span class="text-xs text-stone-400 font-normal">お買い物の際にチェック</span>
+                        </h3>
+                        <div class="space-y-3">
+                `;
+
+                cat.items.forEach((item) => {
+                    const scaledStr = cat.isSeasoning ? "" : scaleAmount(item.amount, item.unit);
+                    const checkboxId = `shop-v4-${item.id}`;
+                    
+                    const isGyosu = item.isGyosu && item.searchKey;
+                    
+                    const nameHtml = isGyosu 
+                        ? `<button onclick="searchImage('${item.searchKey}')" class="text-sm font-bold text-amber-900 hover:underline text-left inline-flex items-center space-x-1 decoration-dotted">
+                             <span>📷 ${item.name}</span>
+                           </button>`
+                        : `<span class="text-sm font-medium text-stone-800">${item.name}</span>`;
+
+                    const altHtml = (isGyosu && item.alternative)
+                        ? `<div class="text-[10px] text-amber-800 bg-amber-50 border border-amber-100/50 px-2 py-0.5 rounded-md mt-0.5 font-medium leading-relaxed">
+                             💡 売切れ代替：${item.alternative}
+                           </div>`
+                        : '';
+                    
+                    catHtml += `
+                        <div class="border-b border-stone-50 pb-2.5 last:border-0 last:pb-0">
+                            <label class="flex items-start space-x-3 cursor-pointer select-none group">
+                                <input type="checkbox" id="${checkboxId}" onchange="saveCheckboxState('${checkboxId}', this.checked)" class="mt-1 w-4 h-4 rounded text-amber-900 border-stone-300 focus:ring-amber-900 accent-amber-950">
+                                <div class="flex-1 min-w-0">
+                                    <div class="flex items-center space-x-1.5">
+                                        ${nameHtml}
+                                    </div>
+                                    <span class="text-xs text-stone-400 block mt-0.5">${item.note ? item.note : ''}</span>
+                                    ${altHtml}
+                                </div>
+                                ${scaledStr ? `<span class="text-sm font-bold text-amber-900 shrink-0 bg-amber-50 px-2 py-0.5 rounded-lg">${scaledStr}</span>` : ''}
+                            </label>
+                        </div>
+                    `;
+                });
+
+                catHtml += `
+                        </div>
+                    </div>
+                `;
+                container.innerHTML += catHtml;
+            });
+
+            restoreCheckboxStates();
+        }
+
+        // ----------------------------------------------------
+        // 曜日別切り替え＆詳細レンダリング
+        // ----------------------------------------------------
+        function selectDay(dayKey) {
+            selectedDayKey = dayKey;
+
+            document.querySelectorAll('.day-btn').forEach(btn => {
+                btn.classList.remove('bg-amber-950', 'text-amber-50', 'shadow-sm');
+                btn.classList.add('bg-white', 'text-stone-600', 'hover:bg-stone-100');
+            });
+
+            const activeBtn = document.getElementById(`btn-${dayKey}`);
+            if (activeBtn) {
+                activeBtn.classList.remove('bg-white', 'text-stone-600', 'hover:bg-stone-100');
+                activeBtn.classList.add('bg-amber-950', 'text-amber-50', 'shadow-sm');
+                activeBtn.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+            }
+
+            renderDailyDetails();
+        }
+
+        function replaceScaleTokens(text) {
+            return text.replace(/\[([^:]+):([0-9.]+):([^\]]+)\]/g, (match, name, amount, unit) => {
+                const scaled = scaleAmount(parseFloat(amount), unit);
+                return `<strong class="text-amber-800 font-bold">${name}（${scaled}）</strong>`;
+            });
+        }
+
+        function renderDailyDetails() {
+            const data = menuData[selectedDayKey];
+            if (!data) return;
+
+            document.getElementById('dayTitleBadge').innerText = data.type;
+            document.getElementById('dayTitleName').innerText = `${data.dayName}のおつまみ献立`;
+            document.getElementById('dayPairingTag').innerText = `${data.pairing}が抜群！`;
+            document.getElementById('pairingDetails').innerText = data.pairingText;
+
+            const menuList = document.getElementById('todayMenuElements');
+            menuList.innerHTML = '';
+            data.menu.forEach((dish) => {
+                let emoji = "🥗";
+                if (dish.includes("主食")) emoji = "🍳";
+                else if (dish.includes("汁物")) emoji = "🥣";
+                else if (dish.includes("副菜メイン")) emoji = "🍗";
+                else if (dish.includes("副菜サブ")) emoji = "🥢";
+                
+                menuList.innerHTML += `
+                    <li class="flex items-start space-x-2.5">
+                        <span class="text-base shrink-0">${emoji}</span>
+                        <span class="font-medium">${dish}</span>
+                    </li>
+                `;
+            });
+
+            // 食材一発取り出しチェックリスト
+            const ingContainer = document.getElementById('dayIngredientsList');
+            ingContainer.innerHTML = '';
+            data.ingredients.forEach((ing, index) => {
+                const scaledStr = scaleAmount(ing.amount, ing.unit);
+                const id = `ing-v4-${selectedDayKey}-${index}`;
+                
+                const gyoInfo = findGyosuInfo(ing.name);
+                const nameHtml = gyoInfo 
+                    ? `<button onclick="searchImage('${gyoInfo.searchKey}')" class="text-xs font-bold text-amber-900 hover:underline text-left inline-flex items-center space-x-1 decoration-dotted">
+                         <span>📷 ${ing.name}</span>
+                       </button>`
+                    : `<span class="text-xs font-semibold text-stone-700">${ing.name}</span>`;
+                
+                const altHtml = (gyoInfo && gyoInfo.alternative)
+                    ? `<div class="text-[9px] text-amber-800 bg-amber-50 border border-amber-100/50 px-1.5 py-0.5 rounded-md mt-0.5 font-medium leading-tight">
+                         💡 代替：${gyoInfo.alternative}
+                       </div>`
+                    : '';
+
+                ingContainer.innerHTML += `
+                    <div class="border-b border-stone-50 pb-1.5 last:border-0 last:pb-0">
+                        <label class="flex items-start space-x-3 cursor-pointer py-0.5">
+                            <input type="checkbox" id="${id}" onchange="saveCheckboxState('${id}', this.checked)" class="mt-0.5 w-4 h-4 rounded text-amber-950 border-stone-300 focus:ring-amber-900 accent-amber-950">
+                            <div class="flex-1 min-w-0">
+                                <div class="flex items-center space-x-1.5">
+                                    ${nameHtml}
+                                </div>
+                                ${altHtml}
+                            </div>
+                            <span class="text-xs font-bold text-amber-900 bg-amber-50 px-2 py-0.5 rounded-md shrink-0">${scaledStr}</span>
+                        </label>
+                    </div>
+                `;
+            });
+
+            // 調味料チェックリスト（分量表示なし）
+            const secContainer = document.getElementById('daySeasoningsList');
+            secContainer.innerHTML = '';
+            data.seasonings.forEach((sec, index) => {
+                const id = `sec-v4-${selectedDayKey}-${index}`;
+                secContainer.innerHTML += `
+                    <label class="flex items-center space-x-3 cursor-pointer py-1">
+                        <input type="checkbox" id="${id}" onchange="saveCheckboxState('${id}', this.checked)" class="w-4 h-4 rounded text-amber-950 border-stone-300 focus:ring-amber-900 accent-amber-950">
+                        <span class="text-xs font-semibold text-stone-700 flex-1">${sec.name}</span>
+                    </label>
+                `;
+            });
+
+            // 効率調理ステップの表示
+            const stepsContainer = document.getElementById('cookingStepsContainer');
+            stepsContainer.innerHTML = '';
+            data.steps.forEach((step, index) => {
+                const processedDesc = replaceScaleTokens(step.desc);
+                stepsContainer.innerHTML += `
+                    <div class="flex space-x-3 relative">
+                        <div class="z-10 bg-amber-950 text-amber-50 w-8 h-8 rounded-full flex items-center justify-center font-bold text-sm shrink-0 shadow-sm">
+                            ${index + 1}
+                        </div>
+                        <div class="bg-stone-50 rounded-xl p-3.5 border border-stone-100 flex-1">
+                            <h4 class="text-xs font-black text-stone-900 mb-1 flex items-center justify-between">
+                                <span>${step.title}</span>
+                                <span class="text-[10px] text-amber-800 bg-amber-100/60 px-2 py-0.5 rounded-full">調理順 ${index + 1}</span>
+                            </h4>
+                            <p class="text-xs text-stone-600 leading-relaxed">${processedDesc}</p>
+                        </div>
+                    </div>
+                `;
+            });
+
+            restoreCheckboxStates();
+        }
+
+        // ----------------------------------------------------
+        // チェックボックスの状態制御（ローカルストレージ）
+        // ----------------------------------------------------
+        function saveCheckboxState(id, isChecked) {
+            localStorage.setItem(`gyosu_v4_chk_${id}`, isChecked);
+            
+            const checkbox = document.getElementById(id);
+            if (checkbox) {
+                const parentLabel = checkbox.closest('label');
+                if (parentLabel) {
+                    if (isChecked) {
+                        parentLabel.classList.add('opacity-50');
+                    } else {
+                        parentLabel.classList.remove('opacity-50');
+                    }
+                }
+            }
+        }
+
+        function restoreCheckboxStates() {
+            document.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
+                const id = checkbox.id;
+                const savedState = localStorage.getItem(`gyosu_v4_chk_${id}`);
+                if (savedState === 'true') {
+                    checkbox.checked = true;
+                    const parentLabel = checkbox.closest('label');
+                    if (parentLabel) parentLabel.classList.add('opacity-50');
+                } else {
+                    checkbox.checked = false;
+                    const parentLabel = checkbox.closest('label');
+                    if (parentLabel) parentLabel.classList.remove('opacity-50');
+                }
+            });
+        }
+
+        function resetShoppingCheckboxes() {
+            for (let i = 0; i < localStorage.length; i++) {
+                const key = localStorage.key(i);
+                if (key && key.startsWith('gyosu_v4_chk_shop-v4-')) {
+                    localStorage.removeItem(key);
+                    i--;
+                }
+            }
+            renderShoppingList();
+        }
+
+        function resetDailyCheckboxes() {
+            for (let i = 0; i < localStorage.length; i++) {
+                const key = localStorage.key(i);
+                if (key && (key.startsWith(`gyosu_v4_chk_ing-v4-${selectedDayKey}`) || key.startsWith(`gyosu_v4_chk_sec-v4-${selectedDayKey}`))) {
+                    localStorage.removeItem(key);
+                    i--;
+                }
+            }
+            renderDailyDetails();
+        }
+    </script>
+</body>
+</html>
