@@ -1,0 +1,81 @@
+<!-- ... existing code ... -->
+    <style>
+        body {
+            font-family: 'Inter', 'Noto Sans JP', sans-serif;
+            background-color: #fcfbfa;
+        }
+        .tab-content {
+            display: none;
+        }
+        .tab-content.active {
+            display: block;
+        }
+        .scrollbar-none::-webkit-scrollbar {
+            display: none;
+        }
+    </style>
+</head>
+<body class="text-stone-800 antialiased min-h-screen pb-24">
+<!-- ... existing code ... -->
+        // 買い出しリスト用マスタデータ（4人分基準）
+        const shoppingMaster = [
+            {
+                category: "🟢 業務スーパーで買うもの（冷凍・特大・加工食品）",
+                items: [
+                    { id: "v5_beef_c", name: "冷凍牛カルビ肉（または豚肉）", amount: 300, unit: "g", note: "月曜プルコギ用", isGyosu: true, searchKey: "業務スーパー 冷凍牛カルビ肉", alternative: "一般スーパーのバラ薄切り肉 300g" },
+                    { id: "v5_chicken_m", name: "冷凍鶏もも肉（一口大カット）", amount: 300, unit: "g", note: "水曜カシュー炒め用", isGyosu: true, searchKey: "業務スーパー 冷凍鶏もも肉", alternative: "生の鶏もも肉 1枚" },
+                    { id: "v5_teba", name: "冷凍手羽元", amount: 8, unit: "本", note: "日曜ポン酢煮用", isGyosu: true, searchKey: "業務スーパー 冷凍手羽元", alternative: "生の鶏手羽元 8本" },
+                    { id: "v5_shakemin", name: "冷凍秋鮭切り身", amount: 4, unit: "切れ", note: "土曜ちゃんちゃん焼き用", isGyosu: true, searchKey: "業務スーパー 冷凍秋鮭切り身", alternative: "生の鮭切り身 4切れ" },
+                    { id: "v5_saba", name: "冷凍骨とりサバフィレ", amount: 3, unit: "枚", note: "金曜みそ竜田揚げ用", isGyosu: true, searchKey: "業務スーパー 冷凍サバフィレ", alternative: "生サバの切り身 3枚分" },
+                    { id: "v5_sakana_f", name: "冷凍白身魚フライ", amount: 4, unit: "枚", note: "火曜タルタル南蛮用", isGyosu: true, searchKey: "業務スーパー 冷凍白身魚フライ", alternative: "スーパーのお惣菜の白身魚フライ" },
+                    { id: "v5_gyoza", name: "冷凍肉餃子", amount: 12, unit: "個", note: "木曜餃子ソテー用", isGyosu: true, searchKey: "業務スーパー 冷凍肉餃子", alternative: "チルドの肉餃子 1パック" },
+                    { id: "v5_isobe", name: "冷凍ちくわ磯辺揚げ", amount: 12, unit: "個", note: "水曜チリマヨ用", isGyosu: true, searchKey: "業務スーパー 冷凍ちくわ磯辺揚げ", alternative: "お惣菜のちくわ磯辺揚げ 1袋" },
+                    { id: "v5_hamburg", name: "冷凍ミニハンバーグ", amount: 6, unit: "個", note: "日曜おそうじ用", isGyosu: true, searchKey: "業務スーパー 冷凍ミニハンバーグ", alternative: "お弁当用のチルドミニハンバーグ" },
+                    { id: "v5_shrimp", name: "冷凍むきエビ", amount: 150, unit: "g", note: "土曜エビソテー用", isGyosu: true, searchKey: "業務スーパー 冷凍むきエビ", alternative: "シーフードミックス 又は 生のむきエビ" },
+                    { id: "v5_potatoes", name: "冷凍フレンチフライ", amount: 150, unit: "g", note: "火曜おつまみポテト用", isGyosu: true, searchKey: "業務スーパー 冷凍フライドポテト", alternative: "生のじゃがいも 2個分" },
+                    { id: "v5_onion_r", name: "冷凍オニオンリング", amount: 150, unit: "g", note: "金曜副菜用", isGyosu: true, searchKey: "業務スーパー 冷凍オニオンリング", alternative: "惣菜のフライ類" },
+                    { id: "v5_broccoli", name: "冷凍ブロッコリー", amount: 180, unit: "g", note: "木曜80g、土曜100g用", isGyosu: true, searchKey: "業務スーパー 冷凍ブロッコリー", alternative: "生のブロッコリー 1/2株" },
+                    { id: "v5_spinach", name: "冷凍ほうれん草", amount: 100, unit: "g", note: "日曜おそうじ用", isGyosu: true, searchKey: "業務スーパー 冷凍ほうれん草", alternative: "生のほうれん草 1束" },
+                    { id: "v5_daikon", name: "冷凍大根（または生大根）", amount: 300, unit: "g", note: "木曜煮物用", isGyosu: true, searchKey: "業務スーパー 冷凍大根", alternative: "生の大根 1/4本分" },
+                    { id: "v5_onion_k", name: "冷凍きざみたまねぎ", amount: 150, unit: "g", note: "月曜プルコギ用", isGyosu: true, searchKey: "業務スーパー 冷凍きざみたまねぎ", alternative: "生たまねぎ 1/2玉分" }
+                ]
+            },
+            {
+                category: "🛍️ 一般スーパーで買うもの（生鮮食品・卵・豆腐など）",
+                items: [
+                    { id: "v5_pork_b", name: "豚バラスライス", amount: 200, unit: "g", note: "木曜大根煮用お肉" },
+                    { id: "v5_nira", name: "ニラ", amount: 0.5, unit: "束", note: "月曜卵焼き用" },
+                    { id: "v5_moyashi", name: "もやし", amount: 3, unit: "袋", note: "月曜半袋、水曜1袋、木曜半袋、土曜半袋" },
+                    { id: "v5_cabbage", name: "キャベツ", amount: 0.5, unit: "玉", note: "火曜、金曜、土曜ちゃんちゃん焼き用" },
+                    { id: "v5_cucumber", name: "きゅうり", amount: 2, unit: "本", note: "水曜サラダ用、土曜サラダ用" },
+                    { id: "v5_lettuce", name: "レタス", amount: 0.5, unit: "玉", note: "月曜サラダ用、おそうじ用" },
+                    { id: "v5_tomato", name: "ミニトマト", amount: 2, unit: "パック", note: "火曜、水曜、金曜に幅広く使用" },
+                    { id: "v5_tofu", name: "絹豆腐", amount: 2, unit: "丁", note: "月、木、金曜に幅広く大活躍" },
+                    { id: "v5_negi", name: "白ねぎ", amount: 1, unit: "本", note: "火曜、木曜、金曜用" },
+                    { id: "v5_peaman", name: "ピーマン", amount: 3, unit: "個", note: "水曜鶏もも炒め用" },
+                    { id: "v5_chikuwa", name: "ちくわ", amount: 5, unit: "本", note: "月、木、土曜、おそうじ用" },
+                    { id: "v5_abura", name: "油揚げ", amount: 2, unit: "枚", note: "火、金、土曜スープ用" },
+                    { id: "v5_enoki", name: "えのき", amount: 0.5, unit: "パック", note: "金曜お吸い物用" },
+                    { id: "v5_kanikama", name: "カニカマ", amount: 1, unit: "パック", note: "火曜、木曜、土曜用" },
+                    { id: "v5_corn_can", name: "コーン缶", amount: 2, unit: "缶", note: "火、水、土曜用で計1.5缶分" },
+                    { id: "v5_tsuna_can", name: "ツナ缶", amount: 1, unit: "缶", note: "水曜半缶、土曜半缶用" },
+                    { id: "v5_shirasu", name: "しらす", amount: 20, unit: "g", note: "金曜しらすサラダ用" },
+                    { id: "v5_bacon", name: "ハーフベーコン", amount: 1, unit: "パック", note: "日曜ほうれん草炒め用" },
+                    { id: "v5_eggs", name: "卵", amount: 6, unit: "個", note: "月2個、火1個、水1個、土1個、おそうじ用" },
+                    { id: "v5_nuts", name: "カシューナッツ（またはピーナッツ）", amount: 30, unit: "g", note: "水曜メイン用" },
+                    { id: "v5_ume", name: "梅干し", amount: 1, unit: "個", note: "木曜さっぱりナムル用" },
+                    { id: "v5_kankoku_nori", name: "韓国のり", amount: 1, unit: "パック", note: "月曜レタスサラダ用" },
+                    { id: "v5_wakame_dry", name: "乾燥わかめ", amount: 3, unit: "大さじ", note: "月、木、土曜スープ用" }
+                ]
+            },
+            {
+// ... existing code ...
+```
+
+### 🛠️ 最終チェックの修正まとめ
+*   **もやし、絹豆腐、コーン缶、乾燥わかめ、ミニトマトの整合性を100%連動**:
+    マスタ内の数値定義とテキスト、注釈から古い曜日を削除し、実際のレシピに完全に一致させました。乾燥わかめの追加により、月曜・木曜・土曜に必要となるすべての買い出し品が抜け漏れなく網羅されています。
+*   **スクロールバーの非表示**:
+    スマホで操作した際に、曜日切り替え部分が美しくスワイプできるようCSSを調整しました。
+
+これで文字通りの「完全な決定版アプリ」となりました。安心してご活用ください！
