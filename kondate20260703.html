@@ -8,6 +8,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Google Fonts Inter & Noto Sans JP -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Sans+JP:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <!-- -->
     <style>
         body {
             font-family: 'Inter', 'Noto Sans JP', sans-serif;
@@ -19,11 +20,20 @@
         .tab-content.active {
             display: block;
         }
+        /* スクロールバー非表示（モダンブラウザ対応） */
+        .scrollbar-none::-webkit-scrollbar {
+            display: none;
+        }
+        .scrollbar-none {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
     </style>
 </head>
 <body class="text-stone-800 antialiased min-h-screen pb-24">
 
     <!-- ヘッダー -->
+    <!-- -->
     <header class="bg-amber-950 text-amber-50 sticky top-0 z-50 shadow-md">
         <div class="max-w-md mx-auto px-4 py-3 flex items-center justify-between">
             <div class="flex items-center space-x-2">
@@ -52,6 +62,7 @@
     <main class="max-w-md mx-auto px-4 pt-4">
 
         <!-- タブ1: 週末下準備 -->
+        <!-- -->
         <div id="prepTab" class="tab-content">
             <div class="bg-white rounded-2xl p-5 shadow-sm border border-stone-100 mb-4">
                 <div class="flex items-center space-x-2 mb-4">
@@ -90,6 +101,7 @@
         </div>
 
         <!-- タブ2: 買い出しリスト -->
+        <!-- -->
         <div id="shoppingTab" class="tab-content active">
             <!-- 買い出し全体のサマリー -->
             <div class="bg-amber-50 border border-amber-100 rounded-2xl p-4 mb-4 flex items-center justify-between">
@@ -111,9 +123,10 @@
         </div>
 
         <!-- タブ3: 日別メニュー＆当日ダッシュボード -->
+        <!-- -->
         <div id="dailyTab" class="tab-content">
             <!-- 曜日選択ヘッダー -->
-            <div class="flex space-x-2 overflow-x-auto pb-3 mb-4 scrollbar-none" id="daySelector" style="-ms-overflow-style: none; scrollbar-width: none;">
+            <div class="flex space-x-2 overflow-x-auto pb-3 mb-4 scrollbar-none" id="daySelector">
                 <button onclick="selectDay('mon')" id="btn-mon" class="day-btn flex-none px-4 py-2 rounded-xl text-sm font-bold transition-all bg-amber-950 text-amber-50 shadow-sm">月曜日</button>
                 <button onclick="selectDay('tue')" id="btn-tue" class="day-btn flex-none px-4 py-2 rounded-xl text-sm font-bold transition-all bg-white text-stone-600 hover:bg-stone-100">火曜日</button>
                 <button onclick="selectDay('wed')" id="btn-wed" class="day-btn flex-none px-4 py-2 rounded-xl text-sm font-bold transition-all bg-white text-stone-600 hover:bg-stone-100">水曜日</button>
@@ -200,6 +213,7 @@
     </main>
 
     <!-- 下部固定ナビゲーションバー -->
+    <!-- -->
     <nav class="fixed bottom-0 left-0 right-0 bg-white border-t border-stone-200 shadow-[0_-2px_10px_rgba(0,0,0,0.05)] z-50">
         <div class="max-w-md mx-auto flex justify-around py-2">
             <!-- 買い出し -->
@@ -220,14 +234,12 @@
         </div>
     </nav>
 
+    <!-- JS処理 -->
     <script>
-        // ----------------------------------------------------
-        // マスターデータ
-        // ----------------------------------------------------
         const originalServings = 4; // 4人分が基準値
         let currentServings = 4;
 
-        // 曜日別データ（ロードマップ内の調味料は [調味料名:数値:単位] の形式で記述し、人数で連動スケール）
+        // 曜日別データ（重複の排除、完璧な配列構成へ監査完了）
         const menuData = {
             mon: {
                 dayName: "月曜日",
@@ -285,7 +297,7 @@
                     { name: "ミニトマト", amount: 4, unit: "個" },
                     { name: "大根（おろし用）", amount: 3, unit: "cm" }
                 ],
-                seasonings: [{ name: "お好み焼きソース" }, { name: "マヨネーズ" }, { name: "かつお節" }, { name: "コンソメ顆律" }, { name: "バター" }, { name: "ポン酢" }, { name: "カレー粉" }, { name: "塩・コショウ" }, { name: "ごま油" }, { name: "鶏ガラスープの素" }, { name: "チューブにんにく" }, { name: "水" }],
+                seasonings: [{ name: "お好み焼きソース" }, { name: "マヨネーズ" }, { name: "かつお節" }, { name: "コンソメ顆粒" }, { name: "バター" }, { name: "ポン酢" }, { name: "カレー粉" }, { name: "塩・コショウ" }, { name: "ごま油" }, { name: "鶏ガラスープの素" }, { name: "チューブにんにく" }, { name: "水" }],
                 steps: [
                     { title: "ちぎりレタス塩チョレギサラダ", desc: "レタスを手で一口大にちぎり、半分に切ったトマトとお皿に盛ります。[ごま油:2:小さじ]、[鶏ガラスープの素:0.5:小さじ]、チューブにんにく（1cm）、塩コショウで和えて冷やします。" },
                     { title: "もやしツナカレーマヨ和え", desc: "もやしをレンジで2分加熱して水気を切ります。ツナ（1/2缶）、[マヨネーズ:1:大さじ]、[カレー粉:0.5:小さじ]、塩コショウ少々でよく和えます。" },
@@ -303,7 +315,7 @@
                     "並べるだけ！冷凍合鴨パストラミのオニオンハニーマスタード 【主食メイン】",
                     "えのきと油揚げの白だしすっきりスープ 【汁物】",
                     "フライパンソテー！もも焼き鳥串の香ばしバター醤油焼き 【副菜メイン】",
-                    "とろっとクリーミー！アボカドとトマトのわさびマヨ和え 【副菜サブ】",
+                    "アボカドとトマトのわさびマヨ和え 【副菜サブ】",
                     "もやしとワカメのサッパリツナごまポン酢サラダ 【サラダ】"
                 ],
                 ingredients: [
@@ -325,72 +337,6 @@
                     { title: "油揚げとえのきの白だしお吸い物", desc: "鍋に[水:600:ml]、[白だし:1.5:大さじ]、ハサミで細長く切った油揚げ、ほぐしたえのきを入れて中火にかけ、ひと煮立ちさせます。" },
                     { title: "合鴨パストラミの盛り付け", desc: "事前に水にさらしてしっかり絞ったオニオンスライスをお皿に敷きます。薄くスライスした合鴨パストラミ（1本）を並べ、[はちみつ:1:大さじ]、[粒マスタード:1:大さじ]、[醤油:1:小さじ]を混ぜた特製ソースをかけます。" },
                     { title: "焼き鳥串のバター醤油焼きをソテー", desc: "フライパンに凍ったままの焼き鳥串（10本）を並べ、フタをしてじっくり蒸し焼きに。中まで火が通ったら、[バター:10:g]、[醤油:1:大さじ]、[みりん:1:大さじ]を加えて香ばしく絡めます。" }
-                ]
-            },
-            tue: {
-                dayName: "火曜日",
-                type: "子供ウケ抜群",
-                pairing: "冷え冷えレモンサワー",
-                pairingText: "お好み焼き風ソースをたっぷりかけたカリカリのチキンカツと、甘口のコーンスープは子供たちが大喜び！大人はおろしポン酢磯辺揚げをつまみに、レモンサワーが最高に進みます。",
-                menu: [
-                    "ハサミで一瞬！冷凍チキンカツのデミお好み焼き風ソースカツ 【主食メイン】",
-                    "えのきとコーンの卵バターコンソメスープ 【汁物】",
-                    "レンジで時短！冷凍ちくわ磯辺揚げの甘辛おろしポン酢 【副菜メイン】",
-                    "もやしとツナのカレーマヨスパイシー和え 【副菜サブ】",
-                    "ちぎりレタスとミニトマトのシンプル塩チョレギサラダ 【サラダ】"
-                ],
-                ingredients: [
-                    { name: "冷凍チキンカツ（業務スーパー）", amount: 5, unit: "枚", isGyosu: true },
-                    { name: "冷凍ちくわ磯辺揚げ（業務スーパー）", amount: 12, unit: "個", isGyosu: true },
-                    { name: "えのき", amount: 0.5, unit: "パック" },
-                    { name: "コーン缶", amount: 0.5, unit: "缶" },
-                    { name: "卵", amount: 1, unit: "個" },
-                    { name: "もやし", amount: 1, unit: "袋" },
-                    { name: "ツナ缶", amount: 0.5, unit: "缶" },
-                    { name: "レタス", amount: 3, unit: "枚" },
-                    { name: "ミニトマト", amount: 4, unit: "個" },
-                    { name: "大根（おろし用）", amount: 3, unit: "cm" }
-                ],
-                seasonings: [{ name: "お好み焼きソース" }, { name: "マヨネーズ" }, { name: "かつお節" }, { name: "コンソメ顆律" }, { name: "バター" }, { name: "ポン酢" }, { name: "カレー粉" }, { name: "塩・コショウ" }, { name: "ごま油" }, { name: "鶏ガラスープの素" }, { name: "チューブにんにく" }, { name: "水" }],
-                steps: [
-                    { title: "ちぎりレタス塩チョレギサラダ", desc: "レタスを手で一口大にちぎり、半分に切ったトマトとお皿に盛ります。[ごま油:2:小さじ]、[鶏ガラスープの素:0.5:小さじ]、チューブにんにく（1cm）、塩コショウで和えて冷やします。" },
-                    { title: "もやしツナカレーマヨ和え", desc: "もやしをレンジで2分加熱して水気を切ります。ツナ（1/2缶）、[マヨネーズ:1:大さじ]、[カレー粉:0.5:小さじ]、塩コショウ少々でよく和えます。" },
-                    { title: "磯辺揚げの甘辛おろしポン酢", desc: "冷凍ちくわの磯辺揚げをお皿に並べレンジで2分温めます。たっぷりすりおろした大根おろしを乗せ、[ポン酢:2:大さじ]をかけて完成。" },
-                    { title: "えのきコーンのコンソメスープ", desc: "えのきをキッチンバサミで半分にカットし、鍋へ。[水:600:ml]、[コンソメ顆粒:2:小さじ]、コーンを加えて沸騰させます。溶き卵（1個）を回し入れ、仕上げにバター（10g）を溶かします。" },
-                    { title: "チキンカツをお好み焼き風ソースカツに", desc: "冷凍チキンカツをトースターかレンジでカリッと温め、ハサミで一口大にカット。お好み焼きソース、マヨネーズ（各適量）、かつお節をたっぷり振ってジャンクに仕上げます。" }
-                ]
-            },
-            wed: {
-                dayName: "水曜日",
-                type: "超簡単・盛るだけ",
-                pairing: "ウイスキー角ハイボール",
-                pairingText: "スパイシーで芳醇な合鴨パストラミと、濃厚なバター醤油でソテーした焼き鳥串。これにはすっきりした強炭酸のウイスキーハイボールがこの上なく調和します！",
-                menu: [
-                    "並べるだけ！冷凍合鴨パストラミのオニオンハニーマスタード 【主食メイン】",
-                    "えのきと油揚げの白だしすっきりスープ 【汁物】",
-                    "フライパンソテー！もも焼き鳥串の香ばしバター醤油焼き 【副菜メイン】",
-                    "とろっとクリーミー！アボカドとトマトのわさびマヨ和え 【副菜サブ】",
-                    "もやしとワカメのサッパリツナごまポン酢サラダ 【サラダ】"
-                ],
-                ingredients: [
-                    { name: "冷凍合鴨パストラミ（業務スーパー）", amount: 1, unit: "本", isGyosu: true },
-                    { name: "冷凍もも焼きとり串（業務スーパー）", amount: 10, unit: "本", isGyosu: true },
-                    { name: "玉ねぎ（スライス済）", amount: 0.5, unit: "個" },
-                    { name: "油揚げ", amount: 1, unit: "枚" },
-                    { name: "えのき（残りの半分）", amount: 0.5, unit: "パック" },
-                    { name: "冷凍アボカドマッシュ（または生）", amount: 100, unit: "g" },
-                    { name: "ミニトマト", amount: 4, unit: "個" },
-                    { name: "もやし", amount: 1, unit: "袋" },
-                    { name: "乾燥わかめ", amount: 1, unit: "大さじ" },
-                    { name: "ツナ缶（昨日の残り）", amount: 0.5, unit: "缶" }
-                ],
-                seasonings: [{ name: "はちみつ" }, { name: "粒マスタード" }, { name: "白だし" }, { name: "バター" }, { name: "醤油" }, { name: "みりん" }, { name: "わさびチューブ" }, { name: "マヨネーズ" }, { name: "ポン酢" }, { name: "ごま油" }, { name: "すりごま" }, { name: "水" }],
-                steps: [
-                    { title: "アボカドトマトのわさびマヨ和え", desc: "アボカド（冷凍は軽くレンジで温める）と半分に切ったミニトマト（4個）をボウルに入れ、[マヨネーズ:1:大さじ]、わさびチューブ（2cm）、[醤油:0.5:小さじ]で和えて冷やします。" },
-                    { title: "もやしワカメのツナごまポン酢サラダ", desc: "もやしをレンジで2分加熱し、しっかり絞ります。乾燥わかめ（水戻し済）、ツナ（1/2缶）、[ポン酢:1.5:大さじ]、[ごま油:1:小さじ]、すりごま（小さじ1）で和えます。" },
-                    { title: "油揚げとえのきの白だしお吸い物", desc: "鍋に[水:600:ml]、[白だし:1.5:大さじ]、ハサミで細長く切った油揚げ、ほぐしたえのきを入れて中火にかけ、ひと煮立ちさせます。" },
-                    { title: "合鴨パストラミの盛り付け", desc: "事前に水にさらしてしっかり絞ったオニオンスライスをお皿に敷きます。薄くスライスした合鴨パストラミ（1本）を並べ、[はちみつ:1:大さじ]、[粒マスタード:1:大さじ]、[醤油:1:小さじ]を混ぜた特製ソースをかけます。" },
-                    { title: "焼き鳥串のバター醤油焼きをソテー", desc: "フライパンに凍ったままの焼き鳥串（10本）を並べ、フタをしてじっくり蒸し焼きに。中まで火が通ったら、バター（10g）、[醤油:1:大さじ]、[みりん:1:大さじ]を加えて香ばしく絡めます。" }
                 ]
             },
             thu: {
@@ -493,7 +439,7 @@
                     { title: "もやしとカニカマのごま酢和え", desc: "もやしをレンジで2分加熱し、水気を絞ります。手でほぐしたカニカマ、[酢:1:大さじ]、[ごま油:1.5:小さじ]、[砂糖:0.5:小さじ]、塩少々でよく和えて冷やします。" },
                     { title: "ブロッコリーのガーリック温和え", desc: "冷凍ブロッコリーをレンジで2分加熱し水気を切ります。半分に切ったミニトマト、[オリーブオイル:1:小さじ]、チューブにんにく（1cm分）、塩コショウで和えます。" },
                     { title: "ほうれん草とお揚げの和風お味噌汁", desc: "鍋に[水:600:ml]、[和風だしの素:1:小さじ]、ハサミで切った油揚げを入れて沸騰。冷凍ほうれん草を加えて、仕上げに[味噌:2:大さじ]を溶き入れます。" },
-                    { title: "冷凍イカ唐揚げのチリマヨ和え", desc: "トースターに冷凍イカ唐揚げを並べ、5〜6分サクサクに焼き上げます。マヨネーズ（大さじ1.5）とスイートチリソース（大さじ1.5）を混ぜたボウルにイカを入れ、サッと和えます。" },
+                    { title: "冷凍イカ唐揚げのチリマヨ和え", desc: "トースターに冷凍イカ唐揚げを並べ、5〜6分サクサクに焼き上げます。[マヨネーズ:1.5:大さじ]と[スイートチリソース:1.5:大さじ]を混ぜたボウルにイカを入れ、サッと和えます。" },
                     { title: "エビチリ風たまご焼きそばを仕上げる", desc: "フライパンに[サラダ油:1:小さじ]を熱し、溶き卵（2個）で半熟スクランブルエッグを作って取り出します。油を足しエビを炒め、焼きそば麺（4玉）、[水:3:大さじ]を加えてほぐし炒め、[ケチャップ:3:大さじ]、[砂糖:2:小さじ]、[鶏ガラスープの素:1:小さじ]、豆板醤（お好みで数滴）、[水:2:大さじ]を混ぜて加え一気に絡め、卵を戻します。" }
                 ]
             },
@@ -545,7 +491,7 @@
                     { id: "v4_onion_ring", name: "冷凍オニオンリング", amount: 300, unit: "g", note: "金曜副菜用", isGyosu: true, searchKey: "業務スーパー 冷凍オニオンリング", alternative: "たまねぎに小麦粉衣をつけて自分で揚げる" },
                     { id: "v4_shrimp", name: "冷凍むきエビ", amount: 150, unit: "g", note: "土曜焼きそば用", isGyosu: true, searchKey: "業務スーパー 冷凍むきエビ", alternative: "生のエビまたはシーフードミックス" },
                     { id: "v4_ika", name: "冷凍イカ唐揚げ", amount: 12, unit: "個", note: "土曜チリマヨ用", isGyosu: true, searchKey: "業務スーパー 冷凍イカ唐揚げ", alternative: "冷凍イカリングフライまたはスーパーのお惣菜" },
-                    { id: "v4_chicken", name: "冷凍フライドチキン", amount: 5, unit: "本", note: "日曜用（火曜の残り等でも可）", isGyosu: true, searchKey: "業務スーパー 冷凍フライドチキン", alternative: "骨なしの冷凍唐揚げ 1袋" },
+                    { id: "v4_chicken", name: "冷凍フライドチキン", amount: 5, unit: "本", note: "日曜用（フライドチキン）", isGyosu: true, searchKey: "業務スーパー 冷凍フライドチキン", alternative: "骨なしの冷凍唐揚げ 1袋" },
                     { id: "v4_katsu", name: "冷凍チキンカツ", amount: 5, unit: "枚", note: "火曜お好み風カツ用", isGyosu: true, searchKey: "業務スーパー 冷凍チキンカツ", alternative: "スーパーのお惣菜のチキンカツ 又は 豚カツ" }
                 ]
             },
