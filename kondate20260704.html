@@ -102,12 +102,12 @@
       <div class="bg-white rounded-2xl p-5 shadow-sm border border-slate-100 space-y-3">
         <h2 class="font-bold text-base text-slate-800 flex items-center space-x-2">
           <i class="fa-solid fa-fire text-amber-500"></i>
-          <span>第5弾献立のこだわり</span>
+          <span>第5弾【5品構成】献立のこだわり</span>
         </h2>
         <ul class="text-xs text-slate-600 space-y-2 list-disc pl-4 leading-relaxed">
-          <li><strong>黄金バランス（肉4：魚3）：</strong> 白米がとにかく進む濃いめの味付けレシピを中心にピックアップ！</li>
-          <li><strong>被りなしの新鮮献立：</strong> 過去のレシピと重ならないよう完全刷新。</li>
-          <li><strong>買い出し＆調理が簡単：</strong> 1週間分の食材をまとめて確認でき、無駄買いを防止できます。</li>
+          <li><strong>豪華5品フルコース：</strong> ①主食メイン ②汁物 ③副菜メイン ④副菜サブ ⑤サラダの贅沢な組み合わせ！</li>
+          <li><strong>買い物自動連携：</strong> 5品分の膨大な食材も自動で合算。重複もきれいに整理されます。</li>
+          <li><strong>人数自動計算：</strong> 1人〜4人前に合わせた調味料・食材の必要量を即座に表示。</li>
         </ul>
       </div>
 
@@ -148,178 +148,209 @@
     let currentServings = 2;
     let checkedItems = JSON.parse(localStorage.getItem('v5_checked_items') || '{}');
 
-    // Recipes Data (Vol.5: Meat 4, Fish 3)
+    // Recipes Data (Vol.5: 5-dish setup)
     const recipes = [
       {
         id: "day1",
         day: "月曜日",
-        type: "肉",
-        title: "豚バラとナスのにんにく甘辛味噌炒め",
-        badgeColor: "bg-rose-500",
+        theme: "和風スタミナセット",
         baseServings: 2,
+        menu: {
+          mainStaple: "豚バラとなすの甘辛味噌炒め丼",
+          soup: "豆腐とわかめの合わせ味噌汁",
+          mainSide: "かにかまと卵のふんわりかに玉",
+          subSide: "無限ピーマン（ツナ和え）",
+          salad: "大根と水菜のシャキシャキ和風サラダ"
+        },
         ingredients: [
-          { name: "豚バラ薄切り肉", amount: 200, unit: "g", category: "精肉・鮮魚", substitute: "豚こま肉・豚ロース薄切り" },
-          { name: "ナス", amount: 3, unit: "本", category: "野菜・果物", substitute: "ズッキーニ・厚揚げ" },
-          { name: "ピーマン", amount: 2, unit: "個", category: "野菜・果物", substitute: "パプリカ・しちとう" },
-          { name: "味噌", amount: 1.5, unit: "大さじ", category: "調味料・その他" },
-          { name: "醤油", amount: 1, unit: "大さじ", category: "調味料・その他" },
-          { name: "みりん", amount: 1, unit: "大さじ", category: "調味料・その他" },
-          { name: "砂糖", amount: 1, unit: "大さじ", category: "調味料・その他" },
-          { name: "おろしにんにく", amount: 1, unit: "小さじ", category: "調味料・その他" },
-          { name: "ごま油", amount: 1, unit: "大さじ", category: "調味料・その他" }
-        ],
-        steps: [
-          "ナスは一口大の乱切りにして水にさらす。ピーマンも乱切りにする。",
-          "フライパンにごま油を熱し、豚肉を色が変わるまで炒める。",
-          "ナスとピーマンを加え、ナスがしんなりするまで炒め合わせる。",
-          "混ぜ合わせた調味料（味噌・醤油・みりん・砂糖・にんにく）を加え、全体にしっかり絡める。"
+          { name: "豚バラ薄切り肉", amount: 200, unit: "g", category: "精肉・鮮魚", substitute: "豚こま肉・豚ロース" },
+          { name: "ナス", amount: 2, unit: "本", category: "野菜・果物", substitute: "ズッキーニ" },
+          { name: "ピーマン", amount: 3, unit: "個", category: "野菜・果物", substitute: "パプリカ" },
+          { name: "大根", amount: 150, unit: "g", category: "野菜・果物", substitute: "きゅうり" },
+          { name: "水菜", amount: 1, unit: "株", category: "野菜・果物", substitute: "サニーレタス" },
+          { name: "木綿豆腐", amount: 150, unit: "g", category: "加工食品・缶詰", substitute: "絹ごし豆腐" },
+          { name: "かにかま", amount: 4, unit: "本", category: "加工食品・缶詰", substitute: "ツナ缶" },
+          { name: "ツナ缶", amount: 0.5, unit: "缶", category: "加工食品・缶詰" },
+          { name: "卵", amount: 2, unit: "個", category: "乳製品・冷蔵" },
+          { name: "味噌", amount: 2.5, unit: "大さじ", category: "調味料・その他" },
+          { name: "醤油", amount: 2, unit: "大さじ", category: "調味料・その他" },
+          { name: "みりん", amount: 1.5, unit: "大さじ", category: "調味料・その他" },
+          { name: "砂糖", amount: 1.5, unit: "大さじ", category: "調味料・その他" },
+          { name: "ごま油", amount: 1.5, unit: "大さじ", category: "調味料・その他" }
         ]
       },
       {
         id: "day2",
         day: "火曜日",
-        type: "魚",
-        title: "鮭のガーリックバター醤油照り焼き",
-        badgeColor: "bg-sky-600",
+        theme: "洋風ガーリック照り焼きセット",
         baseServings: 2,
+        menu: {
+          mainStaple: "鮭とコーンのガーリックバターライス",
+          soup: "玉ねぎと人参のほっこりコンソメスープ",
+          mainSide: "鶏肉とじゃがいものハニーマスタード照り焼き",
+          subSide: "ブロッコリーのおかかマヨ和え",
+          salad: "トマトとアボカドのカプレーゼ風サラダ"
+        },
         ingredients: [
-          { name: "生鮭切り身", amount: 2, unit: "切れ", category: "精肉・鮮魚", substitute: "甘塩鮭・生タラ・サバ" },
-          { name: "薄力粉", amount: 1, unit: "大さじ", category: "調味料・その他" },
-          { name: "バター", amount: 15, unit: "g", category: "乳製品・冷蔵", substitute: "マーガリン" },
-          { name: "醤油", amount: 1.5, unit: "大さじ", category: "調味料・その他" },
-          { name: "みりん", amount: 1.5, unit: "大さじ", category: "調味料・その他" },
-          { name: "酒", amount: 1, unit: "大さじ", category: "調味料・その他" },
-          { name: "砂糖", amount: 0.5, unit: "大さじ", category: "調味料・その他" },
-          { name: "おろしにんにく", amount: 1, unit: "小さじ", category: "調味料・その他" }
-        ],
-        steps: [
-          "鮭の水気をペーパーで拭き取り、薄力粉を薄くまぶす。",
-          "フライパンにバター半量を熱し、鮭を両面こんがり焼く。",
-          "タレ（醤油・みりん・酒・砂糖・にんにく）を加え煮詰め絡める。",
-          "仕上げに残りのバターを溶かして香りをプラスする。"
+          { name: "生鮭切り身", amount: 2, unit: "切れ", category: "精肉・鮮魚", substitute: "甘塩鮭・タラ" },
+          { name: "鶏もも肉", amount: 250, unit: "g", category: "精肉・鮮魚", substitute: "鶏むね肉" },
+          { name: "玉ねぎ", amount: 1, unit: "個", category: "野菜・果物" },
+          { name: "人参", amount: 0.5, unit: "本", category: "野菜・果物" },
+          { name: "じゃがいも", amount: 2, unit: "個", category: "野菜・果物", substitute: "さつまいも" },
+          { name: "ブロッコリー", amount: 0.5, unit: "株", category: "野菜・果物" },
+          { name: "トマト", amount: 1, unit: "個", category: "野菜・果物", substitute: "ミニトマト" },
+          { name: "アボカド", amount: 1, unit: "個", category: "野菜・果物" },
+          { name: "バター", amount: 20, unit: "g", category: "乳製品・冷蔵", substitute: "マーガリン" },
+          { name: "コーン缶", amount: 30, unit: "g", category: "加工食品・缶詰" },
+          { name: "醤油", amount: 2, unit: "大さじ", category: "調味料・その他" },
+          { name: "はちみつ", amount: 1, unit: "大さじ", category: "調味料・その他", substitute: "砂糖" },
+          { name: "粒マスタード", amount: 1, unit: "大さじ", category: "調味料・その他" },
+          { name: "マヨネーズ", amount: 1.5, unit: "大さじ", category: "調味料・その他" }
         ]
       },
       {
         id: "day3",
         day: "水曜日",
-        type: "肉",
-        title: "鶏もも肉とじゃがいもの濃厚コチュジャン炒め",
-        badgeColor: "bg-rose-500",
+        theme: "韓国風ピリ辛セット",
         baseServings: 2,
+        menu: {
+          mainStaple: "牛カルビと温玉の旨辛ビビンバ丼",
+          soup: "もやしとわかめの韓国風ピリ辛スープ",
+          mainSide: "チャプチェ（春雨と野菜・牛肉の炒め煮）",
+          subSide: "たたききゅうりの塩昆布ごま油和え",
+          salad: "レタスと韓国のりのチョレギサラダ"
+        },
         ingredients: [
-          { name: "鶏もも肉", amount: 300, unit: "g", category: "精肉・鮮魚", substitute: "鶏むね肉・鶏手羽元" },
-          { name: "じゃがいも", amount: 2, unit: "個", category: "野菜・果物", substitute: "さつまいも・里芋" },
-          { name: "玉ねぎ", amount: 0.5, unit: "個", category: "野菜・果物", substitute: "長ねぎ" },
-          { name: "コチュジャン", amount: 1.5, unit: "大さじ", category: "調味料・その他", substitute: "味噌＋豆板醤＋砂糖" },
-          { name: "醤油", amount: 1, unit: "大さじ", category: "調味料・その他" },
-          { name: "みりん", amount: 1, unit: "大さじ", category: "調味料・その他" },
-          { name: "砂糖", amount: 0.5, unit: "大さじ", category: "調味料・その他" },
-          { name: "おろし生姜", amount: 1, unit: "小さじ", category: "調味料・その他" },
-          { name: "サラダ油", amount: 1, unit: "大さじ", category: "調味料・その他" }
-        ],
-        steps: [
-          "じゃがいもは皮を剥き一口大に切り、レンジ(600W)で3分加熱する。",
-          "鶏肉と玉ねぎを食べやすい大きさに切る。",
-          "フライパンに油を熱し、鶏肉を皮目から焼き、玉ねぎとじゃがいもを炒め合わせる。",
-          "調味料を全て混ぜ合わせて加え、全体に照りがつくまで炒め煮にする。"
+          { name: "牛こま切れ肉", amount: 250, unit: "g", category: "精肉・鮮魚", substitute: "豚こま肉" },
+          { name: "もやし", amount: 1, unit: "袋(200g)", category: "野菜・果物" },
+          { name: "きゅうり", amount: 2, unit: "本", category: "野菜・果物" },
+          { name: "サニーレタス", amount: 3, unit: "枚", category: "野菜・果物" },
+          { name: "温泉卵", amount: 2, unit: "個", category: "乳製品・冷蔵" },
+          { name: "緑豆春雨", amount: 40, unit: "g", category: "加工食品・缶詰" },
+          { name: "コチュジャン", amount: 2, unit: "大さじ", category: "調味料・その他", substitute: "味噌＋豆板醤" },
+          { name: "醤油", amount: 2.5, unit: "大さじ", category: "調味料・その他" },
+          { name: "砂糖", amount: 1.5, unit: "大さじ", category: "調味料・その他" },
+          { name: "ごま油", amount: 2, unit: "大さじ", category: "調味料・その他" }
         ]
       },
       {
         id: "day4",
         day: "木曜日",
-        type: "魚",
-        title: "サバ缶と長ねぎの香ばし黒胡椒ポン酢炒め",
-        badgeColor: "bg-sky-600",
+        theme: "和風サバ缶香ばしセット",
         baseServings: 2,
+        menu: {
+          mainStaple: "サバ缶と長ねぎの香ばし和風パスタ",
+          soup: "なめこと油揚げのほっこりお味噌汁",
+          mainSide: "豚ニラもやしのスタミナ炒め",
+          subSide: "茄子のレンジ蒸しポン酢浸し",
+          salad: "キャベツとツナの和風コールスロー"
+        },
         ingredients: [
-          { name: "サバ水煮缶", amount: 1, unit: "缶(190g)", category: "加工食品・缶詰", substitute: "サバ味噌煮缶・ツナ缶・いわし缶" },
-          { name: "長ねぎ", amount: 1, unit: "本", category: "野菜・果物", substitute: "玉ねぎ" },
-          { name: "ごま油", amount: 1, unit: "大さじ", category: "調味料・その他" },
-          { name: "ポン酢", amount: 2, unit: "大さじ", category: "調味料・その他", substitute: "醤油＋酢＋レモン汁" },
-          { name: "粗びき黒胡椒", amount: 0.5, unit: "小さじ", category: "調味料・その他" },
-          { name: "おろしにんにく", amount: 0.5, unit: "小さじ", category: "調味料・その他" }
-        ],
-        steps: [
-          "長ねぎは1cmの斜め切りにし、サバ缶は軽く汁気を切る。",
-          "フライパンにごま油とにんにくを熱し、長ねぎを香ばしく炒める。",
-          "サバの身を崩しながら加えてサッ炒め合わせる。",
-          "ポン酢を回しかけ、黒胡椒をたっぷり振って完成。"
+          { name: "豚ひき肉", amount: 150, unit: "g", category: "精肉・鮮魚" },
+          { name: "長ねぎ", amount: 1, unit: "本", category: "野菜・果物" },
+          { name: "ニラ", amount: 0.5, unit: "束", category: "野菜・果物" },
+          { name: "ナス", amount: 2, unit: "本", category: "野菜・果物" },
+          { name: "キャベツ", amount: 150, unit: "g", category: "野菜・果物" },
+          { name: "サバ水煮缶", amount: 1, unit: "缶(190g)", category: "加工食品・缶詰" },
+          { name: "なめこ", amount: 1, unit: "袋", category: "野菜・果物" },
+          { name: "油揚げ", amount: 1, unit: "枚", category: "加工食品・缶詰" },
+          { name: "ツナ缶", amount: 0.5, unit: "缶", category: "加工食品・缶詰" },
+          { name: "パスタ麺", amount: 160, unit: "g", category: "加工食品・缶詰" },
+          { name: "味噌", amount: 1.5, unit: "大さじ", category: "調味料・その他" },
+          { name: "ポン酢", amount: 2.5, unit: "大さじ", category: "調味料・その他" },
+          { name: "醤油", amount: 1.5, unit: "大さじ", category: "調味料・その他" },
+          { name: "ごま油", amount: 1.5, unit: "大さじ", category: "調味料・その他" }
         ]
       },
       {
         id: "day5",
         day: "金曜日",
-        type: "肉",
-        title: "極うま！牛トマ玉ねぎのオイスター炒め",
-        badgeColor: "bg-rose-500",
+        theme: "中華風あんかけセット",
         baseServings: 2,
+        menu: {
+          mainStaple: "牛トマ玉ねぎのオイスターあんかけ炒飯",
+          soup: "ふんわり卵とエノキの中華スープ",
+          mainSide: "エビとブロッコリーのガーリックマヨ炒め",
+          subSide: "ザーサイときゅうりのピリ辛和え",
+          salad: "水菜と大根の蒸し鶏バンバンジーサラダ"
+        },
         ingredients: [
-          { name: "牛こま切れ肉", amount: 200, unit: "g", category: "精肉・鮮魚", substitute: "豚こま切れ肉・牛バラ肉" },
-          { name: "トマト", amount: 1, unit: "個", category: "野菜・果物", substitute: "ミニトマト6~8個" },
+          { name: "牛こま切れ肉", amount: 150, unit: "g", category: "精肉・鮮魚" },
+          { name: "むきエビ", amount: 120, unit: "g", category: "精肉・鮮魚" },
+          { name: "サラダチキン", amount: 1, unit: "パック", category: "精肉・鮮魚" },
+          { name: "トマト", amount: 1, unit: "個", category: "野菜・果物" },
           { name: "玉ねぎ", amount: 1, unit: "個", category: "野菜・果物" },
-          { name: "オイスターソース", amount: 1.5, unit: "大さじ", category: "調味料・その他", substitute: "醤油＋砂糖＋鶏ガラスープ" },
-          { name: "醤油", amount: 1, unit: "大さじ", category: "調味料・その他" },
-          { name: "酒", amount: 1, unit: "大さじ", category: "調味料・その他" },
-          { name: "砂糖", amount: 0.3, unit: "大さじ", category: "調味料・その他" },
-          { name: "サラダ油", amount: 1, unit: "大さじ", category: "調味料・その他" }
-        ],
-        steps: [
-          "トマトと玉ねぎは1cm幅のくし形に切る。",
-          "フライパンに油を熱し、牛肉をほぐしながら炒める。",
-          "玉ねぎとトマトを加え、玉ねぎがしんなりするまで炒める。",
-          "オイスターソース、醤油、酒、砂糖を回し入れ強火で一気に炒める。"
+          { name: "エノキ", amount: 0.5, unit: "パック", category: "野菜・果物" },
+          { name: "ブロッコリー", amount: 0.5, unit: "株", category: "野菜・果物" },
+          { name: "きゅうり", amount: 1, unit: "本", category: "野菜・果物" },
+          { name: "大根", amount: 100, unit: "g", category: "野菜・果物" },
+          { name: "水菜", amount: 1, unit: "株", category: "野菜・果物" },
+          { name: "卵", amount: 2, unit: "個", category: "乳製品・冷蔵" },
+          { name: "オイスターソース", amount: 2, unit: "大さじ", category: "調味料・その他" },
+          { name: "醤油", amount: 1.5, unit: "大さじ", category: "調味料・その他" },
+          { name: "マヨネーズ", amount: 2, unit: "大さじ", category: "調味料・その他" }
         ]
       },
       {
         id: "day6",
         day: "土曜日",
-        type: "魚",
-        title: "ブリの甘辛ネギだれ竜田揚げ",
-        badgeColor: "bg-sky-600",
+        theme: "和風ごちそう具だくさんセット",
         baseServings: 2,
+        menu: {
+          mainStaple: "ブリの照り焼きのせ甘辛薬味ごはん",
+          soup: "根菜（ごぼう・人参）と豚肉の具だくさん豚汁",
+          mainSide: "鶏もも肉とさつまいものほっこり甘辛照り煮",
+          subSide: "ほうれん草と人参の香ばし胡麻和え",
+          salad: "じゃがいもと卵のゴロゴロポテトサラダ"
+        },
         ingredients: [
-          { name: "ブリ切り身", amount: 2, unit: "切れ", category: "精肉・鮮魚", substitute: "サーモン・サバ・ツナ" },
-          { name: "片栗粉", amount: 2, unit: "大さじ", category: "調味料・その他", substitute: "小麦粉" },
-          { name: "長ねぎ", amount: 0.5, unit: "本", category: "野菜・果物", substitute: "万能ねぎ" },
-          { name: "醤油", amount: 2, unit: "大さじ", category: "調味料・その他" },
-          { name: "酢", amount: 1, unit: "大さじ", category: "調味料・その他" },
-          { name: "砂糖", amount: 1, unit: "大さじ", category: "調味料・その他" },
-          { name: "ごま油", amount: 0.5, unit: "大さじ", category: "調味料・その他" },
-          { name: "サラダ油", amount: 3, unit: "大さじ", category: "調味料・その他" }
-        ],
-        steps: [
-          "ブリをそぎ切りにし、片栗粉を全体に薄くまぶす。長ねぎはみじん切りにする。",
-          "長ねぎ、醤油、酢、砂糖、ごま油を混ぜて特製タレを作る。",
-          "多めのサラダ油でブリをカリッと揚げ焼きにする。",
-          "皿に盛り付け、特製甘辛ネギだれをたっぷりかける。"
+          { name: "ブリ切り身", amount: 2, unit: "切れ", category: "精肉・鮮魚" },
+          { name: "豚バラ薄切り肉", amount: 100, unit: "g", category: "精肉・鮮魚" },
+          { name: "鶏もも肉", amount: 200, unit: "g", category: "精肉・鮮魚" },
+          { name: "ごぼう", amount: 0.5, unit: "本", category: "野菜・果物" },
+          { name: "人参", amount: 1, unit: "本", category: "野菜・果物" },
+          { name: "さつまいも", amount: 150, unit: "g", category: "野菜・果物" },
+          { name: "ほうれん草", amount: 0.5, unit: "束", category: "野菜・果物" },
+          { name: "じゃがいも", amount: 2, unit: "個", category: "野菜・果物" },
+          { name: "卵", amount: 2, unit: "個", category: "乳製品・冷蔵" },
+          { name: "味噌", amount: 2.5, unit: "大さじ", category: "調味料・その他" },
+          { name: "醤油", amount: 3, unit: "大さじ", category: "調味料・その他" },
+          { name: "みりん", amount: 2.5, unit: "大さじ", category: "調味料・その他" },
+          { name: "砂糖", amount: 2, unit: "大さじ", category: "調味料・その他" },
+          { name: "マヨネーズ", amount: 2, unit: "大さじ", category: "調味料・その他" }
         ]
       },
       {
         id: "day7",
         day: "日曜日",
-        type: "肉",
-        title: "スタミナ豚ニラもやしの炒め物",
-        badgeColor: "bg-rose-500",
+        theme: "スタミナ中華和風セット",
         baseServings: 2,
+        menu: {
+          mainStaple: "スタミナ豚ひき肉とニラ玉の黄金そぼろ丼",
+          soup: "かぼちゃと玉ねぎのほっこり甘口味噌汁",
+          mainSide: "厚揚げとひき肉の旨辛麻婆風炒め",
+          subSide: "小松菜としめじのシャキシャキお浸し",
+          salad: "アボカドとぷりぷりエビのクリーミーマヨサラダ"
+        },
         ingredients: [
-          { name: "豚ひき肉", amount: 200, unit: "g", category: "精肉・鮮魚", substitute: "合い引き肉・鶏ひき肉" },
-          { name: "もやし", amount: 1, unit: "袋(200g)", category: "野菜・果物", substitute: "キャベツ・豆苗" },
-          { name: "ニラ", amount: 1, unit: "束", category: "野菜・果物", substitute: "小松菜・青ねぎ" },
-          { name: "鶏ガラスープの素", amount: 1, unit: "小さじ", category: "調味料・その他" },
-          { name: "醤油", amount: 1, unit: "大さじ", category: "調味料・その他" },
-          { name: "オイスターソース", amount: 1, unit: "大さじ", category: "調味料・その他" },
-          { name: "おろしにんにく", amount: 1, unit: "小さじ", category: "調味料・その他" },
-          { name: "ごま油", amount: 1, unit: "大さじ", category: "調味料・その他" }
-        ],
-        steps: [
-          "ニラは4cm長さに切る。",
-          "ごま油とにんにくを熱し、豚ひき肉をパラパラになるまで強火で炒める。",
-          "もやしとニラを加え、シャキッと強火で炒め合わせる。",
-          "鶏ガラスープの素、醤油、オイスターソースで味を調える。"
+          { name: "豚ひき肉", amount: 250, unit: "g", category: "精肉・鮮魚" },
+          { name: "むきエビ", amount: 100, unit: "g", category: "精肉・鮮魚" },
+          { name: "ニラ", amount: 1, unit: "束", category: "野菜・果物" },
+          { name: "かぼちゃ", amount: 100, unit: "g", category: "野菜・果物" },
+          { name: "玉ねぎ", amount: 0.5, unit: "個", category: "野菜・果物" },
+          { name: "小松菜", amount: 0.5, unit: "束", category: "野菜・果物" },
+          { name: "しめじ", amount: 0.5, unit: "パック", category: "野菜・果物" },
+          { name: "アボカド", amount: 1, unit: "個", category: "野菜・果物" },
+          { name: "厚揚げ", amount: 2, unit: "枚", category: "加工食品・缶詰" },
+          { name: "卵", amount: 2, unit: "個", category: "乳製品・冷蔵" },
+          { name: "味噌", amount: 1.5, unit: "大さじ", category: "調味料・その他" },
+          { name: "醤油", amount: 2.5, unit: "大さじ", category: "調味料・その他" },
+          { name: "みりん", amount: 1.5, unit: "大さじ", category: "調味料・その他" },
+          { name: "砂糖", amount: 1, unit: "大さじ", category: "調味料・その他" },
+          { name: "マヨネーズ", amount: 1.5, unit: "大さじ", category: "調味料・その他" }
         ]
       }
     ];
-
 
     // Tab Switcher
     function switchTab(tabName) {
@@ -346,61 +377,63 @@
       renderShoppingList();
     }
 
-    // Render Recipe Cards
+    // Render Recipe Cards (5 items UI)
     function renderRecipes() {
       const container = document.getElementById('recipeCardsContainer');
       container.innerHTML = '';
 
       recipes.forEach(r => {
         const factor = currentServings / r.baseServings;
-        
-        let ingHTML = '';
-        r.ingredients.forEach(ing => {
-          const amt = Math.round((ing.amount * factor) * 10) / 10;
-          ingHTML += `
-            <div class="flex justify-between text-xs py-1 border-b border-dashed border-slate-100 text-slate-700">
-              <span>${ing.name}</span>
-              <span class="font-bold text-slate-900">${amt} ${ing.unit}</span>
-            </div>
-          `;
-        });
-
-        let stepsHTML = '';
-        r.steps.forEach((step, idx) => {
-          stepsHTML += `
-            <li class="text-xs text-slate-600 leading-relaxed mb-1.5 pl-1">
-              <span class="font-bold text-rose-500 mr-1">${idx + 1}.</span>${step}
-            </li>
-          `;
-        });
 
         const card = `
           <div class="bg-white rounded-2xl p-4 shadow-sm border border-slate-100 space-y-3">
-            <div class="flex items-center justify-between">
+            <div class="flex items-center justify-between border-b border-slate-100 pb-2">
               <span class="text-xs font-bold text-slate-400 uppercase tracking-wider">${r.day}</span>
-              <span class="text-[10px] font-bold text-white ${r.badgeColor} px-2 py-0.5 rounded-full">${r.type}メイン</span>
+              <span class="text-[10px] font-bold text-rose-600 bg-rose-50 px-2.5 py-0.5 rounded-full border border-rose-100">${r.theme}</span>
             </div>
             
-            <h3 class="font-bold text-base text-slate-900 leading-snug">${r.title}</h3>
-
-            <!-- Ingredients Accordion/Block -->
-            <div class="bg-slate-50 rounded-xl p-3 space-y-2">
-              <div class="text-xs font-bold text-slate-600 flex justify-between items-center">
-                <span>材料 (${currentServings}人前)</span>
-                <i class="fa-solid fa-carrot text-amber-500"></i>
+            <!-- 5 Dishes Breakdown -->
+            <div class="space-y-2 py-1">
+              <div class="flex items-start space-x-2">
+                <span class="text-xs font-bold bg-amber-500 text-white px-1.5 py-0.5 rounded shrink-0">主食</span>
+                <span class="text-sm font-bold text-slate-900 leading-tight">${r.menu.mainStaple}</span>
               </div>
-              <div class="grid grid-cols-1 gap-x-4">
-                ${ingHTML}
+              <div class="flex items-start space-x-2">
+                <span class="text-xs font-bold bg-sky-500 text-white px-1.5 py-0.5 rounded shrink-0">汁物</span>
+                <span class="text-xs font-medium text-slate-700 leading-tight">${r.menu.soup}</span>
+              </div>
+              <div class="flex items-start space-x-2">
+                <span class="text-xs font-bold bg-rose-500 text-white px-1.5 py-0.5 rounded shrink-0">副菜メイン</span>
+                <span class="text-xs font-medium text-slate-800 leading-tight">${r.menu.mainSide}</span>
+              </div>
+              <div class="flex items-start space-x-2">
+                <span class="text-xs font-bold bg-emerald-500 text-white px-1.5 py-0.5 rounded shrink-0">副菜サブ</span>
+                <span class="text-xs font-medium text-slate-700 leading-tight">${r.menu.subSide}</span>
+              </div>
+              <div class="flex items-start space-x-2">
+                <span class="text-xs font-bold bg-lime-500 text-white px-1.5 py-0.5 rounded shrink-0">サラダ</span>
+                <span class="text-xs font-medium text-slate-700 leading-tight">${r.menu.salad}</span>
               </div>
             </div>
 
-            <!-- Steps -->
-            <div class="space-y-1 pt-1">
-              <div class="text-xs font-bold text-slate-600 mb-2">作り方</div>
-              <ol class="list-none">
-                ${stepsHTML}
-              </ol>
-            </div>
+            <!-- Accordion/Collapse Ingredients Preview -->
+            <details class="bg-slate-50 rounded-xl p-3 group">
+              <summary class="text-xs font-bold text-slate-600 flex justify-between items-center cursor-pointer select-none">
+                <span>材料リスト (${currentServings}人前)</span>
+                <i class="fa-solid fa-chevron-down text-slate-400 group-open:rotate-180 transition-transform"></i>
+              </summary>
+              <div class="mt-2 space-y-1 pt-2 border-t border-slate-200/60">
+                ${r.ingredients.map(ing => {
+                  const amt = Math.round((ing.amount * factor) * 10) / 10;
+                  return `
+                    <div class="flex justify-between text-xs py-0.5 border-b border-dashed border-slate-100 text-slate-700">
+                      <span>${ing.name}</span>
+                      <span class="font-bold text-slate-900">${amt} ${ing.unit}</span>
+                    </div>
+                  `;
+                }).join('')}
+              </div>
+            </details>
           </div>
         `;
 
