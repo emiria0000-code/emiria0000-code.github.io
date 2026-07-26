@@ -87,7 +87,9 @@
             <span>リセット</span>
           </button>
         </div>
-        <p class="text-xs text-slate-500 mb-4">※購入した食材をタップするとチェックオフできます。</p>
+        <p class="text-[11px] text-slate-500 mb-4">
+          ※食材タップでチェックオフ／<i class="fa-solid fa-image text-rose-400 mx-0.5"></i>タップで商品画像検索ができます。
+        </p>
         
         <div id="shoppingListContainer" class="space-y-4">
           <!-- Shopping items dynamically inserted here -->
@@ -156,9 +158,9 @@
         badgeColor: "bg-rose-500",
         baseServings: 2,
         ingredients: [
-          { name: "豚バラ薄切り肉", amount: 200, unit: "g", category: "精肉・鮮魚" },
-          { name: "ナス", amount: 3, unit: "本", category: "野菜・果物" },
-          { name: "ピーマン", amount: 2, unit: "個", category: "野菜・果物" },
+          { name: "豚バラ薄切り肉", amount: 200, unit: "g", category: "精肉・鮮魚", substitute: "豚こま肉・豚ロース薄切り" },
+          { name: "ナス", amount: 3, unit: "本", category: "野菜・果物", substitute: "ズッキーニ・厚揚げ" },
+          { name: "ピーマン", amount: 2, unit: "個", category: "野菜・果物", substitute: "パプリカ・しちとう" },
           { name: "味噌", amount: 1.5, unit: "大さじ", category: "調味料・その他" },
           { name: "醤油", amount: 1, unit: "大さじ", category: "調味料・その他" },
           { name: "みりん", amount: 1, unit: "大さじ", category: "調味料・その他" },
@@ -181,9 +183,9 @@
         badgeColor: "bg-sky-600",
         baseServings: 2,
         ingredients: [
-          { name: "生鮭切り身", amount: 2, unit: "切れ", category: "精肉・鮮魚" },
+          { name: "生鮭切り身", amount: 2, unit: "切れ", category: "精肉・鮮魚", substitute: "甘塩鮭・生タラ・サバ" },
           { name: "薄力粉", amount: 1, unit: "大さじ", category: "調味料・その他" },
-          { name: "バター", amount: 15, unit: "g", category: "乳製品・冷蔵" },
+          { name: "バター", amount: 15, unit: "g", category: "乳製品・冷蔵", substitute: "マーガリン" },
           { name: "醤油", amount: 1.5, unit: "大さじ", category: "調味料・その他" },
           { name: "みりん", amount: 1.5, unit: "大さじ", category: "調味料・その他" },
           { name: "酒", amount: 1, unit: "大さじ", category: "調味料・その他" },
@@ -205,10 +207,10 @@
         badgeColor: "bg-rose-500",
         baseServings: 2,
         ingredients: [
-          { name: "鶏もも肉", amount: 300, unit: "g", category: "精肉・鮮魚" },
-          { name: "じゃがいも", amount: 2, unit: "個", category: "野菜・果物" },
-          { name: "玉ねぎ", amount: 0.5, unit: "個", category: "野菜・果物" },
-          { name: "コチュジャン", amount: 1.5, unit: "大さじ", category: "調味料・その他" },
+          { name: "鶏もも肉", amount: 300, unit: "g", category: "精肉・鮮魚", substitute: "鶏むね肉・鶏手羽元" },
+          { name: "じゃがいも", amount: 2, unit: "個", category: "野菜・果物", substitute: "さつまいも・里芋" },
+          { name: "玉ねぎ", amount: 0.5, unit: "個", category: "野菜・果物", substitute: "長ねぎ" },
+          { name: "コチュジャン", amount: 1.5, unit: "大さじ", category: "調味料・その他", substitute: "味噌＋豆板醤＋砂糖" },
           { name: "醤油", amount: 1, unit: "大さじ", category: "調味料・その他" },
           { name: "みりん", amount: 1, unit: "大さじ", category: "調味料・その他" },
           { name: "砂糖", amount: 0.5, unit: "大さじ", category: "調味料・その他" },
@@ -230,10 +232,10 @@
         badgeColor: "bg-sky-600",
         baseServings: 2,
         ingredients: [
-          { name: "サバ水煮缶", amount: 1, unit: "缶(190g)", category: "加工食品・缶詰" },
-          { name: "長ねぎ", amount: 1, unit: "本", category: "野菜・果物" },
+          { name: "サバ水煮缶", amount: 1, unit: "缶(190g)", category: "加工食品・缶詰", substitute: "サバ味噌煮缶・ツナ缶・いわし缶" },
+          { name: "長ねぎ", amount: 1, unit: "本", category: "野菜・果物", substitute: "玉ねぎ" },
           { name: "ごま油", amount: 1, unit: "大さじ", category: "調味料・その他" },
-          { name: "ポン酢", amount: 2, unit: "大さじ", category: "調味料・その他" },
+          { name: "ポン酢", amount: 2, unit: "大さじ", category: "調味料・その他", substitute: "醤油＋酢＋レモン汁" },
           { name: "粗びき黒胡椒", amount: 0.5, unit: "小さじ", category: "調味料・その他" },
           { name: "おろしにんにく", amount: 0.5, unit: "小さじ", category: "調味料・その他" }
         ],
@@ -252,9 +254,9 @@
         badgeColor: "bg-rose-500",
         baseServings: 2,
         ingredients: [
-          { name: "牛こま切れ肉", amount: 200, unit: "g", category: "精肉・鮮魚" },
+          { name: "牛こま切れ肉", amount: 200, unit: "g", category: "精肉・鮮魚", substitute: "豚こま切れ肉・牛バラ肉" },
           { name: "玉ねぎ", amount: 1, unit: "個", category: "野菜・果物" },
-          { name: "オイスターソース", amount: 1.5, unit: "大さじ", category: "調味料・その他" },
+          { name: "オイスターソース", amount: 1.5, unit: "大さじ", category: "調味料・その他", substitute: "醤油＋砂糖＋鶏ガラスープ" },
           { name: "醤油", amount: 1, unit: "大さじ", category: "調味料・その他" },
           { name: "酒", amount: 1, unit: "大さじ", category: "調味料・その他" },
           { name: "砂糖", amount: 1, unit: "小さじ", category: "調味料・その他" },
@@ -275,9 +277,9 @@
         badgeColor: "bg-sky-600",
         baseServings: 2,
         ingredients: [
-          { name: "ブリ切り身", amount: 2, unit: "切れ", category: "精肉・鮮魚" },
-          { name: "片栗粉", amount: 2, unit: "大さじ", category: "調味料・その他" },
-          { name: "長ねぎ(みじん切り)", amount: 0.5, unit: "本", category: "野菜・果物" },
+          { name: "ブリ切り身", amount: 2, unit: "切れ", category: "精肉・鮮魚", substitute: "サーモン・サバ・ツナ" },
+          { name: "片栗粉", amount: 2, unit: "大さじ", category: "調味料・その他", substitute: "小麦粉" },
+          { name: "長ねぎ(みじん切り)", amount: 0.5, unit: "本", category: "野菜・果物", substitute: "万能ねぎ" },
           { name: "醤油", amount: 2, unit: "大さじ", category: "調味料・その他" },
           { name: "酢", amount: 1, unit: "大さじ", category: "調味料・その他" },
           { name: "砂糖", amount: 1, unit: "大さじ", category: "調味料・その他" },
@@ -299,9 +301,9 @@
         badgeColor: "bg-rose-500",
         baseServings: 2,
         ingredients: [
-          { name: "豚ひき肉", amount: 200, unit: "g", category: "精肉・鮮魚" },
-          { name: "もやし", amount: 1, unit: "袋(200g)", category: "野菜・果物" },
-          { name: "ニラ", amount: 1, unit: "束", category: "野菜・果物" },
+          { name: "豚ひき肉", amount: 200, unit: "g", category: "精肉・鮮魚", substitute: "合い引き肉・鶏ひき肉" },
+          { name: "もやし", amount: 1, unit: "袋(200g)", category: "野菜・果物", substitute: "キャベツ・豆苗" },
+          { name: "ニラ", amount: 1, unit: "束", category: "野菜・果物", substitute: "小松菜・青ねぎ" },
           { name: "鶏ガラスープの素", amount: 1, unit: "小さじ", category: "調味料・その他" },
           { name: "醤油", amount: 1, unit: "大さじ", category: "調味料・その他" },
           { name: "オイスターソース", amount: 1, unit: "大さじ", category: "調味料・その他" },
@@ -420,10 +422,14 @@
               amount: 0,
               unit: ing.unit,
               category: ing.category,
+              substitutes: new Set(),
               key: key
             };
           }
           aggregated[key].amount += ing.amount * factor;
+          if (ing.substitute) {
+            aggregated[key].substitutes.add(ing.substitute);
+          }
         });
       });
 
@@ -448,16 +454,30 @@
         categories[cat].forEach(item => {
           const amt = Math.round(item.amount * 10) / 10;
           const isChecked = checkedItems[item.key] ? true : false;
+          const subText = Array.from(item.substitutes).join(' / ');
           
           html += `
-            <div onclick="toggleCheck('${item.key}')" class="flex items-center justify-between p-2.5 bg-slate-50 hover:bg-slate-100 active:bg-slate-200 rounded-xl cursor-pointer transition-all">
-              <div class="flex items-center space-x-3">
-                <div class="w-5 h-5 rounded-md border ${isChecked ? 'bg-rose-500 border-rose-500 text-white' : 'border-slate-300 bg-white'} flex items-center justify-center text-xs transition-colors">
+            <div class="flex items-center justify-between p-2.5 bg-slate-50 hover:bg-slate-100 active:bg-slate-200 rounded-xl transition-all">
+              <!-- Item Text & Check -->
+              <div onclick="toggleCheck('${item.key}')" class="flex items-center space-x-2.5 flex-1 min-w-0 cursor-pointer py-0.5">
+                <div class="w-5 h-5 shrink-0 rounded-md border ${isChecked ? 'bg-rose-500 border-rose-500 text-white' : 'border-slate-300 bg-white'} flex items-center justify-center text-xs transition-colors">
                   ${isChecked ? '<i class="fa-solid fa-check"></i>' : ''}
                 </div>
-                <span class="text-xs font-medium text-slate-800 ${isChecked ? 'checked-item' : ''}">${item.name}</span>
+                <div class="min-w-0 flex-1 pr-1">
+                  <div class="flex items-baseline space-x-1.5 flex-wrap">
+                    <span class="text-xs font-medium text-slate-800 ${isChecked ? 'checked-item' : ''}">${item.name}</span>
+                  </div>
+                  ${subText ? `<div class="text-[10px] text-amber-600 font-normal ${isChecked ? 'opacity-40' : ''}">💡代替: ${subText}</div>` : ''}
+                </div>
               </div>
-              <span class="text-xs font-bold text-slate-600 ${isChecked ? 'checked-item' : ''}">${amt} ${item.unit}</span>
+
+              <!-- Quantity & Image Search Button -->
+              <div class="flex items-center space-x-2 shrink-0 pl-1">
+                <span class="text-xs font-bold text-slate-600 ${isChecked ? 'checked-item' : ''}">${amt} ${item.unit}</span>
+                <button onclick="event.stopPropagation(); searchProductImage('${item.name}')" title="${item.name} の画像を検索" class="w-7 h-7 rounded-lg bg-white border border-slate-200 text-slate-400 hover:text-rose-500 hover:border-rose-300 flex items-center justify-center active:scale-95 transition-all shadow-sm">
+                  <i class="fa-solid fa-image text-xs"></i>
+                </button>
+              </div>
             </div>
           `;
         });
@@ -469,6 +489,12 @@
       }
 
       container.innerHTML = html;
+    }
+
+    // Google Image Search helper
+    function searchProductImage(itemName) {
+      const query = encodeURIComponent(itemName);
+      window.open(`https://www.google.com/search?tbm=isch&q=${query}`, '_blank');
     }
 
     // Toggle Shopping List Item Check
