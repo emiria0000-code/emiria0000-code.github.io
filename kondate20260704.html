@@ -143,12 +143,41 @@
     </div>
   </nav>
 
+  <!-- Recipe Cooking Instructions Modal -->
+  <div id="recipeModal" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm hidden flex items-end sm:items-center justify-center p-0 sm:p-4 transition-opacity">
+    <div class="bg-white w-full max-w-md rounded-t-3xl sm:rounded-2xl max-h-[85vh] flex flex-col shadow-2xl overflow-hidden animate-in slide-in-from-bottom duration-200">
+      
+      <!-- Modal Header -->
+      <div class="p-4 border-b border-slate-100 flex items-center justify-between bg-slate-50">
+        <div>
+          <span id="modalDayBadge" class="text-[10px] font-bold text-rose-600 bg-rose-50 px-2 py-0.5 rounded-full border border-rose-100">月曜日</span>
+          <h2 id="modalTitle" class="font-bold text-base text-slate-800 leading-tight mt-1">献立の作り方</h2>
+        </div>
+        <button onclick="closeRecipeModal()" class="w-8 h-8 rounded-full bg-slate-200 text-slate-600 flex items-center justify-center hover:bg-slate-300 active:scale-95 transition-all">
+          <i class="fa-solid fa-xmark text-sm"></i>
+        </button>
+      </div>
+
+      <!-- Modal Body (Steps) -->
+      <div id="modalContent" class="p-4 overflow-y-auto space-y-5 text-xs text-slate-700">
+        <!-- Instructions populated dynamically -->
+      </div>
+
+      <!-- Modal Footer -->
+      <div class="p-3 border-t border-slate-100 bg-slate-50 text-center">
+        <button onclick="closeRecipeModal()" class="w-full py-2.5 bg-rose-500 hover:bg-rose-600 text-white font-bold text-xs rounded-xl shadow-md active:scale-98 transition-all">
+          閉じる
+        </button>
+      </div>
+    </div>
+  </div>
+
   <script>
     // Current State
     let currentServings = 2;
     let checkedItems = JSON.parse(localStorage.getItem('v5_checked_items') || '{}');
 
-    // Recipes Data (Vol.5: 5-dish setup)
+    // Recipes Data with Step-by-Step Cooking Instructions
     const recipes = [
       {
         id: "day1",
@@ -161,6 +190,30 @@
           mainSide: "かにかまと卵のふんわりかに玉",
           subSide: "無限ピーマン（ツナ和え）",
           salad: "大根と水菜のシャキシャキ和風サラダ"
+        },
+        instructions: {
+          mainStaple: [
+            "豚バラ肉となすを一口大に切る。",
+            "ごま油を熱したフライパンで豚肉を炒め、色が変わったらなすを加える。",
+            "味噌大さじ2.5、醤油大さじ2、みりん大さじ1.5、砂糖大さじ1.5を混ぜ合わせたタレを回し入れ、とろみがつくまで絡める。",
+            "温かいご飯に盛り付ける。"
+          ],
+          soup: [
+            "鍋に水400mlと和風だし小さじ1を入れて煮立て、さいの目切りにした豆腐を入れる。",
+            "ひと煮立ちしたら火を止め、味噌大さじ1.5を溶かし入れ、カットわかめを加える。"
+          ],
+          mainSide: [
+            "ボウルに卵2個を割りほぐし、ほぐしたかにかまと塩少々を加える。",
+            "フライパンにごま油を強火で熱し、一気に卵液を流し入れて半熟状になるまで大きくかき混ぜて形を整える。"
+          ],
+          subSide: [
+            "ピーマン3個を細切りにし、耐熱ボウルに入れる。",
+            "ツナ缶0.5缶（油ごと）、鶏ガラ小さじ1、ごま油小さじ1を和え、ラップをして電子レンジ（600W）で1分30秒加熱する。"
+          ],
+          salad: [
+            "大根は細切り、水菜は3cm幅に切る。",
+            "ボウルで合わせ、ポン酢・ごま油を適量和えてお皿に盛る。"
+          ]
         },
         ingredients: [
           { name: "豚バラ薄切り肉", amount: 200, unit: "g", category: "精肉・鮮魚", substitute: "豚こま肉・豚ロース" },
@@ -191,6 +244,28 @@
           subSide: "ブロッコリーのおかかマヨ和え",
           salad: "トマトとアボカドのカプレーゼ風サラダ"
         },
+        instructions: {
+          mainStaple: [
+            "鮭は塩胡椒をふり、フライパンで香ばしく焼いて骨と皮を取り除きほぐす。",
+            "フライパンにバター10gとにんにくみじん切りを熱し、ご飯300gとコーン、鮭を加えて炒める。",
+            "醤油小さじ1を鍋肌から回し入れて香ばしく仕上げる。"
+          ],
+          soup: [
+            "薄切りにした玉ねぎと人参を水400ml、コンソメ顆粒小さじ1.5とともに小鍋で10分煮込む。",
+            "塩胡椒で味を調える。"
+          ],
+          mainSide: [
+            "鶏もも肉とじゃがいも一口大に切り、じゃがいもはレンジで2分下加熱する。",
+            "フライパンで両面をカリッと焼き、醤油大さじ2、はちみつ大さじ1、粒マスタード大さじ1を加えて煮絡める。"
+          ],
+          subSide: [
+            "小房に分けたブロッコリーをレンジで1分半加熱する。",
+            "マヨネーズ大さじ1.5、かつお節1パックと和える。"
+          ],
+          salad: [
+            "トマトとアボカドを一口大の角切りにし、プロセスチーズとボウルで合わせ、オリーブオイルと塩胡椒で和える。"
+          ]
+        },
         ingredients: [
           { name: "生鮭切り身", amount: 2, unit: "切れ", category: "精肉・鮮魚", substitute: "甘塩鮭・タラ" },
           { name: "鶏もも肉", amount: 250, unit: "g", category: "精肉・鮮魚", substitute: "鶏むね肉" },
@@ -220,6 +295,25 @@
           subSide: "たたききゅうりの塩昆布ごま油和え",
           salad: "レタスと韓国のりのチョレギサラダ"
         },
+        instructions: {
+          mainStaple: [
+            "牛こま切れ肉をコチュジャン大さじ1.5、醤油大さじ1、ごま油小さじ1で炒める。",
+            "ご飯にのせ、温泉卵を真ん中にトッピングする。"
+          ],
+          soup: [
+            "水400mlに鶏ガラ小さじ2、コチュジャン小さじ1を入れ沸騰させる。",
+            "もやしとわかめを加え1分煮て、ごま油を垂らす。"
+          ],
+          mainSide: [
+            "戻した春雨とニラ、牛肉を炒め、醤油大さじ1.5、砂糖大さじ1、ごま油で甘辛く炒め合わせる。"
+          ],
+          subSide: [
+            "きゅうりを叩いて一口大に割り、塩昆布とごま油で揉み込む。"
+          ],
+          salad: [
+            "サニーレタスを手でちぎり、韓国のり、ごま油・鶏ガラ・塩で和える。"
+          ]
+        },
         ingredients: [
           { name: "牛こま切れ肉", amount: 250, unit: "g", category: "精肉・鮮魚", substitute: "豚こま肉" },
           { name: "もやし", amount: 1, unit: "袋(200g)", category: "野菜・果物" },
@@ -244,6 +338,25 @@
           mainSide: "豚ニラもやしのスタミナ炒め",
           subSide: "茄子のレンジ蒸しポン酢浸し",
           salad: "キャベツとツナの和風コールスロー"
+        },
+        instructions: {
+          mainStaple: [
+            "パスタをゆでる。",
+            "フライパンにごま油を熱し、斜め切りにした長ねぎとサバ缶（汁ごと）をほぐしながら炒める。",
+            "ゆで上がったパスタと醤油大さじ1.5を加えて手早く和える。"
+          ],
+          soup: [
+            "だし汁400mlになめこと刻み油揚げを入れて煮立て、味噌大さじ1.5を溶かす。"
+          ],
+          mainSide: [
+            "豚ひき肉とニラを強火で炒め、ポン酢大さじ1とオイスターソース大さじ1でスパイシーに仕上げる。"
+          ],
+          subSide: [
+            "茄子に切れ目を入れてラップで包み、レンジで3分加熱。冷水に取って裂き、ポン酢をかける。"
+          ],
+          salad: [
+            "千切りキャベツとツナを合わせ、マヨネーズと黒胡椒で和える。"
+          ]
         },
         ingredients: [
           { name: "豚ひき肉", amount: 150, unit: "g", category: "精肉・鮮魚" },
@@ -274,6 +387,25 @@
           subSide: "ザーサイときゅうりのピリ辛和え",
           salad: "水菜と大根の蒸し鶏バンバンジーサラダ"
         },
+        instructions: {
+          mainStaple: [
+            "卵炒飯を作る（卵とご飯を炒め軽く塩胡椒）。",
+            "別フライパンで牛こま・玉ねぎ・くし形トマトを炒め、オイスターソース大さじ2・醤油大さじ1.5・水100mlで味付け。",
+            "水溶き片栗粉でとろみをつけて炒飯にかける。"
+          ],
+          soup: [
+            "水400mlに鶏ガラ小さじ2とエノキを入れ煮立て、溶き卵を流し入れる。"
+          ],
+          mainSide: [
+            "エビとゆでブロッコリーをニンニク・マヨネーズ大さじ2で香ばしく炒める。"
+          ],
+          subSide: [
+            "叩いたきゅうりと刻んだザーサイをごま油と和える。"
+          ],
+          salad: [
+            "大根・水菜の上に裂いたサラダチキンをのせ、ごまドレッシングをかける。"
+          ]
+        },
         ingredients: [
           { name: "牛こま切れ肉", amount: 150, unit: "g", category: "精肉・鮮魚" },
           { name: "むきエビ", amount: 120, unit: "g", category: "精肉・鮮魚" },
@@ -302,6 +434,24 @@
           mainSide: "鶏もも肉とさつまいものほっこり甘辛照り煮",
           subSide: "ほうれん草と人参の香ばし胡麻和え",
           salad: "じゃがいもと卵のゴロゴロポテトサラダ"
+        },
+        instructions: {
+          mainStaple: [
+            "ブリに小麦粉を薄くまぶし、醤油・みりん・砂糖（各1.5）で香ばしく照り焼きにする。",
+            "ご飯にのせ、大葉やねぎなどの薬味を添える。"
+          ],
+          soup: [
+            "豚肉・ごぼう・人参を炒め、だし汁400mlで柔らかくなるまで煮て味噌大さじ2.5を溶かす。"
+          ],
+          mainSide: [
+            "鶏肉とさつまいもを炒め、醤油・みりん・砂糖でふたをして弱火で10分蒸し煮にする。"
+          ],
+          subSide: [
+            "ゆでたほうれん草と人参をすりごま・醤油・砂糖で和える。"
+          ],
+          salad: [
+            "レンジで加熱したじゃがいもをつぶし、ゆで卵とマヨネーズで和える。"
+          ]
         },
         ingredients: [
           { name: "ブリ切り身", amount: 2, unit: "切れ", category: "精肉・鮮魚" },
@@ -332,6 +482,24 @@
           subSide: "小松菜としめじのシャキシャキお浸し",
           salad: "アボカドとぷりぷりエビのクリーミーマヨサラダ"
         },
+        instructions: {
+          mainStaple: [
+            "豚ひき肉を醤油・みりん・砂糖で甘辛く炒め煮にする。",
+            "半熟の炒り卵と細切りニラを合わせ、ご飯にツートンに盛り付ける。"
+          ],
+          soup: [
+            "薄切りかぼちゃと玉ねぎをだし汁で煮て、味噌大さじ1.5で仕上げる。"
+          ],
+          mainSide: [
+            "一口大に切った厚揚げとひき肉を炒め、醤油・味噌・豆板醤で麻婆風に炒め合わせる。"
+          ],
+          subSide: [
+            "ゆでた小松菜としめじを和風だし・醤油で和える。"
+          ],
+          salad: [
+            "ゆでエビとアボカドをマヨネーズとレモン汁少々で和える。"
+          ]
+        },
         ingredients: [
           { name: "豚ひき肉", amount: 250, unit: "g", category: "精肉・鮮魚" },
           { name: "むきエビ", amount: 100, unit: "g", category: "精肉・鮮魚" },
@@ -352,32 +520,7 @@
       }
     ];
 
-    // Tab Switcher
-    function switchTab(tabName) {
-      const views = ['recipes', 'shopping', 'info'];
-      views.forEach(v => {
-        document.getElementById(`view-${v}`).classList.add('hidden');
-        const navBtn = document.getElementById(`nav-${v}`);
-        navBtn.classList.remove('text-rose-500');
-        navBtn.classList.add('text-slate-400');
-      });
-
-      document.getElementById(`view-${tabName}`).classList.remove('hidden');
-      const activeNav = document.getElementById(`nav-${tabName}`);
-      activeNav.classList.remove('text-slate-400');
-      activeNav.classList.add('text-rose-500');
-
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
-
-    // Change Servings
-    function changeServings(val) {
-      currentServings = parseFloat(val);
-      renderRecipes();
-      renderShoppingList();
-    }
-
-    // Render Recipe Cards (5 items UI)
+    // Render Recipe Cards
     function renderRecipes() {
       const container = document.getElementById('recipeCardsContainer');
       container.innerHTML = '';
@@ -416,6 +559,14 @@
               </div>
             </div>
 
+            <!-- Recipe Action Buttons -->
+            <div class="flex space-x-2 pt-1">
+              <button onclick="openRecipeModal('${r.id}')" class="flex-1 py-2 bg-rose-50 hover:bg-rose-100 text-rose-600 font-bold text-xs rounded-xl border border-rose-200 flex items-center justify-center space-x-1.5 active:scale-98 transition-all">
+                <i class="fa-solid fa-kitchen-set"></i>
+                <span>🍳 作り方を見る</span>
+              </button>
+            </div>
+
             <!-- Accordion/Collapse Ingredients Preview -->
             <details class="bg-slate-50 rounded-xl p-3 group">
               <summary class="text-xs font-bold text-slate-600 flex justify-between items-center cursor-pointer select-none">
@@ -439,6 +590,74 @@
 
         container.innerHTML += card;
       });
+    }
+
+    // Modal Control Functions
+    function openRecipeModal(recipeId) {
+      const recipe = recipes.find(r => r.id === recipeId);
+      if (!recipe) return;
+
+      document.getElementById('modalDayBadge').textContent = recipe.day;
+      document.getElementById('modalTitle').textContent = recipe.theme;
+
+      const categories = [
+        { key: 'mainStaple', name: '主食', title: recipe.menu.mainStaple, badgeClass: 'bg-amber-500' },
+        { key: 'soup', name: '汁物', title: recipe.menu.soup, badgeClass: 'bg-sky-500' },
+        { key: 'mainSide', name: '副菜メイン', title: recipe.menu.mainSide, badgeClass: 'bg-rose-500' },
+        { key: 'subSide', name: '副菜サブ', title: recipe.menu.subSide, badgeClass: 'bg-emerald-500' },
+        { key: 'salad', name: 'サラダ', title: recipe.menu.salad, badgeClass: 'bg-lime-500' }
+      ];
+
+      let contentHtml = '';
+
+      categories.forEach(cat => {
+        const steps = recipe.instructions ? recipe.instructions[cat.key] : [];
+        contentHtml += `
+          <div class="bg-slate-50 p-3 rounded-2xl border border-slate-100 space-y-2">
+            <div class="flex items-center space-x-2">
+              <span class="text-[10px] font-bold text-white ${cat.badgeClass} px-1.5 py-0.5 rounded shrink-0">${cat.name}</span>
+              <h3 class="font-bold text-xs text-slate-900">${cat.title}</h3>
+            </div>
+            ${steps && steps.length > 0 ? `
+              <ol class="list-decimal pl-4 space-y-1 text-slate-600 text-xs">
+                ${steps.map(step => `<li class="leading-relaxed pl-0.5">${step}</li>`).join('')}
+              </ol>
+            ` : '<p class="text-[11px] text-slate-400">※詳しい手順を準備中</p>'}
+          </div>
+        `;
+      });
+
+      document.getElementById('modalContent').innerHTML = contentHtml;
+      document.getElementById('recipeModal').classList.remove('hidden');
+    }
+
+    function closeRecipeModal() {
+      document.getElementById('recipeModal').classList.add('hidden');
+    }
+
+    // Tab Switcher
+    function switchTab(tabName) {
+      const views = ['recipes', 'shopping', 'info'];
+      views.forEach(v => {
+        document.getElementById(`view-${v}`).classList.add('hidden');
+        const navBtn = document.getElementById(`nav-${v}`);
+        navBtn.classList.remove('text-rose-500');
+        navBtn.classList.add('text-slate-400');
+      });
+
+      document.getElementById(`view-${tabName}`).classList.remove('hidden');
+      const activeNav = document.getElementById(`nav-${tabName}`);
+      activeNav.classList.remove('text-slate-400');
+      activeNav.classList.add('text-rose-500');
+
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // Change Servings
+    function changeServings(val) {
+      currentServings = parseFloat(val);
+      renderRecipes();
+      renderShoppingList();
     }
 
     // Render Shopping List
