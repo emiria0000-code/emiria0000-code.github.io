@@ -106,7 +106,7 @@
         </h2>
         <ul class="text-xs text-slate-600 space-y-2 list-disc pl-4 leading-relaxed">
           <li><strong>豪華5品フルコース：</strong> ①主食メイン ②汁物 ③副菜メイン ④副菜サブ ⑤サラダの贅沢な組み合わせ！</li>
-          <li><strong>買い物自動連携：</strong> 5品分の膨大な食材も自動で合算。重複もきれいに整理されます。</li>
+          <li><strong>買い物自動連携：</strong> 5品分の食材・調味料・乾物を漏れなく完全に自動合算。</li>
           <li><strong>人数自動計算：</strong> 1人〜4人前に合わせた調味料・食材の必要量を即座に表示。</li>
         </ul>
       </div>
@@ -177,7 +177,7 @@
     let currentServings = 2;
     let checkedItems = JSON.parse(localStorage.getItem('v5_checked_items') || '{}');
 
-    // Recipes Data with Step-by-Step Cooking Instructions
+    // Recipes Data with Step-by-Step Cooking Instructions & Complete Ingredients
     const recipes = [
       {
         id: "day1",
@@ -224,12 +224,16 @@
           { name: "木綿豆腐", amount: 150, unit: "g", category: "加工食品・缶詰", substitute: "絹ごし豆腐" },
           { name: "かにかま", amount: 4, unit: "本", category: "加工食品・缶詰", substitute: "ツナ缶" },
           { name: "ツナ缶", amount: 0.5, unit: "缶", category: "加工食品・缶詰" },
+          { name: "乾燥わかめ", amount: 2, unit: "g", category: "加工食品・缶詰" },
           { name: "卵", amount: 2, unit: "個", category: "乳製品・冷蔵" },
-          { name: "味噌", amount: 2.5, unit: "大さじ", category: "調味料・その他" },
+          { name: "味噌", amount: 4, unit: "大さじ", category: "調味料・その他" },
           { name: "醤油", amount: 2, unit: "大さじ", category: "調味料・その他" },
           { name: "みりん", amount: 1.5, unit: "大さじ", category: "調味料・その他" },
           { name: "砂糖", amount: 1.5, unit: "大さじ", category: "調味料・その他" },
-          { name: "ごま油", amount: 1.5, unit: "大さじ", category: "調味料・その他" }
+          { name: "和風だし粉末", amount: 1, unit: "小さじ", category: "調味料・その他" },
+          { name: "鶏ガラスープの素", amount: 1, unit: "小さじ", category: "調味料・その他" },
+          { name: "ポン酢", amount: 1, unit: "大さじ", category: "調味料・その他" },
+          { name: "ごま油", amount: 2, unit: "大さじ", category: "調味料・その他" }
         ]
       },
       {
@@ -275,12 +279,17 @@
           { name: "ブロッコリー", amount: 0.5, unit: "株", category: "野菜・果物" },
           { name: "トマト", amount: 1, unit: "個", category: "野菜・果物", substitute: "ミニトマト" },
           { name: "アボカド", amount: 1, unit: "個", category: "野菜・果物" },
+          { name: "にんにく", amount: 1, unit: "かけ", category: "野菜・果物" },
           { name: "バター", amount: 20, unit: "g", category: "乳製品・冷蔵", substitute: "マーガリン" },
+          { name: "プロセスチーズ", amount: 30, unit: "g", category: "乳製品・冷蔵" },
           { name: "コーン缶", amount: 30, unit: "g", category: "加工食品・缶詰" },
-          { name: "醤油", amount: 2, unit: "大さじ", category: "調味料・その他" },
+          { name: "かつお節", amount: 1, unit: "パック(2g)", category: "加工食品・缶詰" },
+          { name: "コンソメ顆粒", amount: 1.5, unit: "小さじ", category: "調味料・その他" },
+          { name: "醤油", amount: 2.3, unit: "大さじ", category: "調味料・その他" },
           { name: "はちみつ", amount: 1, unit: "大さじ", category: "調味料・その他", substitute: "砂糖" },
           { name: "粒マスタード", amount: 1, unit: "大さじ", category: "調味料・その他" },
-          { name: "マヨネーズ", amount: 1.5, unit: "大さじ", category: "調味料・その他" }
+          { name: "マヨネーズ", amount: 1.5, unit: "大さじ", category: "調味料・その他" },
+          { name: "オリーブオイル", amount: 1, unit: "大さじ", category: "調味料・その他" }
         ]
       },
       {
@@ -319,12 +328,17 @@
           { name: "もやし", amount: 1, unit: "袋(200g)", category: "野菜・果物" },
           { name: "きゅうり", amount: 2, unit: "本", category: "野菜・果物" },
           { name: "サニーレタス", amount: 3, unit: "枚", category: "野菜・果物" },
+          { name: "ニラ", amount: 0.5, unit: "束", category: "野菜・果物" },
           { name: "温泉卵", amount: 2, unit: "個", category: "乳製品・冷蔵" },
           { name: "緑豆春雨", amount: 40, unit: "g", category: "加工食品・缶詰" },
+          { name: "乾燥わかめ", amount: 2, unit: "g", category: "加工食品・缶詰" },
+          { name: "韓国のり", amount: 4, unit: "枚", category: "加工食品・缶詰" },
+          { name: "塩昆布", amount: 5, unit: "g", category: "加工食品・缶詰" },
           { name: "コチュジャン", amount: 2, unit: "大さじ", category: "調味料・その他", substitute: "味噌＋豆板醤" },
           { name: "醤油", amount: 2.5, unit: "大さじ", category: "調味料・その他" },
           { name: "砂糖", amount: 1.5, unit: "大さじ", category: "調味料・その他" },
-          { name: "ごま油", amount: 2, unit: "大さじ", category: "調味料・その他" }
+          { name: "鶏ガラスープの素", amount: 2.5, unit: "小さじ", category: "調味料・その他" },
+          { name: "ごま油", amount: 2.5, unit: "大さじ", category: "調味料・その他" }
         ]
       },
       {
@@ -349,7 +363,7 @@
             "だし汁400mlになめこと刻み油揚げを入れて煮立て、味噌大さじ1.5を溶かす。"
           ],
           mainSide: [
-            "豚ひき肉とニラを強火で炒め、ポン酢大さじ1とオイスターソース大さじ1でスパイシーに仕上げる。"
+            "豚ひき肉、ニラ、もやしを強火で炒め、ポン酢大さじ1とオイスターソース大さじ1でスパイシーに仕上げる。"
           ],
           subSide: [
             "茄子に切れ目を入れてラップで包み、レンジで3分加熱。冷水に取って裂き、ポン酢をかける。"
@@ -362,16 +376,20 @@
           { name: "豚ひき肉", amount: 150, unit: "g", category: "精肉・鮮魚" },
           { name: "長ねぎ", amount: 1, unit: "本", category: "野菜・果物" },
           { name: "ニラ", amount: 0.5, unit: "束", category: "野菜・果物" },
+          { name: "もやし", amount: 1, unit: "袋(200g)", category: "野菜・果物" },
           { name: "ナス", amount: 2, unit: "本", category: "野菜・果物" },
           { name: "キャベツ", amount: 150, unit: "g", category: "野菜・果物" },
-          { name: "サバ水煮缶", amount: 1, unit: "缶(190g)", category: "加工食品・缶詰" },
           { name: "なめこ", amount: 1, unit: "袋", category: "野菜・果物" },
+          { name: "サバ水煮缶", amount: 1, unit: "缶(190g)", category: "加工食品・缶詰" },
           { name: "油揚げ", amount: 1, unit: "枚", category: "加工食品・缶詰" },
           { name: "ツナ缶", amount: 0.5, unit: "缶", category: "加工食品・缶詰" },
           { name: "パスタ麺", amount: 160, unit: "g", category: "加工食品・缶詰" },
           { name: "味噌", amount: 1.5, unit: "大さじ", category: "調味料・その他" },
+          { name: "和風だし粉末", amount: 1, unit: "小さじ", category: "調味料・その他" },
           { name: "ポン酢", amount: 2.5, unit: "大さじ", category: "調味料・その他" },
+          { name: "オイスターソース", amount: 1, unit: "大さじ", category: "調味料・その他" },
           { name: "醤油", amount: 1.5, unit: "大さじ", category: "調味料・その他" },
+          { name: "マヨネーズ", amount: 1, unit: "大さじ", category: "調味料・その他" },
           { name: "ごま油", amount: 1.5, unit: "大さじ", category: "調味料・その他" }
         ]
       },
@@ -417,10 +435,16 @@
           { name: "きゅうり", amount: 1, unit: "本", category: "野菜・果物" },
           { name: "大根", amount: 100, unit: "g", category: "野菜・果物" },
           { name: "水菜", amount: 1, unit: "株", category: "野菜・果物" },
+          { name: "にんにく", amount: 1, unit: "かけ", category: "野菜・果物" },
           { name: "卵", amount: 2, unit: "個", category: "乳製品・冷蔵" },
+          { name: "味付けザーサイ", amount: 30, unit: "g", category: "加工食品・缶詰" },
+          { name: "片栗粉", amount: 1, unit: "大さじ", category: "調味料・その他" },
           { name: "オイスターソース", amount: 2, unit: "大さじ", category: "調味料・その他" },
           { name: "醤油", amount: 1.5, unit: "大さじ", category: "調味料・その他" },
-          { name: "マヨネーズ", amount: 2, unit: "大さじ", category: "調味料・その他" }
+          { name: "鶏ガラスープの素", amount: 2, unit: "小さじ", category: "調味料・その他" },
+          { name: "マヨネーズ", amount: 2, unit: "大さじ", category: "調味料・その他" },
+          { name: "ごまドレッシング", amount: 2, unit: "大さじ", category: "調味料・その他" },
+          { name: "ごま油", amount: 1, unit: "大さじ", category: "調味料・その他" }
         ]
       },
       {
@@ -463,7 +487,9 @@
           { name: "ほうれん草", amount: 0.5, unit: "束", category: "野菜・果物" },
           { name: "じゃがいも", amount: 2, unit: "個", category: "野菜・果物" },
           { name: "卵", amount: 2, unit: "個", category: "乳製品・冷蔵" },
+          { name: "すりごま", amount: 1.5, unit: "大さじ", category: "加工食品・缶詰" },
           { name: "味噌", amount: 2.5, unit: "大さじ", category: "調味料・その他" },
+          { name: "和風だし粉末", amount: 1.5, unit: "小さじ", category: "調味料・その他" },
           { name: "醤油", amount: 3, unit: "大さじ", category: "調味料・その他" },
           { name: "みりん", amount: 2.5, unit: "大さじ", category: "調味料・その他" },
           { name: "砂糖", amount: 2, unit: "大さじ", category: "調味料・その他" },
@@ -511,7 +537,9 @@
           { name: "アボカド", amount: 1, unit: "個", category: "野菜・果物" },
           { name: "厚揚げ", amount: 2, unit: "枚", category: "加工食品・缶詰" },
           { name: "卵", amount: 2, unit: "個", category: "乳製品・冷蔵" },
-          { name: "味噌", amount: 1.5, unit: "大さじ", category: "調味料・その他" },
+          { name: "味噌", amount: 2, unit: "大さじ", category: "調味料・その他" },
+          { name: "和風だし粉末", amount: 1, unit: "小さじ", category: "調味料・その他" },
+          { name: "豆板醤", amount: 0.5, unit: "小さじ", category: "調味料・その他" },
           { name: "醤油", amount: 2.5, unit: "大さじ", category: "調味料・その他" },
           { name: "みりん", amount: 1.5, unit: "大さじ", category: "調味料・その他" },
           { name: "砂糖", amount: 1, unit: "大さじ", category: "調味料・その他" },
@@ -776,3 +804,13 @@
   </script>
 </body>
 </html>
+```eoc
+
+### 変更箇所のポイント
+1. **各曜日のレシピ手順に必要な全食材・調味料の補完**:
+   - スープ用のだし粉末（和風だし・鶏ガラスープの素・コンソメ）を各日に追加。
+   - レシピ手順にあった「にんにく」「わかめ」「韓国のり」「塩昆布」「かつお節」「すりごま」「豆板醤」「プロセスチーズ」「ザーサイ」「片栗粉」などを買い物リストに自動統合されるよう追加しました。
+2. **木曜日の副菜メインの修正**:
+   - 料理名「豚ニラもやしのスタミナ炒め」に合わせた「もやし」の材料追加と手順を整合させました。
+
+これで「買い物リスト」タブを開いた際、1週間分（1人前〜4人前の人数選択対応）の全材料が漏れなくリスト化されます！
