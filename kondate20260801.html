@@ -1,0 +1,1014 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>業務スーパー活用！栄養満点1週間献立アプリ【第6弾】</title>
+  <style>
+    :root {
+      --primary: #1e7e34;
+      --primary-hover: #145a23;
+      --accent: #228be6;
+      --bg: #f4f6f8;
+      --card-bg: #ffffff;
+      --text: #333333;
+      --sub-text: #666666;
+      --border: #e9ecef;
+      --shadow: 0 4px 12px rgba(0,0,0,0.06);
+    }
+
+    * {
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      background-color: var(--bg);
+      color: var(--text);
+      margin: 0;
+      padding: 0 0 75px 0;
+      line-height: 1.5;
+    }
+
+    .container {
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 12px;
+    }
+
+    /* ヘッダー */
+    header {
+      background: #ffffff;
+      padding: 16px 12px;
+      border-radius: 16px;
+      box-shadow: var(--shadow);
+      text-align: center;
+      margin-bottom: 16px;
+      border-top: 5px solid var(--primary);
+    }
+
+    h1 {
+      font-size: 1.25rem;
+      margin: 0 0 6px 0;
+      color: #1a252f;
+    }
+
+    p.subtitle {
+      font-size: 0.825rem;
+      color: var(--sub-text);
+      margin: 0 0 12px 0;
+    }
+
+    .servings-selector {
+      display: inline-flex;
+      align-items: center;
+      background: #eaf5ea;
+      padding: 6px 16px;
+      border-radius: 30px;
+      font-size: 0.9rem;
+      font-weight: bold;
+      color: var(--primary);
+    }
+
+    .servings-selector select {
+      margin-left: 8px;
+      font-size: 0.95rem;
+      padding: 2px 8px;
+      border-radius: 6px;
+      border: 1px solid var(--primary);
+      background: #fff;
+      color: #333;
+    }
+
+    /* タブ切り替え */
+    .tab-content {
+      display: none;
+    }
+
+    .tab-content.active {
+      display: block;
+    }
+
+    /* 献立カード */
+    .day-card {
+      background: var(--card-bg);
+      border-radius: 16px;
+      padding: 16px;
+      margin-bottom: 16px;
+      box-shadow: var(--shadow);
+    }
+
+    .day-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 2px solid var(--border);
+      padding-bottom: 8px;
+      margin-bottom: 12px;
+    }
+
+    .day-title {
+      font-size: 1.15rem;
+      font-weight: bold;
+      color: var(--primary);
+    }
+
+    .gyomu-badge {
+      font-size: 0.75rem;
+      background: #28a745;
+      color: white;
+      padding: 2px 8px;
+      border-radius: 12px;
+      font-weight: bold;
+    }
+
+    /* 献立の3点構成 */
+    .menu-group {
+      margin-bottom: 12px;
+      background: #f8f9fa;
+      padding: 10px 12px;
+      border-radius: 10px;
+    }
+
+    .menu-label {
+      font-size: 0.75rem;
+      font-weight: bold;
+      padding: 2px 6px;
+      border-radius: 4px;
+      color: white;
+      display: inline-block;
+      margin-bottom: 4px;
+    }
+
+    .label-main { background-color: #d9534f; }
+    .label-sub { background-color: #f0ad4e; }
+    .label-salad { background-color: #5cb85c; }
+
+    .menu-item-title {
+      font-weight: bold;
+      font-size: 1rem;
+      color: #2c3e50;
+    }
+
+    .btn-recipe {
+      width: 100%;
+      background: #1e7e34;
+      color: white;
+      border: none;
+      padding: 10px;
+      border-radius: 10px;
+      font-weight: bold;
+      font-size: 0.95rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      margin-top: 8px;
+    }
+
+    .btn-recipe:active {
+      background: var(--primary-hover);
+    }
+
+    /* 事前仕込みカード */
+    .prep-card {
+      background: var(--card-bg);
+      border-radius: 16px;
+      padding: 16px;
+      margin-bottom: 16px;
+      box-shadow: var(--shadow);
+    }
+
+    .prep-title {
+      font-size: 1.1rem;
+      font-weight: bold;
+      color: var(--primary);
+      border-bottom: 2px solid var(--border);
+      padding-bottom: 8px;
+      margin-bottom: 12px;
+    }
+
+    .prep-step {
+      margin-bottom: 12px;
+    }
+
+    .prep-step-num {
+      font-weight: bold;
+      color: #1e7e34;
+    }
+
+    /* 買い出しリスト */
+    .shopping-card {
+      background: var(--card-bg);
+      border-radius: 16px;
+      padding: 16px;
+      box-shadow: var(--shadow);
+    }
+
+    .shopping-cat-title {
+      font-weight: bold;
+      font-size: 0.95rem;
+      background: #eaf5ea;
+      color: var(--primary);
+      padding: 6px 12px;
+      border-radius: 8px;
+      margin: 16px 0 8px 0;
+    }
+
+    .shopping-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 8px 4px;
+      border-bottom: 1px dashed var(--border);
+      font-size: 0.9rem;
+    }
+
+    .shopping-item.checked span.item-name {
+      text-decoration: line-through;
+      color: #aaa;
+    }
+
+    .item-left {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex: 1;
+    }
+
+    .item-info {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .item-name {
+      font-weight: 500;
+    }
+
+    .item-sub {
+      font-size: 0.75rem;
+      color: #d9534f;
+    }
+
+    .item-right {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .item-amount {
+      font-weight: bold;
+      color: #495057;
+      white-space: nowrap;
+    }
+
+    .btn-search-img {
+      background: #f1f3f5;
+      border: 1px solid #ced4da;
+      border-radius: 6px;
+      padding: 4px 6px;
+      font-size: 0.75rem;
+      cursor: pointer;
+      text-decoration: none;
+      color: #333;
+      display: flex;
+      align-items: center;
+      gap: 2px;
+    }
+
+    /* モーダル */
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.5);
+      display: none;
+      justify-content: center;
+      align-items: flex-end;
+      z-index: 1000;
+    }
+
+    .modal-overlay.active {
+      display: flex;
+    }
+
+    .modal-content {
+      background: white;
+      width: 100%;
+      max-width: 600px;
+      max-height: 85vh;
+      border-top-left-radius: 20px;
+      border-top-right-radius: 20px;
+      padding: 20px;
+      overflow-y: auto;
+      animation: slideUp 0.25s ease-out;
+    }
+
+    @keyframes slideUp {
+      from { transform: translateY(100%); }
+      to { transform: translateY(0); }
+    }
+
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 2px solid var(--border);
+      padding-bottom: 10px;
+      margin-bottom: 16px;
+      position: sticky;
+      top: 0;
+      background: white;
+    }
+
+    .modal-title {
+      font-size: 1.15rem;
+      font-weight: bold;
+      color: var(--primary);
+    }
+
+    .btn-close {
+      background: #e9ecef;
+      border: none;
+      font-size: 1.2rem;
+      border-radius: 50%;
+      width: 32px;
+      height: 32px;
+      cursor: pointer;
+    }
+
+    .recipe-block {
+      margin-bottom: 20px;
+      background: #f8f9fa;
+      padding: 12px;
+      border-radius: 12px;
+    }
+
+    .recipe-block-title {
+      font-weight: bold;
+      font-size: 1rem;
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .recipe-sub-title {
+      font-size: 0.85rem;
+      font-weight: bold;
+      color: #495057;
+      margin: 8px 0 4px 0;
+    }
+
+    .recipe-ing-list {
+      font-size: 0.85rem;
+      color: #333;
+      margin-bottom: 8px;
+      border-bottom: 1px dashed #ddd;
+      padding-bottom: 6px;
+    }
+
+    .recipe-steps {
+      font-size: 0.85rem;
+      padding-left: 18px;
+      margin: 0;
+    }
+
+    .recipe-steps li {
+      margin-bottom: 4px;
+    }
+
+    /* ボトムナビゲーション */
+    .bottom-nav {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 60px;
+      background: #ffffff;
+      display: flex;
+      border-top: 1px solid var(--border);
+      box-shadow: 0 -2px 10px rgba(0,0,0,0.05);
+      z-index: 100;
+    }
+
+    .nav-item {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.75rem;
+      color: var(--sub-text);
+      cursor: pointer;
+      border: none;
+      background: none;
+    }
+
+    .nav-item.active {
+      color: var(--primary);
+      font-weight: bold;
+    }
+
+    .nav-icon {
+      font-size: 1.25rem;
+      margin-bottom: 2px;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <header>
+    <h1>🛒 業務スーパー活用！栄養満点献立【第6弾】</h1>
+    <p class="subtitle">主食・副菜・サラダの3品で大満足＆事前仕込みで超ラク！</p>
+    <div class="servings-selector">
+      <label for="servings">人数：</label>
+      <select id="servings" onchange="updateServings()">
+        <option value="1">1人前</option>
+        <option value="2" selected>2人前</option>
+        <option value="3">3人前</option>
+        <option value="4">4人前</option>
+      </select>
+    </div>
+  </header>
+
+  <!-- 献立タブ -->
+  <div id="tab-menu" class="tab-content active">
+    <div id="recipe-cards"></div>
+  </div>
+
+  <!-- 事前仕込みタブ -->
+  <div id="tab-prep" class="tab-content">
+    <div class="prep-card">
+      <div class="prep-title">🧊 週末にやっておく！1分仕込みリスト</div>
+      <p style="font-size:0.85rem; color:#555;">週末にこれだけやっておくと、平日の調理時間が10分以下に短縮されます！</p>
+      
+      <div class="prep-step">
+        <div class="prep-step-num">1. 豚こま肉のスタミナ下味冷凍（火曜主食）</div>
+        <p style="font-size:0.85rem; margin:2px 0;">豚こま肉に【おろし生姜 小さじ1、醤油 大さじ2、酒 大さじ1、みりん 大さじ1】をもみ込んでジッパーバッグで冷凍。</p>
+      </div>
+
+      <div class="prep-step">
+        <div class="prep-step-num">2. 冷凍ブロッコリー＆カットほうれん草の小分け</div>
+        <p style="font-size:0.85rem; margin:2px 0;">業スーパーの冷凍野菜を1回分ずつ解凍しやすく分け、冷蔵庫のチルドルームへ移動しておく。</p>
+      </div>
+
+      <div class="prep-step">
+        <div class="prep-step-num">3. 味付け玉子の作り置き（水曜副菜用）</div>
+        <p style="font-size:0.85rem; margin:2px 0;">ゆで卵を作っておき、めんつゆ（3倍濃縮）に漬けて冷蔵庫へ。</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- 買い出しリストタブ -->
+  <div id="tab-shopping" class="tab-content">
+    <div class="shopping-card">
+      <div style="text-align:center; font-weight:bold; color:var(--primary); font-size:1.1rem; margin-bottom:8px;">
+        🛒 1週間分 買い出しリスト
+      </div>
+      <p style="font-size:0.8rem; color:#666; text-align:center; margin-top:0;">
+        ※欠品時は💡代用案を参考に！📷タップで商品画像検索が出来ます。
+      </p>
+      <div id="shopping-list-items"></div>
+    </div>
+  </div>
+</div>
+
+<!-- 調理手順モーダル -->
+<div id="recipe-modal" class="modal-overlay" onclick="closeModal(event)">
+  <div class="modal-content" onclick="event.stopPropagation()">
+    <div class="modal-header">
+      <div id="modal-day-title" class="modal-title"></div>
+      <button class="btn-close" onclick="closeModalDirect()">×</button>
+    </div>
+    <div id="modal-recipes-body"></div>
+  </div>
+</div>
+
+<!-- ボトムナビ -->
+<nav class="bottom-nav">
+  <button class="nav-item active" onclick="switchTab('menu', this)">
+    <span class="nav-icon">📅</span>
+    <span>献立表</span>
+  </button>
+  <button class="nav-item" onclick="switchTab('prep', this)">
+    <span class="nav-icon">🧊</span>
+    <span>事前仕込み</span>
+  </button>
+  <button class="nav-item" onclick="switchTab('shopping', this)">
+    <span class="nav-icon">🛒</span>
+    <span>買い出しリスト</span>
+  </button>
+</nav>
+
+<script>
+// 全データ定義（矛盾をなくすため食材名・単位・カテゴリー・代用案を完全管理）
+const weekData = [
+  {
+    day: "月曜日",
+    tag: "業スーパー便利食材フル活用",
+    main: {
+      name: "豚バラとなすのコク旨甘味噌炒め",
+      ing: [
+        { name: "豚バラ薄切り肉", amount: 200, unit: "g", cat: "精肉・鮮魚", alt: "豚こま肉", search: "業務スーパー 豚バラ" },
+        { name: "冷凍揚げなす", amount: 150, unit: "g", cat: "冷凍食品", alt: "生のなす 2本", search: "業務スーパー 冷凍揚げなす" },
+        { name: "ピーマン", amount: 2, unit: "個", cat: "野菜・果物", alt: "冷凍パプリカ", search: "ピーマン" },
+        { name: "味噌", amount: 1.5, unit: "大さじ", cat: "調味料", search: "味噌" },
+        { name: "醤油", amount: 1, unit: "大さじ", cat: "調味料", search: "醤油" },
+        { name: "みりん", amount: 1, unit: "大さじ", cat: "調味料", search: "みりん" },
+        { name: "砂糖", amount: 0.5, unit: "大さじ", cat: "調味料", search: "砂糖" },
+        { name: "おろしにんにく", amount: 0.5, unit: "小さじ", cat: "調味料", search: "チューブにんにく" }
+      ],
+      steps: [
+        "フライパンに豚バラ肉を入れて中火で色が変わるまで炒める。",
+        "解凍なしの『冷凍揚げなす』と一口大に切ったピーマンを加える。",
+        "調味料（味噌・醤油・みりん・砂糖・おろしにんにく）をよく混ぜ合わせて回しかけ、全体に絡んだら完成。"
+      ]
+    },
+    sub: {
+      name: "レンジで即完成！厚揚げの姜葱醬（ジャンツォンジジャン）がけ",
+      ing: [
+        { name: "厚揚げ", amount: 1, unit: "パック(2枚)", cat: "豆腐・納豆・加工品", alt: "木綿豆腐", search: "業務スーパー 厚揚げ" },
+        { name: "姜葱醬", amount: 1, unit: "大さじ", cat: "調味料", alt: "ごま油＋おろし生姜＋長ねぎ", search: "業務スーパー 姜葱醬" },
+        { name: "ポン酢", amount: 1, unit: "大さじ", cat: "調味料", search: "ポン酢" }
+      ],
+      steps: [
+        "厚揚げは一口大に切り、耐熱皿に乗せて電子レンジ（600W）で1分半温める。",
+        "姜葱醬とポン酢を混ぜ合わせたタレをたっぷりかけて完成。"
+      ]
+    },
+    salad: {
+      name: "たたきキュウリと塩昆布のごま油和え",
+      ing: [
+        { name: "きゅうり", amount: 2, unit: "本", cat: "野菜・果物", alt: "キャベツ", search: "きゅうり" },
+        { name: "塩昆布", amount: 1, unit: "大さじ", cat: "乾物・缶詰", search: "塩昆布" },
+        { name: "ごま油", amount: 1, unit: "大さじ", cat: "調味料", search: "ごま油" },
+        { name: "いりごま", amount: 0.5, unit: "大さじ", cat: "乾物・缶詰", search: "いりごま" }
+      ],
+      steps: [
+        "きゅうりをポリ袋に入れ、麺棒等で軽くたたいて一口大に割る。",
+        "塩昆布・ごま油・いりごまをポリ袋に加えて全体をもみ込み、10分置いたら完成。"
+      ]
+    }
+  },
+  {
+    day: "火曜日",
+    tag: "仕込み肉で超時短！",
+    main: {
+      name: "下味冷凍豚こまのガーリック生姜焼き",
+      ing: [
+        { name: "豚こま肉", amount: 250, unit: "g", cat: "精肉・鮮魚", alt: "豚ロース肉", search: "業務スーパー 豚こま" },
+        { name: "玉ねぎ", amount: 0.5, unit: "個", cat: "野菜・果物", alt: "冷凍スライス玉ねぎ", search: "玉ねぎ" },
+        { name: "おろし生姜", amount: 1, unit: "小さじ", cat: "調味料", search: "チューブ生姜" },
+        { name: "醤油", amount: 2, unit: "大さじ", cat: "調味料", search: "醤油" },
+        { name: "酒", amount: 1, unit: "大さじ", cat: "調味料", search: "酒" },
+        { name: "みりん", amount: 1, unit: "大さじ", cat: "調味料", search: "みりん" },
+        { name: "サラダ油", amount: 0.5, unit: "大さじ", cat: "調味料", search: "サラダ油" }
+      ],
+      steps: [
+        "（週末に仕込んだ解凍豚こま肉を使用）",
+        "フライパンにサラダ油を熱し、くし形切りにした玉ねぎを炒める。",
+        "玉ねぎがしんなりしたら下味冷凍しておいた豚こま肉をタレごと加え、火が通るまで炒め合わせる。"
+      ]
+    },
+    sub: {
+      name: "冷凍ブロッコリーとツナの塩昆布和え",
+      ing: [
+        { name: "冷凍ブロッコリー", amount: 150, unit: "g", cat: "冷凍食品", alt: "生ブロッコリー", search: "業務スーパー 冷凍ブロッコリー" },
+        { name: "ツナ缶", amount: 1, unit: "缶", cat: "乾物・缶詰", search: "ツナ缶" },
+        { name: "塩昆布", amount: 0.5, unit: "大さじ", cat: "乾物・缶詰", search: "塩昆布" },
+        { name: "ごま油", amount: 0.5, unit: "大さじ", cat: "調味料", search: "ごま油" }
+      ],
+      steps: [
+        "冷凍ブロッコリーは耐熱容器に入れ、600Wのレンジで2分加熱し水気を軽く絞る。",
+        "油を切ったツナ缶、塩昆布、ごま油を入れて和えるだけ。"
+      ]
+    },
+    salad: {
+      name: "カニカマとカイワレのマヨポンサラダ",
+      ing: [
+        { name: "カニカマ", amount: 1, unit: "パック", cat: "豆腐・納豆・加工品", alt: "ツナ缶", search: "カニカマ" },
+        { name: "かいわれ大根", amount: 1, unit: "パック", cat: "野菜・果物", alt: "スプラウト・きゅうり", search: "かいわれ" },
+        { name: "マヨネーズ", amount: 1, unit: "大さじ", cat: "調味料", search: "マヨネーズ" },
+        { name: "ポン酢", amount: 0.5, unit: "大さじ", cat: "調味料", search: "ポン酢" }
+      ],
+      steps: [
+        "根元を切ったかいわれ大根とほぐしたカニカマをボウルに入れる。",
+        "マヨネーズとポン酢を混ぜ合わせて和える。"
+      ]
+    }
+  },
+  {
+    day: "水曜日",
+    tag: "魚のヘルシービタミンディ",
+    main: {
+      name: "生鮭とほうれん草のバター醤油ソテー",
+      ing: [
+        { name: "生鮭切り身", amount: 2, unit: "切れ", cat: "精肉・鮮魚", alt: "甘塩鮭・銀鮭", search: "生鮭" },
+        { name: "冷凍カットほうれん草", amount: 100, unit: "g", cat: "冷凍食品", alt: "生ほうれん草", search: "業務スーパー 冷凍ほうれん草" },
+        { name: "コーン缶", amount: 0.5, unit: "缶", cat: "乾物・缶詰", search: "コーン缶" },
+        { name: "バター", amount: 1, unit: "大さじ(12g)", cat: "乳製品・冷蔵", alt: "マーガリン", search: "バター" },
+        { name: "醤油", amount: 1, unit: "大さじ", cat: "調味料", search: "醤油" },
+        { name: "コショウ", amount: 0.25, unit: "小さじ", cat: "調味料", search: "コショウ" }
+      ],
+      steps: [
+        "鮭に塩コショウ（分量外）を振り、バターを熱したフライパンで両面こんがり焼く。",
+        "空いたスペースに解凍したカットほうれん草とコーンを加える。",
+        "仕上げに醤油を鍋肌から回し入れ、香ばしく炒め合わせる。"
+      ]
+    },
+    sub: {
+      name: "味付け玉子とメンマのネギ和え",
+      ing: [
+        { name: "卵", amount: 2, unit: "個", cat: "乳製品・冷蔵", search: "卵" },
+        { name: "味付けメンマ", amount: 1, unit: "瓶/パック", cat: "乾物・缶詰", search: "業務スーパー メンマ" },
+        { name: "長ねぎ", amount: 0.5, unit: "本", cat: "野菜・果物", search: "長ねぎ" },
+        { name: "ごま油", amount: 0.5, unit: "大さじ", cat: "調味料", search: "ごま油" }
+      ],
+      steps: [
+        "（週末に仕込んだ味付け玉子を使用、無ければ茹で卵で可）",
+        "小口切りにした長ねぎ、メンマ、ごま油を和える。",
+        "半分に切った味付け玉子に添えて盛り付ける。"
+      ]
+    },
+    salad: {
+      name: "トマトと豆腐の和風オニオンサラダ",
+      ing: [
+        { name: "トマト", amount: 1, unit: "個", cat: "野菜・果物", search: "トマト" },
+        { name: "絹ごし豆腐", amount: 1, unit: "パック(150g)", cat: "豆腐・納豆・加工品", search: "絹豆腐" },
+        { name: "和風ドレッシング", amount: 2, unit: "大さじ", cat: "調味料", search: "和風ドレッシング" }
+      ],
+      steps: [
+        "トマトはくし形切り、豆腐は水切りしてサイコロ状に切る。",
+        "器に盛り付け、和風ドレッシングをかける。"
+      ]
+    }
+  },
+  {
+    day: "木曜日",
+    tag: "業務スーパー冷凍餃子アレンジ",
+    main: {
+      name: "冷凍一口餃子の旨辛キムチチゲ風煮込み",
+      ing: [
+        { name: "冷凍肉餃子", amount: 12, unit: "個", cat: "冷凍食品", alt: "水餃子", search: "業務スーパー 冷冷凍餃子" },
+        { name: "白菜キムチ", amount: 100, unit: "g", cat: "乳製品・冷蔵", search: "キムチ" },
+        { name: "木綿豆腐", amount: 0.5, unit: "丁", cat: "豆腐・納豆・加工品", search: "木綿豆腐" },
+        { name: "長ねぎ", amount: 0.5, unit: "本", cat: "野菜・果物", search: "長ねぎ" },
+        { name: "味噌", amount: 1, unit: "大さじ", cat: "調味料", search: "味噌" },
+        { name: "ごま油", amount: 0.5, unit: "大さじ", cat: "調味料", search: "ごま油" },
+        { name: "鶏ガラスープの素", amount: 1, unit: "小さじ", cat: "調味料", search: "鶏ガラスープの素" }
+      ],
+      steps: [
+        "鍋にごま油を熱し、キムチと斜め切りにした長ねぎをサッと炒める。",
+        "水2カップと鶏ガラスープの素、味噌を加え煮立たせる。",
+        "冷凍餃子と豆腐を入れて5分煮込み、餃子に火が通ったら完成。"
+      ]
+    },
+    sub: {
+      name: "レンジで即席！もやしとザーサイのナムル",
+      ing: [
+        { name: "もやし", amount: 1, unit: "袋(200g)", cat: "野菜・果物", search: "もやし" },
+        { name: "味付けザーサイ", amount: 30, unit: "g", cat: "乾物・缶詰", search: "業務スーパー ザーサイ" },
+        { name: "ごま油", amount: 0.5, unit: "大さじ", cat: "調味料", search: "ごま油" },
+        { name: "醤油", amount: 0.5, unit: "小さじ", cat: "調味料", search: "醤油" }
+      ],
+      steps: [
+        "もやしは耐熱容器に入れ、600Wのレンジで2分加熱し、しっかり水気を絞る。",
+        "刻んだザーサイ、ごま油、醤油と和える。"
+      ]
+    },
+    salad: {
+      name: "業スーパーゴボウサラダの海苔和え",
+      ing: [
+        { name: "ごぼうサラダ", amount: 150, unit: "g", cat: "豆腐・納豆・加工品", search: "業務スーパー ごぼうサラダ" },
+        { name: "刻み海苔", amount: 1, unit: "つまみ", cat: "乾物・缶詰", search: "刻み海苔" }
+      ],
+      steps: [
+        "業務スーパーの『ごぼうサラダ』をお皿に盛り付ける。",
+        "上から刻み海苔をトッピングするだけ！"
+      ]
+    }
+  },
+  {
+    day: "金曜日",
+    tag: "疲れた金曜はワンパンボウル！",
+    main: {
+      name: "鶏もも肉と玉ねぎのこってり照り焼き丼",
+      ing: [
+        { name: "鶏もも肉", amount: 250, unit: "g", cat: "精肉・鮮魚", alt: "冷凍鶏もも肉", search: "業務スーパー 鶏もも肉" },
+        { name: "玉ねぎ", amount: 0.5, unit: "個", cat: "野菜・果物", search: "玉ねぎ" },
+        { name: "醤油", amount: 2, unit: "大さじ", cat: "調味料", search: "醤油" },
+        { name: "みりん", amount: 2, unit: "大さじ", cat: "調味料", search: "みりん" },
+        { name: "酒", amount: 1, unit: "大さじ", cat: "調味料", search: "酒" },
+        { name: "砂糖", amount: 0.5, unit: "大さじ", cat: "調味料", search: "砂糖" },
+        { name: "サラダ油", amount: 0.5, unit: "大さじ", cat: "調味料", search: "サラダ油" }
+      ],
+      steps: [
+        "鶏もも肉は一口大に切り、玉ねぎは薄切りにする。",
+        "フライパンにサラダ油を熱し、鶏肉の皮目から焼く。両面こんがりしたら玉ねぎを加える。",
+        "合わせ調味料（醤油・みりん・酒・砂糖）を入れ、煮詰めながら照りを出す。"
+      ]
+    },
+    sub: {
+      name: "ちくわとピーマンのきんぴら風",
+      ing: [
+        { name: "ちくわ", amount: 3, unit: "本", cat: "豆腐・納豆・加工品", search: "ちくわ" },
+        { name: "ピーマン", amount: 2, unit: "個", cat: "野菜・果物", search: "ピーマン" },
+        { name: "醤油", amount: 1, unit: "大さじ", cat: "調味料", search: "醤油" },
+        { name: "みりん", amount: 1, unit: "大さじ", cat: "調味料", search: "みりん" },
+        { name: "ごま油", amount: 0.5, unit: "大さじ", cat: "調味料", search: "ごま油" }
+      ],
+      steps: [
+        "ちくわとピーマンは斜め細切りにする。",
+        "ごま油で炒め、醤油とみりんでサッと味付けして火を止める。"
+      ]
+    },
+    salad: {
+      name: "キャベツと塩昆布のごまマヨサラダ",
+      ing: [
+        { name: "キャベツ", amount: 2, unit: "枚(100g)", cat: "野菜・果物", search: "キャベツ" },
+        { name: "塩昆布", amount: 0.5, unit: "大さじ", cat: "乾物・缶詰", search: "塩昆布" },
+        { name: "マヨネーズ", amount: 1, unit: "大さじ", cat: "調味料", search: "マヨネーズ" },
+        { name: "いりごま", amount: 0.5, unit: "大さじ", cat: "乾物・缶詰", search: "いりごま" }
+      ],
+      steps: [
+        "キャベツは千切り（または手でちぎる）にし、塩小さじ1/4（分量外）で揉んで固く絞る。",
+        "塩昆布・マヨネーズ・いりごまで和える。"
+      ]
+    }
+  },
+  {
+    day: "土曜日",
+    tag: "ボリューム満点！サクサク揚げ物ディ",
+    main: {
+      name: "業スーパー冷凍白身魚フライの甘酢タルタルがけ",
+      ing: [
+        { name: "冷凍白身魚フライ", amount: 4, unit: "枚", cat: "冷凍食品", search: "業務スーパー 白身魚フライ" },
+        { name: "卵", amount: 1, unit: "個", cat: "乳製品・冷蔵", search: "卵" },
+        { name: "マヨネーズ", amount: 2, unit: "大さじ", cat: "調味料", search: "マヨネーズ" },
+        { name: "ポン酢", amount: 1, unit: "大さじ", cat: "調味料", search: "ポン酢" },
+        { name: "砂糖", amount: 0.5, unit: "小さじ", cat: "調味料", search: "砂糖" },
+        { name: "揚げ油", amount: 0.5, unit: "カップ", cat: "調味料", search: "サラダ油" }
+      ],
+      steps: [
+        "白身魚フライをフライパンの少ない油で両面カリッと揚げる。",
+        "固ゆで卵をつぶし、マヨネーズ・ポン酢・砂糖を混ぜて即席タルタルソースを作る。",
+        "揚げたてのフライにたっぷりかける。"
+      ]
+    },
+    sub: {
+      name: "冷凍むきえびとブロッコリーのガーリック炒め",
+      ing: [
+        { name: "冷凍むきえび", amount: 100, unit: "g", cat: "冷凍食品", search: "業務スーパー むきえび" },
+        { name: "冷凍ブロッコリー", amount: 100, unit: "g", cat: "冷凍食品", search: "業務スーパー 冷凍ブロッコリー" },
+        { name: "おろしにんにく", amount: 0.5, unit: "小さじ", cat: "調味料", search: "チューブにんにく" },
+        { name: "オリーブオイル", amount: 1, unit: "大さじ", cat: "調味料", search: "オリーブオイル" },
+        { name: "塩コショウ", amount: 0.25, unit: "小さじ", cat: "調味料", search: "塩コショウ" }
+      ],
+      steps: [
+        "解凍したむきえびと解凍ブロッコリーの水気を拭き取る。",
+        "オリーブオイルとおろしにんにくを熱したフライパンで炒め、塩コショウでシンプルに味付け。"
+      ]
+    },
+    salad: {
+      name: "レタスと韓国のりのチョレギサラダ",
+      ing: [
+        { name: "レタス", amount: 3, unit: "枚", cat: "野菜・果物", search: "レタス" },
+        { name: "韓国のり", amount: 4, unit: "枚", cat: "乾物・缶詰", search: "韓国のり" },
+        { name: "ごま油", amount: 1, unit: "大さじ", cat: "調味料", search: "ごま油" },
+        { name: "鶏ガラスープの素", amount: 0.5, unit: "小さじ", cat: "調味料", search: "鶏ガラスープの素" }
+      ],
+      steps: [
+        "レタスは一口大にちぎって水気をよく切る。",
+        "ごま油、鶏ガラスープの素で和え、ちぎった韓国のりを振る。"
+      ]
+    }
+  },
+  {
+    day: "日曜日",
+    tag: "スタミナ満点の中華献立",
+    main: {
+      name: "豚ひき肉と春雨の麻婆春雨（マーボーはるさめ）",
+      ing: [
+        { name: "豚ひき肉", amount: 150, unit: "g", cat: "精肉・鮮魚", alt: "パラパラ豚ひき肉", search: "業務スーパー 豚ひき肉" },
+        { name: "緑豆はるさめ", amount: 50, unit: "g", cat: "乾物・缶詰", search: "業務スーパー 春雨" },
+        { name: "長ねぎ", amount: 0.5, unit: "本", cat: "野菜・果物", search: "長ねぎ" },
+        { name: "豆板醤", amount: 0.5, unit: "小さじ", cat: "調味料", search: "豆板醤" },
+        { name: "醤油", amount: 1.5, unit: "大さじ", cat: "調味料", search: "醤油" },
+        { name: "オイスターソース", amount: 1, unit: "大さじ", cat: "調味料", search: "オイスターソース" },
+        { name: "鶏ガラスープの素", amount: 1, unit: "小さじ", cat: "調味料", search: "鶏ガラスープの素" },
+        { name: "ごま油", amount: 0.5, unit: "大さじ", cat: "調味料", search: "ごま油" }
+      ],
+      steps: [
+        "春雨は湯につけて戻しておく。",
+        "ごま油と豆板醤、長ねぎを炒め、香りが立ったら豚ひき肉を加える。",
+        "水1.5カップ、鶏ガラスープの素、醤油、オイスターソース、戻した春雨を加え、汁気が少なくなるまで煮詰める。"
+      ]
+    },
+    sub: {
+      name: "ニラと玉ねぎの中華かにたま",
+      ing: [
+        { name: "卵", amount: 3, unit: "個", cat: "乳製品・冷蔵", search: "卵" },
+        { name: "ニラ", amount: 0.5, unit: "束", cat: "野菜・果物", search: "ニラ" },
+        { name: "カニカマ", amount: 0.5, unit: "パック", cat: "豆腐・納豆・加工品", search: "カニカマ" },
+        { name: "ポン酢", amount: 1, unit: "大さじ", cat: "調味料", search: "ポン酢" },
+        { name: "ごま油", amount: 1, unit: "大さじ", cat: "調味料", search: "ごま油" }
+      ],
+      steps: [
+        "ボウルに卵、切ったニラ、ほぐしたカニカマを混ぜる。",
+        "熱したフライパンにごま油を多めに入れ、一気に流し込んで半熟状に半月に閉じる。",
+        "お皿に盛り付け、ポン酢を回しかける。"
+      ]
+    },
+    salad: {
+      name: "たたききゅうりの中華甘酢漬け",
+      ing: [
+        { name: "きゅうり", amount: 2, unit: "本", cat: "野菜・果物", search: "きゅうり" },
+        { name: "ポン酢", amount: 2, unit: "大さじ", cat: "調味料", search: "ポン酢" },
+        { name: "砂糖", amount: 0.5, unit: "大さじ", cat: "調味料", search: "砂糖" },
+        { name: "ごま油", amount: 0.5, unit: "小さじ", cat: "調味料", search: "ごま油" }
+      ],
+      steps: [
+        "たたいたきゅうりをポリ袋に入れ、ポン酢、砂糖、ごま油を揉み込んで完成。"
+      ]
+    }
+  }
+];
+
+function updateServings() {
+  const servings = parseFloat(document.getElementById('servings').value);
+  renderRecipeCards(servings);
+  renderShoppingList(servings);
+}
+
+function renderRecipeCards(servings) {
+  const container = document.getElementById('recipe-cards');
+  container.innerHTML = '';
+
+  weekData.forEach((dayData, idx) => {
+    const card = `
+      <div class="day-card">
+        <div class="day-header">
+          <span class="day-title">${dayData.day}</span>
+          <span class="gyomu-badge">${dayData.tag}</span>
+        </div>
+        
+        <div class="menu-group">
+          <span class="menu-label label-main">① 主食メイン</span>
+          <div class="menu-item-title">${dayData.main.name}</div>
+        </div>
+
+        <div class="menu-group">
+          <span class="menu-label label-sub">② 副菜</span>
+          <div class="menu-item-title">${dayData.sub.name}</div>
+        </div>
+
+        <div class="menu-group">
+          <span class="menu-label label-salad">③ サラダ</span>
+          <div class="menu-item-title">${dayData.salad.name}</div>
+        </div>
+
+        <button class="btn-recipe" onclick="openModal(${idx})">
+          <span>🍳 作り方を見る (${servings}人前)</span>
+        </button>
+      </div>
+    `;
+    container.innerHTML += card;
+  });
+}
+
+function openModal(index) {
+  const servings = parseFloat(document.getElementById('servings').value);
+  const data = weekData[index];
+  
+  document.getElementById('modal-day-title').innerText = `${data.day}の作り方（${servings}人前）`;
+  
+  const renderItem = (title, itemData, labelClass, labelText) => {
+    const factor = servings / 2;
+    let ingHTML = itemData.ing.map(i => {
+      let amt = Math.round((i.amount * factor) * 10) / 10;
+      return `${i.name}: ${amt} ${i.unit}`;
+    }).join(' / ');
+
+    let stepsHTML = itemData.steps.map(s => `<li>${s}</li>`).join('');
+
+    return `
+      <div class="recipe-block">
+        <div class="recipe-block-title">
+          <span class="menu-label ${labelClass}">${labelText}</span>
+          <span>${itemData.name}</span>
+        </div>
+        <div class="recipe-sub-title">【材料】</div>
+        <div class="recipe-ing-list">${ingHTML}</div>
+        <div class="recipe-sub-title">【手順】</div>
+        <ol class="recipe-steps">${stepsHTML}</ol>
+      </div>
+    `;
+  };
+
+  let bodyHTML = '';
+  bodyHTML += renderItem(data.main.name, data.main, 'label-main', '① 主食');
+  bodyHTML += renderItem(data.sub.name, data.sub, 'label-sub', '② 副菜');
+  bodyHTML += renderItem(data.salad.name, data.salad, 'label-salad', '③ サラダ');
+
+  document.getElementById('modal-recipes-body').innerHTML = bodyHTML;
+  document.getElementById('recipe-modal').classList.add('active');
+}
+
+function closeModal(e) {
+  if (e.target.id === 'recipe-modal') {
+    document.getElementById('recipe-modal').classList.remove('active');
+  }
+}
+
+function closeModalDirect() {
+  document.getElementById('recipe-modal').classList.remove('active');
+}
+
+function renderShoppingList(servings) {
+  const container = document.getElementById('shopping-list-items');
+  const aggregated = {};
+  const factor = servings / 2;
+
+  weekData.forEach(d => {
+    [d.main, d.sub, d.salad].forEach(part => {
+      part.ing.forEach(i => {
+        const key = `${i.name}_${i.unit}_${i.cat}`;
+        if (!aggregated[key]) {
+          aggregated[key] = {
+            name: i.name,
+            amount: 0,
+            unit: i.unit,
+            cat: i.cat,
+            alt: i.alt || '',
+            search: i.search || i.name
+          };
+        }
+        aggregated[key].amount += i.amount * factor;
+      });
+    });
+  });
+
+  const categories = {};
+  Object.values(aggregated).forEach(item => {
+    if (!categories[item.cat]) categories[item.cat] = [];
+    categories[item.cat].push(item);
+  });
+
+  let html = '';
+  for (const cat in categories) {
+    html += `<div class="shopping-cat-title">■ ${cat}</div>`;
+    categories[cat].forEach(item => {
+      const amt = Math.round(item.amount * 10) / 10;
+      const altText = item.alt ? `<span class="item-sub">💡代替: ${item.alt}</span>` : '';
+      const googleSearchUrl = `https://www.google.com/search?tbm=isch&q=${encodeURIComponent(item.search)}`;
+
+      html += `
+        <div class="shopping-item" onclick="toggleCheck(this)">
+          <div class="item-left">
+            <input type="checkbox" onclick="event.stopPropagation(); toggleCheck(this.parentElement.parentElement);">
+            <div class="item-info">
+              <span class="item-name">${item.name}</span>
+              ${altText}
+            </div>
+          </div>
+          <div class="item-right">
+            <span class="item-amount">${amt} ${item.unit}</span>
+            <a href="${googleSearchUrl}" target="_blank" class="btn-search-img" onclick="event.stopPropagation();">
+              📷画像
+            </a>
+          </div>
+        </div>
+      `;
+    });
+  }
+
+  container.innerHTML = html;
+}
+
+function toggleCheck(el) {
+  el.classList.toggle('checked');
+  const chk = el.querySelector('input[type="checkbox"]');
+  if (chk && event.target !== chk) {
+    chk.checked = !chk.checked;
+  }
+}
+
+function switchTab(tabName, btnEl) {
+  document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
+
+  document.getElementById(`tab-${tabName}`).classList.add('active');
+  btnEl.classList.add('active');
+}
+
+// 初期化
+updateServings();
+</script>
+</body>
+</html>
