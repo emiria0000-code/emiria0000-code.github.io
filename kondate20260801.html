@@ -49,15 +49,16 @@
     }
 
     h1 {
-      font-size: 1.25rem;
+      font-size: 1.2rem;
       margin: 0 0 6px 0;
       color: #1a252f;
     }
 
     p.subtitle {
-      font-size: 0.825rem;
+      font-size: 0.8rem;
       color: var(--sub-text);
       margin: 0 0 12px 0;
+      line-height: 1.4;
     }
 
     .servings-selector {
@@ -147,7 +148,7 @@
 
     .menu-item-title {
       font-weight: bold;
-      font-size: 1rem;
+      font-size: 0.95rem;
       color: #2c3e50;
     }
 
@@ -207,14 +208,36 @@
       box-shadow: var(--shadow);
     }
 
+    .shop-group-header {
+      font-size: 1.05rem;
+      font-weight: bold;
+      padding: 8px 12px;
+      border-radius: 10px;
+      margin: 18px 0 10px 0;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .shop-gyomu-header {
+      background: #1e7e34;
+      color: #ffffff;
+    }
+
+    .shop-general-header {
+      background: #e9ecef;
+      color: #333333;
+      border-left: 5px solid #6c757d;
+    }
+
     .shopping-cat-title {
       font-weight: bold;
-      font-size: 0.95rem;
-      background: #eaf5ea;
-      color: var(--primary);
-      padding: 6px 12px;
-      border-radius: 8px;
-      margin: 16px 0 8px 0;
+      font-size: 0.85rem;
+      background: #f1f3f5;
+      color: #495057;
+      padding: 4px 10px;
+      border-radius: 6px;
+      margin: 10px 0 6px 0;
     }
 
     .shopping-item {
@@ -223,7 +246,7 @@
       justify-content: space-between;
       padding: 8px 4px;
       border-bottom: 1px dashed var(--border);
-      font-size: 0.9rem;
+      font-size: 0.88rem;
     }
 
     .shopping-item.checked span.item-name {
@@ -248,7 +271,7 @@
     }
 
     .item-sub {
-      font-size: 0.75rem;
+      font-size: 0.725rem;
       color: #d9534f;
     }
 
@@ -268,8 +291,8 @@
       background: #f1f3f5;
       border: 1px solid #ced4da;
       border-radius: 6px;
-      padding: 4px 6px;
-      font-size: 0.75rem;
+      padding: 3px 6px;
+      font-size: 0.725rem;
       cursor: pointer;
       text-decoration: none;
       color: #333;
@@ -326,7 +349,7 @@
     }
 
     .modal-title {
-      font-size: 1.15rem;
+      font-size: 1.1rem;
       font-weight: bold;
       color: var(--primary);
     }
@@ -350,7 +373,7 @@
 
     .recipe-block-title {
       font-weight: bold;
-      font-size: 1rem;
+      font-size: 0.95rem;
       margin-bottom: 8px;
       display: flex;
       align-items: center;
@@ -365,7 +388,7 @@
     }
 
     .recipe-ing-list {
-      font-size: 0.85rem;
+      font-size: 0.825rem;
       color: #333;
       margin-bottom: 8px;
       border-bottom: 1px dashed #ddd;
@@ -373,7 +396,7 @@
     }
 
     .recipe-steps {
-      font-size: 0.85rem;
+      font-size: 0.825rem;
       padding-left: 18px;
       margin: 0;
     }
@@ -425,7 +448,7 @@
 <div class="container">
   <header>
     <h1>🛒 業務スーパー活用！栄養満点献立【第6弾】</h1>
-    <p class="subtitle">主食・副菜・サラダの3品で大満足＆事前仕込みで超ラク！</p>
+    <p class="subtitle">❄️ 業スーパーの冷凍野菜・大容量食材をフル活用！<br>主食・副菜・サラダの3品で時短＆大満足</p>
     <div class="servings-selector">
       <label for="servings">人数：</label>
       <select id="servings" onchange="updateServings()">
@@ -468,11 +491,12 @@
   <!-- 買い出しリストタブ -->
   <div id="tab-shopping" class="tab-content">
     <div class="shopping-card">
-      <div style="text-align:center; font-weight:bold; color:var(--primary); font-size:1.1rem; margin-bottom:8px;">
+      <div style="text-align:center; font-weight:bold; color:var(--primary); font-size:1.1rem; margin-bottom:4px;">
         🛒 1週間分 買い出しリスト
       </div>
-      <p style="font-size:0.8rem; color:#666; text-align:center; margin-top:0;">
-        ※欠品時は💡代用案を参考に！📷タップで商品画像検索が出来ます。
+      <p style="font-size:0.8rem; color:#666; text-align:center; margin-top:0; margin-bottom:12px;">
+        ※「業務スーパーで買うもの」と「一般スーパーで買うもの」に分けて表示しています。<br>
+        📷タップで商品画像検索が出来ます。
       </p>
       <div id="shopping-list-items"></div>
     </div>
@@ -507,7 +531,8 @@
 </nav>
 
 <script>
-// 全データ定義（矛盾をなくすため食材名・単位・カテゴリー・代用案を完全管理）
+// 全データ定義（矛盾をなくすため食材名・単位・カテゴリー・購入ショップ・代用案を完全管理）
+// shop: 'gyomu' (業務スーパー) / 'general' (一般スーパー・生鮮)
 const weekData = [
   {
     day: "月曜日",
@@ -515,14 +540,14 @@ const weekData = [
     main: {
       name: "豚バラとなすのコク旨甘味噌炒め",
       ing: [
-        { name: "豚バラ薄切り肉", amount: 200, unit: "g", cat: "精肉・鮮魚", alt: "豚こま肉", search: "業務スーパー 豚バラ" },
-        { name: "冷凍揚げなす", amount: 150, unit: "g", cat: "冷凍食品", alt: "生のなす 2本", search: "業務スーパー 冷凍揚げなす" },
-        { name: "ピーマン", amount: 2, unit: "個", cat: "野菜・果物", alt: "冷凍パプリカ", search: "ピーマン" },
-        { name: "味噌", amount: 1.5, unit: "大さじ", cat: "調味料", search: "味噌" },
-        { name: "醤油", amount: 1, unit: "大さじ", cat: "調味料", search: "醤油" },
-        { name: "みりん", amount: 1, unit: "大さじ", cat: "調味料", search: "みりん" },
-        { name: "砂糖", amount: 0.5, unit: "大さじ", cat: "調味料", search: "砂糖" },
-        { name: "おろしにんにく", amount: 0.5, unit: "小さじ", cat: "調味料", search: "チューブにんにく" }
+        { name: "豚バラ薄切り肉", amount: 200, unit: "g", cat: "精肉", shop: "gyomu", alt: "豚こま肉", search: "業務スーパー 豚バラ" },
+        { name: "冷凍揚げなす", amount: 150, unit: "g", cat: "冷凍食品", shop: "gyomu", alt: "生のなす 2本", search: "業務スーパー 冷凍揚げなす" },
+        { name: "ピーマン", amount: 2, unit: "個", cat: "野菜・果物", shop: "general", alt: "冷凍パプリカ", search: "ピーマン" },
+        { name: "味噌", amount: 1.5, unit: "大さじ", cat: "調味料", shop: "general", search: "味噌" },
+        { name: "醤油", amount: 1, unit: "大さじ", cat: "調味料", shop: "general", search: "醤油" },
+        { name: "みりん", amount: 1, unit: "大さじ", cat: "調味料", shop: "general", search: "みりん" },
+        { name: "砂糖", amount: 0.5, unit: "大さじ", cat: "調味料", shop: "general", search: "砂糖" },
+        { name: "おろしにんにく", amount: 0.5, unit: "小さじ", cat: "調味料", shop: "general", search: "チューブにんにく" }
       ],
       steps: [
         "フライパンに豚バラ肉を入れて中火で色が変わるまで炒める。",
@@ -533,9 +558,9 @@ const weekData = [
     sub: {
       name: "レンジで即完成！厚揚げの姜葱醬（ジャンツォンジジャン）がけ",
       ing: [
-        { name: "厚揚げ", amount: 1, unit: "パック(2枚)", cat: "豆腐・納豆・加工品", alt: "木綿豆腐", search: "業務スーパー 厚揚げ" },
-        { name: "姜葱醬", amount: 1, unit: "大さじ", cat: "調味料", alt: "ごま油＋おろし生姜＋長ねぎ", search: "業務スーパー 姜葱醬" },
-        { name: "ポン酢", amount: 1, unit: "大さじ", cat: "調味料", search: "ポン酢" }
+        { name: "厚揚げ", amount: 1, unit: "パック(2枚)", cat: "豆腐・納豆・加工品", shop: "general", alt: "木綿豆腐", search: "厚揚げ" },
+        { name: "姜葱醬", amount: 1, unit: "大さじ", cat: "万能調味料・名物", shop: "gyomu", alt: "ごま油＋おろし生姜＋長ねぎ", search: "業務スーパー 姜葱醬" },
+        { name: "ポン酢", amount: 1, unit: "大さじ", cat: "調味料", shop: "general", search: "ポン酢" }
       ],
       steps: [
         "厚揚げは一口大に切り、耐熱皿に乗せて電子レンジ（600W）で1分半温める。",
@@ -545,10 +570,10 @@ const weekData = [
     salad: {
       name: "たたきキュウリと塩昆布のごま油和え",
       ing: [
-        { name: "きゅうり", amount: 2, unit: "本", cat: "野菜・果物", alt: "キャベツ", search: "きゅうり" },
-        { name: "塩昆布", amount: 1, unit: "大さじ", cat: "乾物・缶詰", search: "塩昆布" },
-        { name: "ごま油", amount: 1, unit: "大さじ", cat: "調味料", search: "ごま油" },
-        { name: "いりごま", amount: 0.5, unit: "大さじ", cat: "乾物・缶詰", search: "いりごま" }
+        { name: "きゅうり", amount: 2, unit: "本", cat: "野菜・果物", shop: "general", alt: "キャベツ", search: "きゅうり" },
+        { name: "塩昆布", amount: 1, unit: "大さじ", cat: "乾物・缶詰", shop: "general", search: "塩昆布" },
+        { name: "ごま油", amount: 1, unit: "大さじ", cat: "調味料", shop: "general", search: "ごま油" },
+        { name: "いりごま", amount: 0.5, unit: "大さじ", cat: "乾物・缶詰", shop: "general", search: "いりごま" }
       ],
       steps: [
         "きゅうりをポリ袋に入れ、麺棒等で軽くたたいて一口大に割る。",
@@ -562,13 +587,13 @@ const weekData = [
     main: {
       name: "下味冷凍豚こまのガーリック生姜焼き",
       ing: [
-        { name: "豚こま肉", amount: 250, unit: "g", cat: "精肉・鮮魚", alt: "豚ロース肉", search: "業務スーパー 豚こま" },
-        { name: "玉ねぎ", amount: 0.5, unit: "個", cat: "野菜・果物", alt: "冷凍スライス玉ねぎ", search: "玉ねぎ" },
-        { name: "おろし生姜", amount: 1, unit: "小さじ", cat: "調味料", search: "チューブ生姜" },
-        { name: "醤油", amount: 2, unit: "大さじ", cat: "調味料", search: "醤油" },
-        { name: "酒", amount: 1, unit: "大さじ", cat: "調味料", search: "酒" },
-        { name: "みりん", amount: 1, unit: "大さじ", cat: "調味料", search: "みりん" },
-        { name: "サラダ油", amount: 0.5, unit: "大さじ", cat: "調味料", search: "サラダ油" }
+        { name: "豚こま肉", amount: 250, unit: "g", cat: "精肉", shop: "gyomu", alt: "豚ロース肉", search: "業務スーパー 豚こま" },
+        { name: "玉ねぎ", amount: 0.5, unit: "個", cat: "野菜・果物", shop: "general", alt: "冷凍スライス玉ねぎ", search: "玉ねぎ" },
+        { name: "おろし生姜", amount: 1, unit: "小さじ", cat: "調味料", shop: "general", search: "チューブ生姜" },
+        { name: "醤油", amount: 2, unit: "大さじ", cat: "調味料", shop: "general", search: "醤油" },
+        { name: "酒", amount: 1, unit: "大さじ", cat: "調味料", shop: "general", search: "酒" },
+        { name: "みりん", amount: 1, unit: "大さじ", cat: "調味料", shop: "general", search: "みりん" },
+        { name: "サラダ油", amount: 0.5, unit: "大さじ", cat: "調味料", shop: "general", search: "サラダ油" }
       ],
       steps: [
         "（週末に仕込んだ解凍豚こま肉を使用）",
@@ -579,10 +604,10 @@ const weekData = [
     sub: {
       name: "冷凍ブロッコリーとツナの塩昆布和え",
       ing: [
-        { name: "冷凍ブロッコリー", amount: 150, unit: "g", cat: "冷凍食品", alt: "生ブロッコリー", search: "業務スーパー 冷凍ブロッコリー" },
-        { name: "ツナ缶", amount: 1, unit: "缶", cat: "乾物・缶詰", search: "ツナ缶" },
-        { name: "塩昆布", amount: 0.5, unit: "大さじ", cat: "乾物・缶詰", search: "塩昆布" },
-        { name: "ごま油", amount: 0.5, unit: "大さじ", cat: "調味料", search: "ごま油" }
+        { name: "冷凍ブロッコリー", amount: 150, unit: "g", cat: "冷凍食品", shop: "gyomu", alt: "生ブロッコリー", search: "業務スーパー 冷凍ブロッコリー" },
+        { name: "ツナ缶", amount: 1, unit: "缶", cat: "乾物・缶詰", shop: "general", search: "ツナ缶" },
+        { name: "塩昆布", amount: 0.5, unit: "大さじ", cat: "乾物・缶詰", shop: "general", search: "塩昆布" },
+        { name: "ごま油", amount: 0.5, unit: "大さじ", cat: "調味料", shop: "general", search: "ごま油" }
       ],
       steps: [
         "冷凍ブロッコリーは耐熱容器に入れ、600Wのレンジで2分加熱し水気を軽く絞る。",
@@ -592,10 +617,10 @@ const weekData = [
     salad: {
       name: "カニカマとカイワレのマヨポンサラダ",
       ing: [
-        { name: "カニカマ", amount: 1, unit: "パック", cat: "豆腐・納豆・加工品", alt: "ツナ缶", search: "カニカマ" },
-        { name: "かいわれ大根", amount: 1, unit: "パック", cat: "野菜・果物", alt: "スプラウト・きゅうり", search: "かいわれ" },
-        { name: "マヨネーズ", amount: 1, unit: "大さじ", cat: "調味料", search: "マヨネーズ" },
-        { name: "ポン酢", amount: 0.5, unit: "大さじ", cat: "調味料", search: "ポン酢" }
+        { name: "カニカマ", amount: 1, unit: "パック", cat: "豆腐・納豆・加工品", shop: "general", alt: "ツナ缶", search: "カニカマ" },
+        { name: "かいわれ大根", amount: 1, unit: "パック", cat: "野菜・果物", shop: "general", alt: "スプラウト・きゅうり", search: "かいわれ" },
+        { name: "マヨネーズ", amount: 1, unit: "大さじ", cat: "調味料", shop: "general", search: "マヨネーズ" },
+        { name: "ポン酢", amount: 0.5, unit: "大さじ", cat: "調味料", shop: "general", search: "ポン酢" }
       ],
       steps: [
         "根元を切ったかいわれ大根とほぐしたカニカマをボウルに入れる。",
@@ -609,12 +634,12 @@ const weekData = [
     main: {
       name: "生鮭とほうれん草のバター醤油ソテー",
       ing: [
-        { name: "生鮭切り身", amount: 2, unit: "切れ", cat: "精肉・鮮魚", alt: "甘塩鮭・銀鮭", search: "生鮭" },
-        { name: "冷凍カットほうれん草", amount: 100, unit: "g", cat: "冷凍食品", alt: "生ほうれん草", search: "業務スーパー 冷凍ほうれん草" },
-        { name: "コーン缶", amount: 0.5, unit: "缶", cat: "乾物・缶詰", search: "コーン缶" },
-        { name: "バター", amount: 1, unit: "大さじ(12g)", cat: "乳製品・冷蔵", alt: "マーガリン", search: "バター" },
-        { name: "醤油", amount: 1, unit: "大さじ", cat: "調味料", search: "醤油" },
-        { name: "コショウ", amount: 0.25, unit: "小さじ", cat: "調味料", search: "コショウ" }
+        { name: "生鮭切り身", amount: 2, unit: "切れ", cat: "鮮魚", shop: "general", alt: "甘塩鮭・銀鮭", search: "生鮭" },
+        { name: "冷凍カットほうれん草", amount: 100, unit: "g", cat: "冷凍食品", shop: "gyomu", alt: "生ほうれん草", search: "業務スーパー 冷凍ほうれん草" },
+        { name: "コーン缶", amount: 0.5, unit: "缶", cat: "乾物・缶詰", shop: "general", search: "コーン缶" },
+        { name: "バター", amount: 1, unit: "大さじ(12g)", cat: "乳製品・冷蔵", shop: "general", alt: "マーガリン", search: "バター" },
+        { name: "醤油", amount: 1, unit: "大さじ", cat: "調味料", shop: "general", search: "醤油" },
+        { name: "コショウ", amount: 0.25, unit: "小さじ", cat: "調味料", shop: "general", search: "コショウ" }
       ],
       steps: [
         "鮭に塩コショウ（分量外）を振り、バターを熱したフライパンで両面こんがり焼く。",
@@ -625,10 +650,10 @@ const weekData = [
     sub: {
       name: "味付け玉子とメンマのネギ和え",
       ing: [
-        { name: "卵", amount: 2, unit: "個", cat: "乳製品・冷蔵", search: "卵" },
-        { name: "味付けメンマ", amount: 1, unit: "瓶/パック", cat: "乾物・缶詰", search: "業務スーパー メンマ" },
-        { name: "長ねぎ", amount: 0.5, unit: "本", cat: "野菜・果物", search: "長ねぎ" },
-        { name: "ごま油", amount: 0.5, unit: "大さじ", cat: "調味料", search: "ごま油" }
+        { name: "卵", amount: 2, unit: "個", cat: "乳製品・冷蔵", shop: "general", search: "卵" },
+        { name: "味付けメンマ", amount: 1, unit: "瓶/パック", cat: "乾物・缶詰", shop: "gyomu", search: "業務スーパー メンマ" },
+        { name: "長ねぎ", amount: 0.5, unit: "本", cat: "野菜・果物", shop: "general", search: "長ねぎ" },
+        { name: "ごま油", amount: 0.5, unit: "大さじ", cat: "調味料", shop: "general", search: "ごま油" }
       ],
       steps: [
         "（週末に仕込んだ味付け玉子を使用、無ければ茹で卵で可）",
@@ -639,9 +664,9 @@ const weekData = [
     salad: {
       name: "トマトと豆腐の和風オニオンサラダ",
       ing: [
-        { name: "トマト", amount: 1, unit: "個", cat: "野菜・果物", search: "トマト" },
-        { name: "絹ごし豆腐", amount: 1, unit: "パック(150g)", cat: "豆腐・納豆・加工品", search: "絹豆腐" },
-        { name: "和風ドレッシング", amount: 2, unit: "大さじ", cat: "調味料", search: "和風ドレッシング" }
+        { name: "トマト", amount: 1, unit: "個", cat: "野菜・果物", shop: "general", search: "トマト" },
+        { name: "絹ごし豆腐", amount: 1, unit: "パック(150g)", cat: "豆腐・納豆・加工品", shop: "general", search: "絹豆腐" },
+        { name: "和風ドレッシング", amount: 2, unit: "大さじ", cat: "調味料", shop: "general", search: "和風ドレッシング" }
       ],
       steps: [
         "トマトはくし形切り、豆腐は水切りしてサイコロ状に切る。",
@@ -655,13 +680,13 @@ const weekData = [
     main: {
       name: "冷凍一口餃子の旨辛キムチチゲ風煮込み",
       ing: [
-        { name: "冷凍肉餃子", amount: 12, unit: "個", cat: "冷凍食品", alt: "水餃子", search: "業務スーパー 冷冷凍餃子" },
-        { name: "白菜キムチ", amount: 100, unit: "g", cat: "乳製品・冷蔵", search: "キムチ" },
-        { name: "木綿豆腐", amount: 0.5, unit: "丁", cat: "豆腐・納豆・加工品", search: "木綿豆腐" },
-        { name: "長ねぎ", amount: 0.5, unit: "本", cat: "野菜・果物", search: "長ねぎ" },
-        { name: "味噌", amount: 1, unit: "大さじ", cat: "調味料", search: "味噌" },
-        { name: "ごま油", amount: 0.5, unit: "大さじ", cat: "調味料", search: "ごま油" },
-        { name: "鶏ガラスープの素", amount: 1, unit: "小さじ", cat: "調味料", search: "鶏ガラスープの素" }
+        { name: "冷凍肉餃子", amount: 12, unit: "個", cat: "冷凍食品", shop: "gyomu", alt: "水餃子", search: "業務スーパー 冷凍餃子" },
+        { name: "白菜キムチ", amount: 100, unit: "g", cat: "乳製品・冷蔵", shop: "general", search: "キムチ" },
+        { name: "木綿豆腐", amount: 0.5, unit: "丁", cat: "豆腐・納豆・加工品", shop: "general", search: "木綿豆腐" },
+        { name: "長ねぎ", amount: 0.5, unit: "本", cat: "野菜・果物", shop: "general", search: "長ねぎ" },
+        { name: "味噌", amount: 1, unit: "大さじ", cat: "調味料", shop: "general", search: "味噌" },
+        { name: "ごま油", amount: 0.5, unit: "大さじ", cat: "調味料", shop: "general", search: "ごま油" },
+        { name: "鶏ガラスープの素", amount: 1, unit: "小さじ", cat: "調味料", shop: "general", search: "鶏ガラスープの素" }
       ],
       steps: [
         "鍋にごま油を熱し、キムチと斜め切りにした長ねぎをサッと炒める。",
@@ -672,10 +697,10 @@ const weekData = [
     sub: {
       name: "レンジで即席！もやしとザーサイのナムル",
       ing: [
-        { name: "もやし", amount: 1, unit: "袋(200g)", cat: "野菜・果物", search: "もやし" },
-        { name: "味付けザーサイ", amount: 30, unit: "g", cat: "乾物・缶詰", search: "業務スーパー ザーサイ" },
-        { name: "ごま油", amount: 0.5, unit: "大さじ", cat: "調味料", search: "ごま油" },
-        { name: "醤油", amount: 0.5, unit: "小さじ", cat: "調味料", search: "醤油" }
+        { name: "もやし", amount: 1, unit: "袋(200g)", cat: "野菜・果物", shop: "general", search: "もやし" },
+        { name: "味付けザーサイ", amount: 30, unit: "g", cat: "乾物・缶詰", shop: "gyomu", search: "業務スーパー ザーサイ" },
+        { name: "ごま油", amount: 0.5, unit: "大さじ", cat: "調味料", shop: "general", search: "ごま油" },
+        { name: "醤油", amount: 0.5, unit: "小さじ", cat: "調味料", shop: "general", search: "醤油" }
       ],
       steps: [
         "もやしは耐熱容器に入れ、600Wのレンジで2分加熱し、しっかり水気を絞る。",
@@ -685,8 +710,8 @@ const weekData = [
     salad: {
       name: "業スーパーゴボウサラダの海苔和え",
       ing: [
-        { name: "ごぼうサラダ", amount: 150, unit: "g", cat: "豆腐・納豆・加工品", search: "業務スーパー ごぼうサラダ" },
-        { name: "刻み海苔", amount: 1, unit: "つまみ", cat: "乾物・缶詰", search: "刻み海苔" }
+        { name: "ごぼうサラダ", amount: 150, unit: "g", cat: "豆腐・納豆・加工品", shop: "gyomu", search: "業務スーパー ごぼうサラダ" },
+        { name: "刻み海苔", amount: 1, unit: "つまみ", cat: "乾物・缶詰", shop: "general", search: "刻み海苔" }
       ],
       steps: [
         "業務スーパーの『ごぼうサラダ』をお皿に盛り付ける。",
@@ -700,13 +725,13 @@ const weekData = [
     main: {
       name: "鶏もも肉と玉ねぎのこってり照り焼き丼",
       ing: [
-        { name: "鶏もも肉", amount: 250, unit: "g", cat: "精肉・鮮魚", alt: "冷凍鶏もも肉", search: "業務スーパー 鶏もも肉" },
-        { name: "玉ねぎ", amount: 0.5, unit: "個", cat: "野菜・果物", search: "玉ねぎ" },
-        { name: "醤油", amount: 2, unit: "大さじ", cat: "調味料", search: "醤油" },
-        { name: "みりん", amount: 2, unit: "大さじ", cat: "調味料", search: "みりん" },
-        { name: "酒", amount: 1, unit: "大さじ", cat: "調味料", search: "酒" },
-        { name: "砂糖", amount: 0.5, unit: "大さじ", cat: "調味料", search: "砂糖" },
-        { name: "サラダ油", amount: 0.5, unit: "大さじ", cat: "調味料", search: "サラダ油" }
+        { name: "鶏もも肉", amount: 250, unit: "g", cat: "精肉", shop: "gyomu", alt: "冷凍鶏もも肉", search: "業務スーパー 鶏もも肉" },
+        { name: "玉ねぎ", amount: 0.5, unit: "個", cat: "野菜・果物", shop: "general", search: "玉ねぎ" },
+        { name: "醤油", amount: 2, unit: "大さじ", cat: "調味料", shop: "general", search: "醤油" },
+        { name: "みりん", amount: 2, unit: "大さじ", cat: "調味料", shop: "general", search: "みりん" },
+        { name: "酒", amount: 1, unit: "大さじ", cat: "調味料", shop: "general", search: "酒" },
+        { name: "砂糖", amount: 0.5, unit: "大さじ", cat: "調味料", shop: "general", search: "砂糖" },
+        { name: "サラダ油", amount: 0.5, unit: "大さじ", cat: "調味料", shop: "general", search: "サラダ油" }
       ],
       steps: [
         "鶏もも肉は一口大に切り、玉ねぎは薄切りにする。",
@@ -717,11 +742,11 @@ const weekData = [
     sub: {
       name: "ちくわとピーマンのきんぴら風",
       ing: [
-        { name: "ちくわ", amount: 3, unit: "本", cat: "豆腐・納豆・加工品", search: "ちくわ" },
-        { name: "ピーマン", amount: 2, unit: "個", cat: "野菜・果物", search: "ピーマン" },
-        { name: "醤油", amount: 1, unit: "大さじ", cat: "調味料", search: "醤油" },
-        { name: "みりん", amount: 1, unit: "大さじ", cat: "調味料", search: "みりん" },
-        { name: "ごま油", amount: 0.5, unit: "大さじ", cat: "調味料", search: "ごま油" }
+        { name: "ちくわ", amount: 3, unit: "本", cat: "豆腐・納豆・加工品", shop: "general", search: "ちくわ" },
+        { name: "ピーマン", amount: 2, unit: "個", cat: "野菜・果物", shop: "general", search: "ピーマン" },
+        { name: "醤油", amount: 1, unit: "大さじ", cat: "調味料", shop: "general", search: "醤油" },
+        { name: "みりん", amount: 1, unit: "大さじ", cat: "調味料", shop: "general", search: "みりん" },
+        { name: "ごま油", amount: 0.5, unit: "大さじ", cat: "調味料", shop: "general", search: "ごま油" }
       ],
       steps: [
         "ちくわとピーマンは斜め細切りにする。",
@@ -731,10 +756,10 @@ const weekData = [
     salad: {
       name: "キャベツと塩昆布のごまマヨサラダ",
       ing: [
-        { name: "キャベツ", amount: 2, unit: "枚(100g)", cat: "野菜・果物", search: "キャベツ" },
-        { name: "塩昆布", amount: 0.5, unit: "大さじ", cat: "乾物・缶詰", search: "塩昆布" },
-        { name: "マヨネーズ", amount: 1, unit: "大さじ", cat: "調味料", search: "マヨネーズ" },
-        { name: "いりごま", amount: 0.5, unit: "大さじ", cat: "乾物・缶詰", search: "いりごま" }
+        { name: "キャベツ", amount: 2, unit: "枚(100g)", cat: "野菜・果物", shop: "general", search: "キャベツ" },
+        { name: "塩昆布", amount: 0.5, unit: "大さじ", cat: "乾物・缶詰", shop: "general", search: "塩昆布" },
+        { name: "マヨネーズ", amount: 1, unit: "大さじ", cat: "調味料", shop: "general", search: "マヨネーズ" },
+        { name: "いりごま", amount: 0.5, unit: "大さじ", cat: "乾物・缶詰", shop: "general", search: "いりごま" }
       ],
       steps: [
         "キャベツは千切り（または手でちぎる）にし、塩小さじ1/4（分量外）で揉んで固く絞る。",
@@ -748,12 +773,12 @@ const weekData = [
     main: {
       name: "業スーパー冷凍白身魚フライの甘酢タルタルがけ",
       ing: [
-        { name: "冷凍白身魚フライ", amount: 4, unit: "枚", cat: "冷凍食品", search: "業務スーパー 白身魚フライ" },
-        { name: "卵", amount: 1, unit: "個", cat: "乳製品・冷蔵", search: "卵" },
-        { name: "マヨネーズ", amount: 2, unit: "大さじ", cat: "調味料", search: "マヨネーズ" },
-        { name: "ポン酢", amount: 1, unit: "大さじ", cat: "調味料", search: "ポン酢" },
-        { name: "砂糖", amount: 0.5, unit: "小さじ", cat: "調味料", search: "砂糖" },
-        { name: "揚げ油", amount: 0.5, unit: "カップ", cat: "調味料", search: "サラダ油" }
+        { name: "冷凍白身魚フライ", amount: 4, unit: "枚", cat: "冷凍食品", shop: "gyomu", search: "業務スーパー 白身魚フライ" },
+        { name: "卵", amount: 1, unit: "個", cat: "乳製品・冷蔵", shop: "general", search: "卵" },
+        { name: "マヨネーズ", amount: 2, unit: "大さじ", cat: "調味料", shop: "general", search: "マヨネーズ" },
+        { name: "ポン酢", amount: 1, unit: "大さじ", cat: "調味料", shop: "general", search: "ポン酢" },
+        { name: "砂糖", amount: 0.5, unit: "小さじ", cat: "調味料", shop: "general", search: "砂糖" },
+        { name: "揚げ油", amount: 0.5, unit: "カップ", cat: "調味料", shop: "general", search: "サラダ油" }
       ],
       steps: [
         "白身魚フライをフライパンの少ない油で両面カリッと揚げる。",
@@ -764,11 +789,11 @@ const weekData = [
     sub: {
       name: "冷凍むきえびとブロッコリーのガーリック炒め",
       ing: [
-        { name: "冷凍むきえび", amount: 100, unit: "g", cat: "冷凍食品", search: "業務スーパー むきえび" },
-        { name: "冷凍ブロッコリー", amount: 100, unit: "g", cat: "冷凍食品", search: "業務スーパー 冷凍ブロッコリー" },
-        { name: "おろしにんにく", amount: 0.5, unit: "小さじ", cat: "調味料", search: "チューブにんにく" },
-        { name: "オリーブオイル", amount: 1, unit: "大さじ", cat: "調味料", search: "オリーブオイル" },
-        { name: "塩コショウ", amount: 0.25, unit: "小さじ", cat: "調味料", search: "塩コショウ" }
+        { name: "冷凍むきえび", amount: 100, unit: "g", cat: "冷凍食品", shop: "gyomu", search: "業務スーパー むきえび" },
+        { name: "冷凍ブロッコリー", amount: 100, unit: "g", cat: "冷凍食品", shop: "gyomu", search: "業務スーパー 冷凍ブロッコリー" },
+        { name: "おろしにんにく", amount: 0.5, unit: "小さじ", cat: "調味料", shop: "general", search: "チューブにんにく" },
+        { name: "オリーブオイル", amount: 1, unit: "大さじ", cat: "調味料", shop: "general", search: "オリーブオイル" },
+        { name: "塩コショウ", amount: 0.25, unit: "小さじ", cat: "調味料", shop: "general", search: "塩コショウ" }
       ],
       steps: [
         "解凍したむきえびと解凍ブロッコリーの水気を拭き取る。",
@@ -778,10 +803,10 @@ const weekData = [
     salad: {
       name: "レタスと韓国のりのチョレギサラダ",
       ing: [
-        { name: "レタス", amount: 3, unit: "枚", cat: "野菜・果物", search: "レタス" },
-        { name: "韓国のり", amount: 4, unit: "枚", cat: "乾物・缶詰", search: "韓国のり" },
-        { name: "ごま油", amount: 1, unit: "大さじ", cat: "調味料", search: "ごま油" },
-        { name: "鶏ガラスープの素", amount: 0.5, unit: "小さじ", cat: "調味料", search: "鶏ガラスープの素" }
+        { name: "レタス", amount: 3, unit: "枚", cat: "野菜・果物", shop: "general", search: "レタス" },
+        { name: "韓国のり", amount: 4, unit: "枚", cat: "乾物・缶詰", shop: "general", search: "韓国のり" },
+        { name: "ごま油", amount: 1, unit: "大さじ", cat: "調味料", shop: "general", search: "ごま油" },
+        { name: "鶏ガラスープの素", amount: 0.5, unit: "小さじ", cat: "調味料", shop: "general", search: "鶏ガラスープの素" }
       ],
       steps: [
         "レタスは一口大にちぎって水気をよく切る。",
@@ -795,14 +820,14 @@ const weekData = [
     main: {
       name: "豚ひき肉と春雨の麻婆春雨（マーボーはるさめ）",
       ing: [
-        { name: "豚ひき肉", amount: 150, unit: "g", cat: "精肉・鮮魚", alt: "パラパラ豚ひき肉", search: "業務スーパー 豚ひき肉" },
-        { name: "緑豆はるさめ", amount: 50, unit: "g", cat: "乾物・缶詰", search: "業務スーパー 春雨" },
-        { name: "長ねぎ", amount: 0.5, unit: "本", cat: "野菜・果物", search: "長ねぎ" },
-        { name: "豆板醤", amount: 0.5, unit: "小さじ", cat: "調味料", search: "豆板醤" },
-        { name: "醤油", amount: 1.5, unit: "大さじ", cat: "調味料", search: "醤油" },
-        { name: "オイスターソース", amount: 1, unit: "大さじ", cat: "調味料", search: "オイスターソース" },
-        { name: "鶏ガラスープの素", amount: 1, unit: "小さじ", cat: "調味料", search: "鶏ガラスープの素" },
-        { name: "ごま油", amount: 0.5, unit: "大さじ", cat: "調味料", search: "ごま油" }
+        { name: "豚ひき肉", amount: 150, unit: "g", cat: "精肉", shop: "gyomu", alt: "パラパラ豚ひき肉", search: "業務スーパー 豚ひき肉" },
+        { name: "緑豆はるさめ", amount: 50, unit: "g", cat: "乾物・缶詰", shop: "gyomu", search: "業務スーパー 春雨" },
+        { name: "長ねぎ", amount: 0.5, unit: "本", cat: "野菜・果物", shop: "general", search: "長ねぎ" },
+        { name: "豆板醤", amount: 0.5, unit: "小さじ", cat: "調味料", shop: "general", search: "豆板醤" },
+        { name: "醤油", amount: 1.5, unit: "大さじ", cat: "調味料", shop: "general", search: "醤油" },
+        { name: "オイスターソース", amount: 1, unit: "大さじ", cat: "調味料", shop: "general", search: "オイスターソース" },
+        { name: "鶏ガラスープの素", amount: 1, unit: "小さじ", cat: "調味料", shop: "general", search: "鶏ガラスープの素" },
+        { name: "ごま油", amount: 0.5, unit: "大さじ", cat: "調味料", shop: "general", search: "ごま油" }
       ],
       steps: [
         "春雨は湯につけて戻しておく。",
@@ -813,11 +838,11 @@ const weekData = [
     sub: {
       name: "ニラと玉ねぎの中華かにたま",
       ing: [
-        { name: "卵", amount: 3, unit: "個", cat: "乳製品・冷蔵", search: "卵" },
-        { name: "ニラ", amount: 0.5, unit: "束", cat: "野菜・果物", search: "ニラ" },
-        { name: "カニカマ", amount: 0.5, unit: "パック", cat: "豆腐・納豆・加工品", search: "カニカマ" },
-        { name: "ポン酢", amount: 1, unit: "大さじ", cat: "調味料", search: "ポン酢" },
-        { name: "ごま油", amount: 1, unit: "大さじ", cat: "調味料", search: "ごま油" }
+        { name: "卵", amount: 3, unit: "個", cat: "乳製品・冷蔵", shop: "general", search: "卵" },
+        { name: "ニラ", amount: 0.5, unit: "束", cat: "野菜・果物", shop: "general", search: "ニラ" },
+        { name: "カニカマ", amount: 0.5, unit: "パック", cat: "豆腐・納豆・加工品", shop: "general", search: "カニカマ" },
+        { name: "ポン酢", amount: 1, unit: "大さじ", cat: "調味料", shop: "general", search: "ポン酢" },
+        { name: "ごま油", amount: 1, unit: "大さじ", cat: "調味料", shop: "general", search: "ごま油" }
       ],
       steps: [
         "ボウルに卵、切ったニラ、ほぐしたカニカマを混ぜる。",
@@ -828,10 +853,10 @@ const weekData = [
     salad: {
       name: "たたききゅうりの中華甘酢漬け",
       ing: [
-        { name: "きゅうり", amount: 2, unit: "本", cat: "野菜・果物", search: "きゅうり" },
-        { name: "ポン酢", amount: 2, unit: "大さじ", cat: "調味料", search: "ポン酢" },
-        { name: "砂糖", amount: 0.5, unit: "大さじ", cat: "調味料", search: "砂糖" },
-        { name: "ごま油", amount: 0.5, unit: "小さじ", cat: "調味料", search: "ごま油" }
+        { name: "きゅうり", amount: 2, unit: "本", cat: "野菜・果物", shop: "general", search: "きゅうり" },
+        { name: "ポン酢", amount: 2, unit: "大さじ", cat: "調味料", shop: "general", search: "ポン酢" },
+        { name: "砂糖", amount: 0.5, unit: "大さじ", cat: "調味料", shop: "general", search: "砂糖" },
+        { name: "ごま油", amount: 0.5, unit: "小さじ", cat: "調味料", shop: "general", search: "ごま油" }
       ],
       steps: [
         "たたいたきゅうりをポリ袋に入れ、ポン酢、砂糖、ごま油を揉み込んで完成。"
@@ -938,13 +963,14 @@ function renderShoppingList(servings) {
   weekData.forEach(d => {
     [d.main, d.sub, d.salad].forEach(part => {
       part.ing.forEach(i => {
-        const key = `${i.name}_${i.unit}_${i.cat}`;
+        const key = `${i.name}_${i.unit}_${i.shop}_${i.cat}`;
         if (!aggregated[key]) {
           aggregated[key] = {
             name: i.name,
             amount: 0,
             unit: i.unit,
             cat: i.cat,
+            shop: i.shop,
             alt: i.alt || '',
             search: i.search || i.name
           };
@@ -954,39 +980,58 @@ function renderShoppingList(servings) {
     });
   });
 
-  const categories = {};
+  // ショップ別＆カテゴリー別に集計
+  const shops = {
+    gyomu: { title: '🏢 業務スーパーで買うもの（冷凍食材・特売品）', items: {} },
+    general: { title: '🥬 一般スーパーで買いたすもの（生鮮野菜・日配品など）', items: {} }
+  };
+
   Object.values(aggregated).forEach(item => {
-    if (!categories[item.cat]) categories[item.cat] = [];
-    categories[item.cat].push(item);
+    const shopKey = item.shop || 'general';
+    if (!shops[shopKey].items[item.cat]) {
+      shops[shopKey].items[item.cat] = [];
+    }
+    shops[shopKey].items[item.cat].push(item);
   });
 
   let html = '';
-  for (const cat in categories) {
-    html += `<div class="shopping-cat-title">■ ${cat}</div>`;
-    categories[cat].forEach(item => {
-      const amt = Math.round(item.amount * 10) / 10;
-      const altText = item.alt ? `<span class="item-sub">💡代替: ${item.alt}</span>` : '';
-      const googleSearchUrl = `https://www.google.com/search?tbm=isch&q=${encodeURIComponent(item.search)}`;
 
-      html += `
-        <div class="shopping-item" onclick="toggleCheck(this)">
-          <div class="item-left">
-            <input type="checkbox" onclick="event.stopPropagation(); toggleCheck(this.parentElement.parentElement);">
-            <div class="item-info">
-              <span class="item-name">${item.name}</span>
-              ${altText}
+  ['gyomu', 'general'].forEach(shopKey => {
+    const shopData = shops[shopKey];
+    const catKeys = Object.keys(shopData.items);
+    if (catKeys.length === 0) return;
+
+    const headerClass = shopKey === 'gyomu' ? 'shop-gyomu-header' : 'shop-general-header';
+
+    html += `<div class="shop-group-header ${headerClass}">${shopData.title}</div>`;
+
+    catKeys.forEach(cat => {
+      html += `<div class="shopping-cat-title">■ ${cat}</div>`;
+      shopData.items[cat].forEach(item => {
+        const amt = Math.round(item.amount * 10) / 10;
+        const altText = item.alt ? `<span class="item-sub">💡代替: ${item.alt}</span>` : '';
+        const googleSearchUrl = `https://www.google.com/search?tbm=isch&q=${encodeURIComponent(item.search)}`;
+
+        html += `
+          <div class="shopping-item" onclick="toggleCheck(this)">
+            <div class="item-left">
+              <input type="checkbox" onclick="event.stopPropagation(); toggleCheck(this.parentElement.parentElement);">
+              <div class="item-info">
+                <span class="item-name">${item.name}</span>
+                ${altText}
+              </div>
+            </div>
+            <div class="item-right">
+              <span class="item-amount">${amt} ${item.unit}</span>
+              <a href="${googleSearchUrl}" target="_blank" class="btn-search-img" onclick="event.stopPropagation();">
+                📷画像
+              </a>
             </div>
           </div>
-          <div class="item-right">
-            <span class="item-amount">${amt} ${item.unit}</span>
-            <a href="${googleSearchUrl}" target="_blank" class="btn-search-img" onclick="event.stopPropagation();">
-              📷画像
-            </a>
-          </div>
-        </div>
-      `;
+        `;
+      });
     });
-  }
+  });
 
   container.innerHTML = html;
 }
